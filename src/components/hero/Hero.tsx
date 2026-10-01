@@ -191,7 +191,7 @@ export const Hero: React.FC = () => {
         {/* Action CTAs Positioned Over the Full-Screen Hero */}
         <div
           ref={ctaRef}
-          className="absolute bottom-16 sm:bottom-20 lg:bottom-22 left-6 sm:left-10 lg:left-16 z-20 flex flex-wrap items-center gap-3.5 pointer-events-auto"
+          className="absolute bottom-[102px] md:bottom-20 lg:bottom-22 left-6 sm:left-10 lg:left-16 z-20 flex flex-wrap items-center gap-3.5 pointer-events-auto"
         >
           <MagneticButton
             href="#contact"
