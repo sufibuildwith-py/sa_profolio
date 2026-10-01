@@ -159,9 +159,9 @@ export const Hero: React.FC = () => {
 
           {/* Middle Unified Cinematic Scene: Transparent WebGL Typographic Canvas + Floating Camera Space */}
           <div className="relative z-10 my-auto px-6 sm:px-10 lg:px-14 py-4 sm:py-6 max-w-7xl w-full mx-auto">
-            <div className="max-w-4xl w-full">
+            <div className="max-w-5xl w-full">
               {/* Invisible Transparent WebGL Ripple Layer (Zero Box, Zero Border, Pure Glyph Distortion) */}
-              <div className="relative w-full h-[220px] sm:h-[280px] md:h-[340px] lg:h-[380px]">
+              <div className="relative w-full h-[240px] sm:h-[300px] md:h-[360px] lg:h-[420px]">
                 <WebGLRippleTransition
                   ref={rippleRef}
                   className="w-full h-full"

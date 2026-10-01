@@ -20,9 +20,9 @@ interface WebGLRippleTransitionProps {
 // ============================================================================
 // Features:
 // 1. Simplex 2D noise-driven wavefront warp
-// 2. Gaussian ripple envelope (primary wave thickness)
+// 2. Calibrated Gaussian ripple envelope (substantial physical wave band)
 // 3. Concentric wave oscillation harmonics
-// 4. Directional radial refractive displacement (pushAmt)
+// 4. Directional radial refractive displacement (pushAmt calibrated for glyph bending)
 // 5. Chromatic aberration splitting (caStrength)
 // 6. Specular violet wavefront sheen (#7C6ECD)
 // 7. 100% Transparent alpha preservation — ZERO background box or border artifacts
@@ -43,8 +43,8 @@ precision highp float;
 
 varying vec2 vUv;
 
-uniform sampler2D uTex1; // Texture A: Quote Typography (Transparent PNG/Canvas)
-uniform sampler2D uTex2; // Texture B: Brand Identity (Transparent PNG/Canvas)
+uniform sampler2D uTex1; // Texture A: Quote Typography (Transparent Canvas)
+uniform sampler2D uTex2; // Texture B: Brand Identity (Transparent Canvas)
 uniform float uProgress; // Normalized 0.0 -> 1.0 driven by ScrollTrigger
 uniform vec2 uResolution;
 uniform vec2 uOrigin;
@@ -90,42 +90,54 @@ void main() {
   vec2 uv = vUv;
   float aspect = uResolution.x / max(uResolution.y, 1.0);
   
+  // If resting at initial quote state before scroll
+  if (uProgress <= 0.01) {
+    gl_FragColor = texture2D(uTex1, uv);
+    return;
+  }
+  // If resting at final brand state after transition completes
+  if (uProgress >= 0.95) {
+    gl_FragColor = texture2D(uTex2, uv);
+    return;
+  }
+
   // Aspect-corrected coordinate space for circular wave propagation
   vec2 p = uv;
   p.x *= aspect;
   vec2 origin = uOrigin;
   origin.x *= aspect;
 
-  float d = length(p - origin);
+  float dist = length(p - origin);
   
   // 1. Organic Simplex Noise Warp along wavefront
-  float n = snoise(uv * 4.2 + uProgress * 2.0) * 0.08 * uNoiseWarp;
-  float dNoisy = d + n;
+  float noise = snoise(uv * 3.8 + uProgress * 1.8) * 0.10 * uNoiseWarp;
+  float dNoisy = dist + noise;
 
-  // 2. Wavefront propagation parameters
-  float maxDist = length(vec2(aspect, 1.0));
-  float waveR = uProgress * maxDist * uWaveSpeed;
+  // 2. Calibrated Wavefront Radius mapped smoothly across scroll progress
+  float waveProg = smoothstep(0.10, 0.88, uProgress);
+  float maxTravel = (aspect + 0.6) * uWaveSpeed;
+  float waveR = waveProg * maxTravel;
   float distToWave = dNoisy - waveR;
 
   // 3. Gaussian Ripple Envelope (Primary Wave Thickness)
-  float envelope = exp(-pow(distToWave / max(uSigma, 0.001), 2.0));
+  float envelope = exp(-pow(distToWave / max(uSigma, 0.01), 2.0));
 
   // 4. Concentric Ripple Harmonics
-  float waveOsc = sin(distToWave * uWaveFreq * 18.8495); // 3 * 2 * PI
+  float waveOsc = sin(distToWave * uWaveFreq * 6.28318);
 
   // 5. Directional Radial Displacement (Refractive Push)
   vec2 dir = normalize(p - origin + vec2(0.0001));
   vec2 disp = dir * (envelope * waveOsc * uPushAmt);
-  disp.x /= aspect; // Normalize back to UV space
+  disp.x /= aspect; // Return to normalized UV space
 
   // 6. Transition Boundary Mask (Texture 1 -> Texture 2)
-  float mask = smoothstep(waveR - uSigma * 1.4, waveR + uSigma * 0.8, dNoisy);
+  float mask = smoothstep(waveR - uSigma * 1.2, waveR + uSigma * 0.6, dNoisy);
 
   // 7. Chromatic Aberration Sampling with refractive offsets
   float ca = uCaStrength * envelope;
-  vec2 uvR = clamp(uv + disp * (1.0 + ca * 3.0), 0.0, 1.0);
+  vec2 uvR = clamp(uv + disp * (1.0 + ca * 3.5), 0.0, 1.0);
   vec2 uvG = clamp(uv + disp, 0.0, 1.0);
-  vec2 uvB = clamp(uv + disp * (1.0 - ca * 3.0), 0.0, 1.0);
+  vec2 uvB = clamp(uv + disp * (1.0 - ca * 3.5), 0.0, 1.0);
 
   vec4 col1R = texture2D(uTex1, uvR);
   vec4 col1G = texture2D(uTex1, uvG);
@@ -137,28 +149,17 @@ void main() {
   vec4 col2B = texture2D(uTex2, uvB);
   vec4 col2 = vec4(col2R.r, col2G.g, col2B.b, col2G.a);
 
-  // If resting at edges, output clean exact texture directly
-  if (uProgress <= 0.001) {
-    gl_FragColor = texture2D(uTex1, uv);
-    return;
-  }
-  if (uProgress >= 0.999) {
-    gl_FragColor = texture2D(uTex2, uv);
-    return;
-  }
-
   // 8. Blend between distorted typography states across wavefront
   vec4 finalColor = mix(col2, col1, mask);
 
-  // 9. Restrained Violet Refractive Wavefront Shimmer (Applies over glyphs & immediate water edge)
+  // 9. Specular Violet Refractive Wavefront Shimmer (Applies over glyphs & immediate water edge)
   vec3 glowColor = vec3(0.486, 0.431, 0.804); // #7C6ECD violet
   float waveGlow = envelope * uGlow;
   
-  // Apply sheen proportional to local alpha + subtle water surface refraction
   float textAlpha = max(col1.a, col2.a);
-  finalColor.rgb += glowColor * (waveGlow * 0.65 * max(textAlpha, 0.15));
-  finalColor.rgb += vec3(1.0, 1.0, 1.0) * (pow(envelope, 3.5) * waveGlow * 0.45 * textAlpha);
-  finalColor.a = max(finalColor.a, envelope * 0.25 * waveGlow);
+  finalColor.rgb += glowColor * (waveGlow * 0.85 * max(textAlpha, 0.18));
+  finalColor.rgb += vec3(1.0, 1.0, 1.0) * (pow(envelope, 3.2) * waveGlow * 0.65 * textAlpha);
+  finalColor.a = max(finalColor.a, envelope * 0.35 * waveGlow);
 
   gl_FragColor = finalColor;
 }
@@ -202,27 +203,27 @@ export const WebGLRippleTransition = forwardRef<
       const quoteFontSize = isMobile
         ? Math.round(26 * dpr)
         : isTablet
-        ? Math.round(38 * dpr)
-        : Math.round(48 * dpr)
+        ? Math.round(40 * dpr)
+        : Math.round(52 * dpr)
 
       ctx1.font = `italic 400 ${quoteFontSize}px 'Instrument Serif', Georgia, serif`
-      ctx1.fillStyle = '#C4BEF2' // Elegant soft violet/lilac
-      ctx1.textBaseline = 'alphabetic'
+      ctx1.fillStyle = '#D6CEF6' // Elegant soft violet-tinted off-white
+      ctx1.textBaseline = 'middle'
 
       const lineSpacing = quoteFontSize * 1.25
-      const startX = Math.round(4 * dpr)
-      const startY = isMobile ? Math.round(60 * dpr) : Math.round(80 * dpr)
+      const startX = Math.round(16 * dpr)
+      const centerY = isMobile ? Math.round(h * 0.40) : Math.round(h * 0.42)
 
       if (isMobile) {
-        ctx1.fillText('Hum sirf mehfil', startX, startY)
-        ctx1.fillText('nahin sanwārte,', startX, startY + lineSpacing)
-        ctx1.fillStyle = '#EBE8FB'
-        ctx1.fillText('lamhon ko yaadgaar', startX, startY + lineSpacing * 2)
-        ctx1.fillText('banate hain.', startX, startY + lineSpacing * 3)
+        ctx1.fillText('Hum sirf mehfil', startX, centerY - lineSpacing * 1.5)
+        ctx1.fillText('nahin sanwārte,', startX, centerY - lineSpacing * 0.5)
+        ctx1.fillStyle = '#F4F1E8'
+        ctx1.fillText('lamhon ko yaadgaar', startX, centerY + lineSpacing * 0.5)
+        ctx1.fillText('banate hain.', startX, centerY + lineSpacing * 1.5)
       } else {
-        ctx1.fillText('Hum sirf mehfil nahin sanwārte,', startX, startY)
-        ctx1.fillStyle = '#F2EFFE'
-        ctx1.fillText('lamhon ko yaadgaar banate hain.', startX, startY + lineSpacing)
+        ctx1.fillText('Hum sirf mehfil nahin sanwārte,', startX, centerY - lineSpacing * 0.55)
+        ctx1.fillStyle = '#F4F1E8'
+        ctx1.fillText('lamhon ko yaadgaar banate hain.', startX, centerY + lineSpacing * 0.55)
       }
     }
 
@@ -240,25 +241,25 @@ export const WebGLRippleTransition = forwardRef<
 
       // Master Brand Typography
       const brandFontSize = isMobile
-        ? Math.round(42 * dpr)
+        ? Math.round(44 * dpr)
         : isTablet
-        ? Math.round(68 * dpr)
+        ? Math.round(72 * dpr)
         : Math.round(92 * dpr)
 
       ctx2.font = `800 ${brandFontSize}px 'Inter Tight', 'Manrope', -apple-system, sans-serif`
       ctx2.fillStyle = '#FFFFFF'
-      ctx2.textBaseline = 'alphabetic'
+      ctx2.textBaseline = 'middle'
 
-      const startX = Math.round(4 * dpr)
-      const startY = isMobile ? Math.round(70 * dpr) : Math.round(95 * dpr)
+      const startX = Math.round(16 * dpr)
+      const centerY = isMobile ? Math.round(h * 0.40) : Math.round(h * 0.42)
 
-      ctx2.fillText('SA PRODUCTION', startX, startY)
+      ctx2.fillText('SA PRODUCTION', startX, centerY - Math.round(brandFontSize * 0.2))
 
       // Tagline Typography
-      const subFontSize = isMobile ? Math.round(15 * dpr) : Math.round(22 * dpr)
+      const subFontSize = isMobile ? Math.round(16 * dpr) : Math.round(24 * dpr)
       ctx2.font = `italic 400 ${subFontSize}px 'Instrument Serif', Georgia, serif`
-      ctx2.fillStyle = 'rgba(244, 241, 232, 0.85)'
-      ctx2.fillText('Bring Life to Your Event', startX, startY + brandFontSize * 0.45)
+      ctx2.fillStyle = 'rgba(244, 241, 232, 0.88)'
+      ctx2.fillText('Bring Life to Your Event', startX, centerY + Math.round(brandFontSize * 0.55))
     }
 
     // Upload Textures to WebGL
@@ -396,15 +397,15 @@ export const WebGLRippleTransition = forwardRef<
       uNoiseWarp: gl.getUniformLocation(program, 'uNoiseWarp'),
     }
 
-    // Componentry Reference Parameter Setup
-    gl.uniform2f(uniformsRef.current.uOrigin, 0.35, 0.38) // Organic center-left origin aligned with quote
-    gl.uniform1f(uniformsRef.current.uWaveSpeed, 1.55)
-    gl.uniform1f(uniformsRef.current.uSigma, 0.16)
-    gl.uniform1f(uniformsRef.current.uWaveFreq, 5.0)
-    gl.uniform1f(uniformsRef.current.uPushAmt, 0.155) // Refractive wave displacement
-    gl.uniform1f(uniformsRef.current.uCaStrength, 0.032) // Chromatic aberration
-    gl.uniform1f(uniformsRef.current.uGlow, 0.75) // Restrained violet sheen
-    gl.uniform1f(uniformsRef.current.uNoiseWarp, 1.05) // Organic Simplex noise
+    // Componentry Reference Parameter Setup (Calibrated for visible glyph water refraction)
+    gl.uniform2f(uniformsRef.current.uOrigin, 0.15, 0.45) // Natural left-origin wave travelling across the quote
+    gl.uniform1f(uniformsRef.current.uWaveSpeed, 1.35)
+    gl.uniform1f(uniformsRef.current.uSigma, 0.28) // Substantial physical water wave band
+    gl.uniform1f(uniformsRef.current.uWaveFreq, 4.5) // Fluid concentric wave harmonics
+    gl.uniform1f(uniformsRef.current.uPushAmt, 0.32) // Strong, visible physical glyph bending
+    gl.uniform1f(uniformsRef.current.uCaStrength, 0.045) // Crisp chromatic refraction at wave crest
+    gl.uniform1f(uniformsRef.current.uGlow, 0.85) // Specular violet shimmer
+    gl.uniform1f(uniformsRef.current.uNoiseWarp, 1.15) // Organic Simplex 2D noise warp
 
     const handleResize = () => {
       if (!canvas || !gl) return
