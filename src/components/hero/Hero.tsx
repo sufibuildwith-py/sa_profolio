@@ -130,32 +130,30 @@ export const Hero: React.FC = () => {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative w-full bg-[#F4F1E8]"
+      className="relative w-full bg-[#09090C] text-white"
       aria-label="Hero Section"
     >
       {/* Pinned Viewport Container */}
       <div
         ref={pinFrameRef}
-        className="relative flex h-[100svh] w-full flex-col justify-between p-3 sm:p-5 md:p-6 lg:p-7 overflow-hidden"
+        className="relative flex h-[100svh] w-full flex-col justify-between overflow-hidden"
       >
-        {/* Inset Main Editorial Frame with Gloss & Dark Smoked Glass Styling */}
-        <div className="relative flex h-full w-full flex-col justify-between overflow-hidden rounded-2xl sm:rounded-3xl border border-hairline-dark bg-[#09090C] text-white shadow-2xl">
-          {/* Subtle noise grain texture overlay */}
-          <div className="grain-overlay-dark pointer-events-none absolute inset-0 opacity-40 mix-blend-overlay z-0" />
+        {/* Subtle noise grain texture overlay */}
+        <div className="grain-overlay-dark pointer-events-none absolute inset-0 opacity-40 mix-blend-overlay z-0" />
 
-          {/* Top Header Location Eyebrow */}
-          <div className="relative z-10 pt-16 sm:pt-20 md:pt-22 px-6 sm:px-10 lg:px-14 flex items-center justify-between">
-            <div
-              ref={eyebrowRef}
-              className="flex items-center gap-2 font-mono text-[10px] sm:text-xs tracking-[0.25em] uppercase text-white/75"
-            >
-              <span className="flex h-2 w-2 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7C6ECD] opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#7C6ECD]" />
-              </span>
-              <span>EVENT PRODUCTION // VARANASI, INDIA</span>
-            </div>
+        {/* Top Header Location Eyebrow */}
+        <div className="relative z-10 pt-16 sm:pt-20 md:pt-22 px-6 sm:px-10 lg:px-16 flex items-center justify-between">
+          <div
+            ref={eyebrowRef}
+            className="flex items-center gap-2 font-mono text-[10px] sm:text-xs tracking-[0.25em] uppercase text-white/75"
+          >
+            <span className="flex h-2 w-2 relative">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7C6ECD] opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#7C6ECD]" />
+            </span>
+            <span>EVENT PRODUCTION // VARANASI, INDIA</span>
           </div>
+        </div>
 
           {/* Middle Unified Cinematic Scene: Transparent WebGL Typographic Canvas + Floating Camera Space */}
           <div className="relative z-10 my-auto px-6 sm:px-10 lg:px-14 py-4 sm:py-6 max-w-7xl w-full mx-auto">
@@ -220,7 +218,6 @@ export const Hero: React.FC = () => {
               <span className="text-white/80">VARANASI PRODUCTION DESK</span>
             </div>
           </div>
-        </div>
       </div>
 
       {/* Development Hero Debug Diagnostic Overlay (?heroDebug=1) */}
