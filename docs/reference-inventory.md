@@ -8,6 +8,9 @@ This inventory documents the component patterns cherry-picked from the engineeri
 | Aceternity | Glare Card | hover glare | Selected Live imagery | restrained light sweep (4-8px) | MIT / Permissive | low |
 | Aceternity | Magnetic Button | cursor spring | CTA buttons (Hero, Nav, Contact) | 5–8px displacement | MIT / Permissive | low |
 | Aceternity | Floating Navbar | hide/reveal | Navbar | glass-nav translucent sheet | MIT / Permissive | low |
+| Componentry | Ripple Transition | wave displacement & refraction | Hero Typography Transformation | SVG feTurbulence + feDisplacementMap + traveling wavefront sheen (zero extra WebGL overhead) | MIT / Permissive | low |
+| Componentry | Text Morph | character blend & alignment | Hero Quote → SA PRODUCTION | scroll-driven GSAP Scrub with typographic continuity | MIT / Permissive | low |
+| Componentry | Scroll Choreography | scroll-linked staging | Hero Pinned Sequence | single GSAP pinned scrub timeline | MIT / Permissive | low |
 | Componentry | Magnetic Dock | magnetic glass | Contact utility & controls | reduced scale minimal pill | MIT / Permissive | medium |
 | Componentry | Layered Stack | layered cards | Selected Live | glass photographic sheets | MIT / Permissive | medium |
 | Motion | Scroll APIs | scroll-linked values | existing motion orchestration | mapped via GSAP ScrollTrigger | MIT / Permissive | low |
@@ -15,7 +18,7 @@ This inventory documents the component patterns cherry-picked from the engineeri
 | UI Guideline | component anatomy | compositional patterns | global UI primitives | surface, border, highlight, content | Reference Architecture | low |
 | Design Spells | microinteraction | tactile detail | buttons/links/interactive states | subtle scale & spring response | Reference Pattern | low |
 | Sketchfab / AleixoAlonso | Canon AT-1 Camera | 3D retro camera model | Global Floating Camera Experience | centered origin, normalized scale | CC-BY-4.0 | low |
-| GSAP & ScrollTrigger | Animation engine | timeline choreography & scrubbing | entire page scroll journey | unified single scroll timeline | Greensock Standard | low |
+| GSAP & ScrollTrigger | Animation engine | timeline choreography & scrubbing | entire page scroll journey & Hero pin | unified single scroll timeline | Greensock Standard | low |
 | Lenis (Darkroom) | Smooth scrolling | momentum virtual scrolling | root document scrolling | synced to GSAP ticker | MIT | low |
 | Three.js | WebGL renderer | 3D scene rendering | GlobalCameraExperience | single canvas, single renderer, capped DPR | MIT | low |
 
