@@ -108,7 +108,7 @@ export const productionWorlds: ProductionWorld[] = [
     scaleDescription: "Multi-day academic symposiums, national summits, and investor convocations with simultaneous recording, live transcription feeds, and strict timelines.",
     typicalRig: [
       "Speech-Tuned Line Columns",
-      "Shure Axient Digital Mic Banks",
+      "Digital Wireless Microphone Banks",
       "Robotic Remote PTZ Cameras",
       "Ultra-Quiet Silent Stage Distro",
       "Dual Master Teleprompter Rigs"
@@ -183,8 +183,8 @@ export const productionWorlds: ProductionWorld[] = [
     tagline: "Controlled studio environments, high-CRI continuous lighting grids, and DIT data management workflows.",
     scaleDescription: "Brand commercial shoots, automotive reveals, and product launch films produced with cinema camera chains, calibrated color monitoring, and rapid onset turnaround.",
     typicalRig: [
-      "Cinema Camera Packages (FX9 / Venice)",
-      "High-Output SkyPanel Style Lights",
+      "4K Large-Format Cinema Packages",
+      "High-Output Continuous Softlights",
       "Calibrated Master Color Monitors",
       "On-Set DIT RAID Storage Racks",
       "Precision Motorized Jib Arm"
@@ -285,7 +285,7 @@ export const selectedProductions: ProductionCaseStudy[] = [
     equipmentBreakdown: {
       cameras: "4x 4K Full-Frame Cinema Cameras with Prime Lenses",
       lighting: "7x Warm Tungsten & Atmospheric Profile Washers",
-      audio: "Quad Wireless Shure Axient Mic Setup with Feedback Supressor",
+      audio: "Multi-Channel Digital Wireless Microphone Setup with Feedback Suppression",
       ledWall: "Warm Ambient Visual Backdrops & Stage Displays",
       stage: "Custom Floral & Architectural Stage Framing"
     },

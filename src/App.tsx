@@ -17,7 +17,9 @@ import { ProjectInquiryModal } from "./components/contact/ProjectInquiryModal";
 import { Footer } from "./components/footer/Footer";
 
 export function App() {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [assetProgress, setAssetProgress] = useState(15);
+  const [isAssetLoaded, setIsAssetLoaded] = useState(false);
+  const [isIntroComplete, setIsIntroComplete] = useState(false);
   const [projectModalOpen, setProjectModalOpen] = useState(false);
 
   // Initialize smooth scrolling with Lenis + GSAP ScrollTrigger sync
@@ -31,17 +33,25 @@ export function App() {
       {/* Desktop Custom Lerping Cursor */}
       <CustomCursor />
 
-      {/* Minimalist Cinematic Preloader */}
-      {!isLoaded && <Preloader onComplete={() => setIsLoaded(true)} />}
+      {/* Preloader with genuine 3D asset progress */}
+      {!isIntroComplete && (
+        <Preloader
+          progress={assetProgress}
+          isReady={isAssetLoaded}
+          onComplete={() => setIsIntroComplete(true)}
+        />
+      )}
 
       {/* Floating Dynamic Navbar */}
       <Navbar onOpenProjectModal={() => setProjectModalOpen(true)} />
 
       <main className="relative z-10 flex flex-col w-full">
-        {/* Hero Section with Procedural 3D Stage Fixture & Typography */}
+        {/* Hero Section with Real 3D Production Asset & Cinematic Camera Choreography */}
         <Hero
           onOpenProjectModal={() => setProjectModalOpen(true)}
-          isReady={isLoaded}
+          isReady={isIntroComplete}
+          onAssetProgress={(p) => setAssetProgress(p)}
+          onAssetLoaded={() => setIsAssetLoaded(true)}
         />
 
         {/* Intro Statement: "We don't just show up. We set the whole thing in motion." */}

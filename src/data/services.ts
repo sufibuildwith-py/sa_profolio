@@ -15,19 +15,19 @@ export const servicesData: ServiceItem[] = [
     number: "01",
     title: "PROFESSIONAL SOUND",
     tagline: "Acoustic control engineered for zero distortion and uniform pressure.",
-    description: "From intimate keynote clarity to high-impact festival sound pressure levels. We deploy calibrated line-array architectures, digital mixing consoles, wireless spectrum scanning, and pristine multi-track stage recording.",
+    description: "From intimate keynote speech clarity to high-impact festival sound pressure levels. We deploy calibrated line-array architectures, digital mixing consoles, wireless spectrum scanning, and pristine multi-track stage recording.",
     operationalCapabilities: [
       "FOH & Monitor Sound Engineering",
       "Wireless RF Spectrum Coordination",
       "Acoustic Room Tuning & Smaart Analysis",
-      "Dante Digital Audio Over IP Routing",
-      "Multi-Track 64-Channel Master Recording"
+      "Digital Audio Over IP Routing",
+      "Multi-Track Master Recording"
     ],
     equipmentHighlights: [
-      "d&b audiotechnik / L-Acoustics spec Line Arrays",
-      "DiGiCo & Yamaha Digital Consoles",
-      "Shure Axient Digital Wireless Mics",
-      "Sennheiser G4 / IEM Monitoring Systems"
+      "High-Output Modular Line Array Systems",
+      "High-Resolution 96kHz Digital Consoles",
+      "Digital Wireless Microphone Systems",
+      "Multi-Channel In-Ear Stage Monitoring"
     ],
     interactionType: "sound"
   },
@@ -41,13 +41,13 @@ export const servicesData: ServiceItem[] = [
       "Timecoded DMX & Art-Net Programming",
       "Keylight Balancing for 4K Broadcast",
       "Architectural Venue & Facade Illumination",
-      "Moving Head Choreography & Gobo Design",
+      "Moving Head Choreography & Pattern Design",
       "Atmospheric Low-Fog & Tour-Grade Haze"
     ],
     equipmentHighlights: [
-      "Robe & Claypaky Hybrid Moving Spot/Beam",
-      "GrandMA3 Lighting Control Surfaces",
-      "Astera Titan Wireless Pixel Tubes",
+      "Hybrid Moving Spot & Beam Fixtures",
+      "Digital Lighting Control Surfaces",
+      "Wireless Linear Pixel Tubes",
       "High-CRI 96+ Warm Profile Fixtures"
     ],
     interactionType: "lighting"
@@ -66,9 +66,9 @@ export const servicesData: ServiceItem[] = [
       "Motorized Electric Chain Hoist Systems"
     ],
     equipmentHighlights: [
-      "Eurotruss 400x400 Heavy Duty Box Truss",
-      "CM Lodestar D8+ Electric Chain Motors",
-      "Prolyte Stage Deck Systems & Handrails",
+      "Heavy-Duty Aluminum Box Truss Grids",
+      "Load-Rated Electric Chain Hoist Motors",
+      "Modular Stage Decks & Safety Handrails",
       "Engineered Outrigger Ground Support"
     ],
     interactionType: "stage"
@@ -82,15 +82,15 @@ export const servicesData: ServiceItem[] = [
     operationalCapabilities: [
       "Pixel-Accurate Screen Mapping & Calibration",
       "Real-Time Live IMAG Video Feed Switching",
-      "Media Server Content Playback (Resolume / Watchout)",
+      "Media Server Content Playback & Synchronization",
       "Redundant 4K Fiber Optical Signal Runs",
       "Curved, Split, & Architectural LED Configs"
     ],
     equipmentHighlights: [
       "Ultra-Fine Pitch P2.6mm High-Contrast Tiles",
       "P3.9mm High-Brightness Outdoor Panels",
-      "NovaStar H-Series Flagship Video Processors",
-      "Datapath & Barco Presentation Switchers"
+      "Flagship 4K Video Splicers & Processors",
+      "Seamless Multi-Screen Presentation Switchers"
     ],
     interactionType: "led"
   },
@@ -101,17 +101,17 @@ export const servicesData: ServiceItem[] = [
     tagline: "Cinema-grade optics, broadcast fiber chains, and live vision mixing.",
     description: "Capturing the emotion and scale with broadcast-level precision. Full cinema camera packages, robotic PTZ systems, wireless zero-delay video links, and dedicated director-switched live production units.",
     operationalCapabilities: [
-      "Multi-Camera Live Vision Mixing (PPU)",
+      "Multi-Camera Live Vision Mixing",
       "Zero-Delay Wireless Camera Transmissions",
       "Robotic Remote PTZ for Discreet Placement",
       "Uncompressed 4K 10-Bit Master Recording",
-      "Direct Fiber Live Uplink for Broadcast / Stream"
+      "Direct Fiber Live Uplink for Broadcast"
     ],
     equipmentHighlights: [
-      "Sony FX9 & FX6 Cinema Camera Chains",
-      "Fujinon Broadcast Optical Zoom Packages",
-      "Blackmagic ATEM Constellation 8K PPU",
-      "Teradek Bolt 4K Zero-Latency Links"
+      "4K Cinema Camera System Packages",
+      "Broadcast Optical Zoom Lens Packages",
+      "Multi-Camera Live Switcher Units",
+      "Zero-Latency Wireless Video Links"
     ],
     interactionType: "camera"
   },
@@ -129,10 +129,10 @@ export const servicesData: ServiceItem[] = [
       "Strict Contingency & Redundancy Protocols"
     ],
     equipmentHighlights: [
-      "3-Phase Distro Panels with Camlock Racks",
-      "Riedel / Green-GO Digital Intercom Networks",
-      "True Online Double-Conversion UPS Banks",
-      "Heavy Duty Cable Ramps & Safety Systems"
+      "3-Phase Power Distribution Panels",
+      "Digital Multi-Channel Intercom Systems",
+      "Online Double-Conversion Power Backup",
+      "Heavy-Duty Cable Protection Ramps"
     ],
     interactionType: "production"
   }

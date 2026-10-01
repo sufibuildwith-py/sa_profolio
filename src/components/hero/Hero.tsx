@@ -11,9 +11,11 @@ gsap.registerPlugin(ScrollTrigger);
 interface HeroProps {
   onOpenProjectModal: () => void;
   isReady: boolean;
+  onAssetProgress?: (percent: number) => void;
+  onAssetLoaded?: () => void;
 }
 
-export function Hero({ onOpenProjectModal, isReady }: HeroProps) {
+export function Hero({ onOpenProjectModal, isReady, onAssetProgress, onAssetLoaded }: HeroProps) {
   const heroRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const sublineRef = useRef<HTMLDivElement>(null);
@@ -104,7 +106,7 @@ export function Hero({ onOpenProjectModal, isReady }: HeroProps) {
       className="relative min-h-screen w-full flex flex-col justify-between overflow-hidden bg-[#050505] px-6 sm:px-10 md:px-16 pt-32 pb-12 select-none"
     >
       {/* 3D Stage Hardware Canvas */}
-      <Hero3D />
+      <Hero3D onProgress={onAssetProgress} onLoaded={onAssetLoaded} />
 
       {/* Atmospheric Stage Vignette and Lighting Gradients */}
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(234,179,8,0.12),transparent_70%)] pointer-events-none" />

@@ -39,44 +39,38 @@ export function OperationalScale() {
     {
       number: "50",
       label: "PRODUCTION SCENARIOS",
-      detail: "Rigorously planned, staged, and executed with full equipment and crew manifesting.",
+      detail: "Planned, staged, and coordinated with complete hardware and crew manifesting.",
       icon: Activity,
     },
     {
       number: "08",
       label: "PRODUCTION CATEGORIES",
-      detail: "Weddings, summits, concerts, fashion runways, expos, and commercial cinema.",
+      detail: "Weddings, summits, concerts, fashion runways, trade expos, and commercial sets.",
       icon: ShieldCheck,
     },
     {
-      number: "14+",
-      label: "METRO & DESTINATION HUBS",
-      detail: "Kanpur HQ, Bengaluru, Mumbai, Delhi-NCR, Pune, Jaipur, Udaipur, and beyond.",
+      number: "INDIA",
+      label: "MULTI-CITY OPERATIONS",
+      detail: "Central logistics depot in Kanpur with mobile production crews deployed nationwide.",
       icon: MapPin,
     },
     {
       number: "01",
       label: "CONNECTED PRODUCTION SYSTEM",
-      detail: "Hardware custody, technical direction, electrical distros, and crew under single command.",
+      detail: "Hardware custody, technical direction, power distribution, and crew under single command.",
       icon: Check,
     },
   ];
 
-  const operationalCities = [
-    "KANPUR (CENTRAL DEPOT)",
-    "BENGALURU",
-    "MUMBAI",
-    "NEW DELHI",
-    "NOIDA / G. NOIDA",
-    "GURUGRAM",
-    "PUNE",
-    "JAIPUR",
-    "UDAIPUR",
-    "LUCKNOW",
-    "CHANDIGARH",
-    "HYDERABAD",
-    "GOA",
-    "MUSSOORIE"
+  const deploymentDisciplines = [
+    "LUXURY WEDDINGS & SANGEET",
+    "CORPORATE LEADERSHIP SUMMITS",
+    "LIVE CONCERTS & MUSIC FESTIVALS",
+    "FASHION RUNWAYS & REVEALS",
+    "INDUSTRY EXPOS & TRADE PAVILIONS",
+    "GLOBAL CONFERENCES & CONVOCATIONS",
+    "HERITAGE & CULTURAL PRODUCTIONS",
+    "COMMERCIAL STUDIO PRODUCTIONS"
   ];
 
   return (
@@ -90,7 +84,7 @@ export function OperationalScale() {
         <div className="max-w-4xl pb-16 border-b border-[#F4F2ED]/12">
           <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#F4F2ED]/50 mb-3">
             <span className="h-2 w-2 rounded-full bg-amber-400" />
-            <span>OPERATIONAL SCALE // HONEST DATA MODEL</span>
+            <span>OPERATIONAL SCALE // GROUNDED DATA MODEL</span>
           </div>
           <h2 className="font-display font-black text-4xl sm:text-6xl md:text-8xl uppercase tracking-[-0.03em] text-[#F4F2ED] leading-[0.9]">
             BUILT AROUND <br />
@@ -112,7 +106,7 @@ export function OperationalScale() {
               >
                 <div>
                   <div className="flex items-center justify-between pb-6 border-b border-[#F4F2ED]/10">
-                    <span className="font-display font-black text-5xl sm:text-6xl text-[#F4F2ED]">
+                    <span className="font-display font-black text-4xl sm:text-5xl lg:text-6xl text-[#F4F2ED]">
                       {stat.number}
                     </span>
                     <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#16161D] text-amber-400">
@@ -128,36 +122,32 @@ export function OperationalScale() {
                 </div>
 
                 <div className="mt-8 pt-4 border-t border-[#F4F2ED]/5 font-mono text-[10px] text-emerald-400 uppercase tracking-widest">
-                  SA VERIFIED CAPACITY
+                  OPERATIONAL DISCIPLINE
                 </div>
               </div>
             );
           })}
         </div>
 
-        {/* Geographic Operational Footprint */}
+        {/* Operational Categories Footprint */}
         <div className="mt-16 rounded-2xl bg-[#09090C] border border-[#F4F2ED]/10 p-8 sm:p-12">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#F4F2ED]/10 font-mono text-xs uppercase tracking-widest">
             <span className="text-amber-400 font-bold flex items-center gap-2">
               <MapPin className="h-4 w-4" />
-              PAN-INDIA MULTI-CITY DEPLOYMENT DISPATCH
+              CENTRAL DEPOT LOGISTICS & DEPLOYMENT SCOPE
             </span>
             <span className="text-[#F4F2ED]/40">
-              CENTRAL LOGISTICS // {siteConfig.headquarters.address}
+              KANPUR HEADQUARTERS // {siteConfig.headquarters.coordinates}
             </span>
           </div>
 
           <div className="mt-8 flex flex-wrap gap-2.5 sm:gap-3">
-            {operationalCities.map((city, idx) => (
+            {deploymentDisciplines.map((item, idx) => (
               <span
                 key={idx}
-                className={`font-mono text-xs px-4 py-2 rounded-full border transition-colors ${
-                  city.includes("KANPUR")
-                    ? "bg-amber-400 text-black font-bold border-amber-400"
-                    : "bg-[#141418] text-[#F4F2ED]/75 border-[#F4F2ED]/10 hover:border-[#F4F2ED]/30 hover:text-white"
-                }`}
+                className="font-mono text-xs px-4 py-2 rounded-full border bg-[#141418] text-[#F4F2ED]/75 border-[#F4F2ED]/10 hover:border-[#F4F2ED]/30 hover:text-white transition-colors"
               >
-                {city}
+                {item}
               </span>
             ))}
           </div>
