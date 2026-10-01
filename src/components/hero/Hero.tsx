@@ -1,9 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { ArrowDown, ArrowUpRight, Radio, Compass } from 'lucide-react'
+import { ArrowDown, ArrowUpRight } from 'lucide-react'
 import { MagneticButton } from '../ui/MagneticButton'
 import { gsap, EASE } from '../../lib/motion'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 import { WebGLRippleTransition } from './WebGLRippleTransition'
+import type { WebGLRippleTransitionHandle } from './WebGLRippleTransition'
+
+interface HeroDebugState {
+  progress: number
+  stage: string
+  canvasSize: string
+  textureSize: string
+  dpr: number
+}
 
 export const Hero: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null)
@@ -11,15 +20,18 @@ export const Hero: React.FC = () => {
   const eyebrowRef = useRef<HTMLDivElement>(null)
   const ctaRef = useRef<HTMLDivElement>(null)
   const bottomBarRef = useRef<HTMLDivElement>(null)
-  const rightTelemetryRef = useRef<HTMLDivElement>(null)
+  const rippleRef = useRef<WebGLRippleTransitionHandle>(null)
   const prefersReducedMotion = useReducedMotion()
 
-  const [rippleProgress, setRippleProgress] = useState(0)
+  const isDebug =
+    typeof window !== 'undefined' &&
+    new URLSearchParams(window.location.search).get('heroDebug') === '1'
+  const [debugState, setDebugState] = useState<HeroDebugState | null>(null)
 
   useEffect(() => {
     if (typeof window === 'undefined' || !sectionRef.current || !pinFrameRef.current) return
 
-    // 1. Initial entrance animation for header, buttons, and bottom bar
+    // 1. Initial subtle entrance animation
     const entranceTl = gsap.timeline({ defaults: { ease: EASE.cinematic } })
 
     entranceTl
@@ -40,22 +52,17 @@ export const Hero: React.FC = () => {
         { opacity: 1, duration: 0.8 },
         '-=0.4'
       )
-      .fromTo(
-        rightTelemetryRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.8 },
-        '-=0.4'
-      )
 
-    // 2. Reduced motion fallback: settle immediately
+    // 2. Reduced motion fallback: settle immediately to brand state
     if (prefersReducedMotion) {
-      setRippleProgress(1.0)
+      if (rippleRef.current) rippleRef.current.setProgress(1.0)
       return () => {
         entranceTl.kill()
       }
     }
 
-    // 3. Scroll-controlled WebGL Ripple Transition Scrub
+    // 3. Scroll-controlled Cinematic Hero Sequence
+    // Stages: Quote -> Water Wave Distortion -> SA PRODUCTION -> Tagline -> Pinned Release
     const mm = gsap.matchMedia()
 
     mm.add(
@@ -69,6 +76,14 @@ export const Hero: React.FC = () => {
 
         const progressProxy = { val: 0 }
 
+        const getStageName = (p: number) => {
+          if (p < 0.15) return '01 REST (Quote Visible)'
+          if (p < 0.45) return '02 RIPPLE START (Water Wave Traversing)'
+          if (p < 0.70) return '03 TRANSFORMATION (Glyph Refraction & Morph)'
+          if (p < 0.82) return '04 BRAND RESOLUTION (SA PRODUCTION Settling)'
+          return '05 HOLD (Brand Stable)'
+        }
+
         const scrollTl = gsap.timeline({
           scrollTrigger: {
             trigger: sectionRef.current,
@@ -79,7 +94,20 @@ export const Hero: React.FC = () => {
             anticipatePin: 1,
             invalidateOnRefresh: true,
             onUpdate: (self) => {
-              setRippleProgress(self.progress)
+              const p = self.progress
+              if (rippleRef.current) {
+                rippleRef.current.setProgress(p)
+              }
+              if (isDebug && rippleRef.current) {
+                const info = rippleRef.current.getDebugInfo()
+                setDebugState({
+                  progress: Number(p.toFixed(3)),
+                  stage: getStageName(p),
+                  canvasSize: info.canvasSize,
+                  textureSize: info.textureSize,
+                  dpr: info.dpr,
+                })
+              }
             },
           },
         })
@@ -96,7 +124,7 @@ export const Hero: React.FC = () => {
       entranceTl.kill()
       mm.revert()
     }
-  }, [prefersReducedMotion])
+  }, [prefersReducedMotion, isDebug])
 
   return (
     <section
@@ -115,7 +143,7 @@ export const Hero: React.FC = () => {
           {/* Subtle noise grain texture overlay */}
           <div className="grain-overlay-dark pointer-events-none absolute inset-0 opacity-40 mix-blend-overlay z-0" />
 
-          {/* Top Header Eyebrow & Live Production Badge */}
+          {/* Top Header Location Eyebrow */}
           <div className="relative z-10 pt-16 sm:pt-20 md:pt-22 px-6 sm:px-10 lg:px-14 flex items-center justify-between">
             <div
               ref={eyebrowRef}
@@ -127,83 +155,39 @@ export const Hero: React.FC = () => {
               </span>
               <span>EVENT PRODUCTION // VARANASI, INDIA</span>
             </div>
-
-            <div className="hidden lg:flex items-center gap-3 font-mono text-[10px] tracking-widest uppercase text-white/70">
-              <div className="flex items-center gap-2 glass-dark-interactive px-3.5 py-1.5 rounded-full">
-                <Radio className="h-3 w-3 text-[#7C6ECD]" />
-                <span>ON-SITE TECHNICAL DIRECTION</span>
-              </div>
-              <div className="flex items-center gap-2 glass-dark-interactive px-3.5 py-1.5 rounded-full text-white/50">
-                <Compass className="h-3 w-3 text-[#7C6ECD]" />
-                <span>25.3176° N, 82.9739° E</span>
-              </div>
-            </div>
           </div>
 
-          {/* Rebalanced Middle Composition: Wide 12-Column Grid with WebGL Typographic Canvas & Camera Space */}
-          <div className="relative z-10 my-auto px-6 sm:px-10 lg:px-14 py-2 sm:py-4 max-w-7xl w-full mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-              {/* Left & Center Column (8 cols): High-Resolution WebGL Refractive Ripple Typography */}
-              <div className="lg:col-span-8 flex flex-col justify-center">
-                <div className="relative w-full h-[240px] sm:h-[300px] md:h-[360px] lg:h-[400px] overflow-hidden rounded-2xl">
-                  <WebGLRippleTransition
-                    progress={rippleProgress}
-                    className="w-full h-full"
-                  />
-                </div>
-
-                {/* Preserved Action CTAs with Aceternity Magnetic Button pattern */}
-                <div
-                  ref={ctaRef}
-                  className="mt-4 sm:mt-6 flex flex-wrap items-center gap-3.5"
-                >
-                  <MagneticButton
-                    href="#contact"
-                    className="h-11 sm:h-13 rounded-full glass-violet px-6 sm:px-8 text-xs sm:text-sm font-semibold uppercase tracking-wider text-white hover:scale-102 transition-all shadow-md group"
-                  >
-                    <span>Start a Project</span>
-                    <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </MagneticButton>
-
-                  <MagneticButton
-                    href="#productions"
-                    className="h-11 sm:h-13 rounded-full glass-dark-interactive px-5 sm:px-7 text-xs sm:text-sm font-medium uppercase tracking-wider text-white hover:border-white/40 transition-all"
-                  >
-                    <span>View Selected Work</span>
-                    <ArrowDown className="ml-2 h-4 w-4 text-[#7C6ECD]" />
-                  </MagneticButton>
-                </div>
+          {/* Middle Unified Cinematic Scene: Transparent WebGL Typographic Canvas + Floating Camera Space */}
+          <div className="relative z-10 my-auto px-6 sm:px-10 lg:px-14 py-4 sm:py-6 max-w-7xl w-full mx-auto">
+            <div className="max-w-4xl w-full">
+              {/* Invisible Transparent WebGL Ripple Layer (Zero Box, Zero Border, Pure Glyph Distortion) */}
+              <div className="relative w-full h-[220px] sm:h-[280px] md:h-[340px] lg:h-[380px]">
+                <WebGLRippleTransition
+                  ref={rippleRef}
+                  className="w-full h-full"
+                />
               </div>
 
-              {/* Right Column (4 cols): Art-directed negative space for floating 3D Canon Camera */}
+              {/* Preserved Action CTAs with Aceternity Magnetic Button pattern */}
               <div
-                ref={rightTelemetryRef}
-                className="hidden lg:flex flex-col justify-between h-[360px] lg:h-[400px] p-6 rounded-2xl glass-dark border border-hairline-dark/60 text-white/50 font-mono text-[10px] tracking-wider uppercase"
+                ref={ctaRef}
+                className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3.5"
               >
-                <div className="flex items-center justify-between border-b border-hairline-dark pb-3">
-                  <span className="text-[#7C6ECD] font-bold">PHYSICAL CAMERA LAYER</span>
-                  <span>CANON AT-1 3D</span>
-                </div>
+                <MagneticButton
+                  href="#contact"
+                  className="h-11 sm:h-13 rounded-full glass-violet px-6 sm:px-8 text-xs sm:text-sm font-semibold uppercase tracking-wider text-white hover:scale-102 transition-all shadow-md group"
+                >
+                  <span>Start a Project</span>
+                  <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </MagneticButton>
 
-                <div className="space-y-2 py-4">
-                  <div className="flex justify-between">
-                    <span>Acoustic Grid</span>
-                    <span className="text-white/80">Active</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Illumination Rig</span>
-                    <span className="text-white/80">Synchronized</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Zero-G Motion</span>
-                    <span className="text-[#7C6ECD] font-bold">Continuous</span>
-                  </div>
-                </div>
-
-                <div className="border-t border-hairline-dark pt-3 flex items-center justify-between text-white/40">
-                  <span>SCROLL TO PROCEED</span>
-                  <span>↓</span>
-                </div>
+                <MagneticButton
+                  href="#productions"
+                  className="h-11 sm:h-13 rounded-full glass-dark-interactive px-5 sm:px-7 text-xs sm:text-sm font-medium uppercase tracking-wider text-white hover:border-white/40 transition-all"
+                >
+                  <span>View Selected Work</span>
+                  <ArrowDown className="ml-2 h-4 w-4 text-[#7C6ECD]" />
+                </MagneticButton>
               </div>
             </div>
           </div>
@@ -238,6 +222,38 @@ export const Hero: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Development Hero Debug Diagnostic Overlay (?heroDebug=1) */}
+      {isDebug && debugState && (
+        <div className="fixed top-4 left-4 z-50 rounded-xl bg-black/95 p-4 font-mono text-[11px] text-white/90 backdrop-blur-md border border-[#7C6ECD]/40 max-w-xs pointer-events-none shadow-2xl">
+          <div className="flex items-center justify-between border-b border-white/20 pb-2 mb-2 font-bold text-[#7C6ECD]">
+            <span>HERO SCROLL DEBUG</span>
+            <span>{Math.round(debugState.progress * 100)}%</span>
+          </div>
+          <div className="space-y-1 text-white/80">
+            <div>
+              <span className="text-white/40">Stage: </span>
+              <span className="text-amber-300 font-semibold">{debugState.stage}</span>
+            </div>
+            <div>
+              <span className="text-white/40">Progress: </span>
+              <span className="text-emerald-300 font-semibold">{debugState.progress}</span>
+            </div>
+            <div>
+              <span className="text-white/40">Canvas Size: </span>
+              <span>{debugState.canvasSize}</span>
+            </div>
+            <div>
+              <span className="text-white/40">Texture Size: </span>
+              <span>{debugState.textureSize}</span>
+            </div>
+            <div>
+              <span className="text-white/40">DPR: </span>
+              <span>{debugState.dpr}</span>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   )
 }

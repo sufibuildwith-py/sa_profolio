@@ -1,13 +1,31 @@
-import React, { useEffect, useRef, useCallback } from 'react'
+import { useEffect, useRef, useImperativeHandle, forwardRef, useCallback } from 'react'
+
+export interface WebGLRippleTransitionHandle {
+  setProgress: (progress: number) => void
+  getDebugInfo: () => {
+    progress: number
+    canvasSize: string
+    textureSize: string
+    dpr: number
+  }
+}
 
 interface WebGLRippleTransitionProps {
-  progress: number // 0.0 to 1.0 (controlled by GSAP ScrollTrigger)
+  initialProgress?: number
   className?: string
 }
 
-// Complete GLSL Shader implementing Componentry's WebGL Ripple Transition
-// with Simplex 2D noise warp, expanding refractive wavefront, concentric wave harmonics,
-// chromatic aberration (caStrength), and specular wavefront glow.
+// ============================================================================
+// COMPONENTRY RIPPLE TRANSITION GLSL SHADER (Transparent Text Texture Adaptation)
+// ============================================================================
+// Features:
+// 1. Simplex 2D noise-driven wavefront warp
+// 2. Gaussian ripple envelope (primary wave thickness)
+// 3. Concentric wave oscillation harmonics
+// 4. Directional radial refractive displacement (pushAmt)
+// 5. Chromatic aberration splitting (caStrength)
+// 6. Specular violet wavefront sheen (#7C6ECD)
+// 7. 100% Transparent alpha preservation — ZERO background box or border artifacts
 
 const VERTEX_SHADER = `
 attribute vec2 aPosition;
@@ -15,7 +33,7 @@ varying vec2 vUv;
 
 void main() {
   vUv = (aPosition + 1.0) * 0.5;
-  vUv.y = 1.0 - vUv.y; // Flip Y for WebGL texture orientation
+  vUv.y = 1.0 - vUv.y; // Flip Y for WebGL texture coordinate alignment
   gl_Position = vec4(aPosition, 0.0, 1.0);
 }
 `
@@ -25,9 +43,9 @@ precision highp float;
 
 varying vec2 vUv;
 
-uniform sampler2D uTex1; // Quote Texture
-uniform sampler2D uTex2; // Brand (SA PRODUCTION) Texture
-uniform float uProgress;
+uniform sampler2D uTex1; // Texture A: Quote Typography (Transparent PNG/Canvas)
+uniform sampler2D uTex2; // Texture B: Brand Identity (Transparent PNG/Canvas)
+uniform float uProgress; // Normalized 0.0 -> 1.0 driven by ScrollTrigger
 uniform vec2 uResolution;
 uniform vec2 uOrigin;
 uniform float uWaveSpeed;
@@ -81,7 +99,7 @@ void main() {
   float d = length(p - origin);
   
   // 1. Organic Simplex Noise Warp along wavefront
-  float n = snoise(uv * 4.5 + uProgress * 2.2) * 0.08 * uNoiseWarp;
+  float n = snoise(uv * 4.2 + uProgress * 2.0) * 0.08 * uNoiseWarp;
   float dNoisy = d + n;
 
   // 2. Wavefront propagation parameters
@@ -98,28 +116,28 @@ void main() {
   // 5. Directional Radial Displacement (Refractive Push)
   vec2 dir = normalize(p - origin + vec2(0.0001));
   vec2 disp = dir * (envelope * waveOsc * uPushAmt);
-  disp.x /= aspect; // Return to normalized UV space
+  disp.x /= aspect; // Normalize back to UV space
 
   // 6. Transition Boundary Mask (Texture 1 -> Texture 2)
-  float mask = smoothstep(waveR - uSigma * 1.5, waveR + uSigma * 0.8, dNoisy);
+  float mask = smoothstep(waveR - uSigma * 1.4, waveR + uSigma * 0.8, dNoisy);
 
   // 7. Chromatic Aberration Sampling with refractive offsets
   float ca = uCaStrength * envelope;
-  vec2 uvR = uv + disp * (1.0 + ca * 2.5);
-  vec2 uvG = uv + disp;
-  vec2 uvB = uv + disp * (1.0 - ca * 2.5);
+  vec2 uvR = clamp(uv + disp * (1.0 + ca * 3.0), 0.0, 1.0);
+  vec2 uvG = clamp(uv + disp, 0.0, 1.0);
+  vec2 uvB = clamp(uv + disp * (1.0 - ca * 3.0), 0.0, 1.0);
 
-  vec4 col1R = texture2D(uTex1, clamp(uvR, 0.0, 1.0));
-  vec4 col1G = texture2D(uTex1, clamp(uvG, 0.0, 1.0));
-  vec4 col1B = texture2D(uTex1, clamp(uvB, 0.0, 1.0));
+  vec4 col1R = texture2D(uTex1, uvR);
+  vec4 col1G = texture2D(uTex1, uvG);
+  vec4 col1B = texture2D(uTex1, uvB);
   vec4 col1 = vec4(col1R.r, col1G.g, col1B.b, col1G.a);
 
-  vec4 col2R = texture2D(uTex2, clamp(uvR, 0.0, 1.0));
-  vec4 col2G = texture2D(uTex2, clamp(uvG, 0.0, 1.0));
-  vec4 col2B = texture2D(uTex2, clamp(uvB, 0.0, 1.0));
+  vec4 col2R = texture2D(uTex2, uvR);
+  vec4 col2G = texture2D(uTex2, uvG);
+  vec4 col2B = texture2D(uTex2, uvB);
   vec4 col2 = vec4(col2R.r, col2G.g, col2B.b, col2G.a);
 
-  // If resting at 0 or 1, ensure clean exact sampling
+  // If resting at edges, output clean exact texture directly
   if (uProgress <= 0.001) {
     gl_FragColor = texture2D(uTex1, uv);
     return;
@@ -129,23 +147,27 @@ void main() {
     return;
   }
 
-  // 8. Blend Textures across the traveling wave
+  // 8. Blend between distorted typography states across wavefront
   vec4 finalColor = mix(col2, col1, mask);
 
-  // 9. Specular Violet Refractive Wavefront Glow & Caustic Highlight
+  // 9. Restrained Violet Refractive Wavefront Shimmer (Applies over glyphs & immediate water edge)
   vec3 glowColor = vec3(0.486, 0.431, 0.804); // #7C6ECD violet
   float waveGlow = envelope * uGlow;
-  finalColor.rgb += glowColor * waveGlow * 0.85;
-  finalColor.rgb += vec3(1.0, 1.0, 1.0) * pow(envelope, 3.5) * waveGlow * 0.75;
+  
+  // Apply sheen proportional to local alpha + subtle water surface refraction
+  float textAlpha = max(col1.a, col2.a);
+  finalColor.rgb += glowColor * (waveGlow * 0.65 * max(textAlpha, 0.15));
+  finalColor.rgb += vec3(1.0, 1.0, 1.0) * (pow(envelope, 3.5) * waveGlow * 0.45 * textAlpha);
+  finalColor.a = max(finalColor.a, envelope * 0.25 * waveGlow);
 
   gl_FragColor = finalColor;
 }
 `
 
-export const WebGLRippleTransition: React.FC<WebGLRippleTransitionProps> = ({
-  progress,
-  className = '',
-}) => {
+export const WebGLRippleTransition = forwardRef<
+  WebGLRippleTransitionHandle,
+  WebGLRippleTransitionProps
+>(({ initialProgress = 0, className = '' }, ref) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const glRef = useRef<WebGLRenderingContext | null>(null)
   const programRef = useRef<WebGLProgram | null>(null)
@@ -154,109 +176,98 @@ export const WebGLRippleTransition: React.FC<WebGLRippleTransitionProps> = ({
   const uniformsRef = useRef<{ [key: string]: WebGLUniformLocation | null }>({})
   const offscreen1Ref = useRef<HTMLCanvasElement | null>(null)
   const offscreen2Ref = useRef<HTMLCanvasElement | null>(null)
+  const currentProgressRef = useRef(initialProgress)
+  const lastDprRef = useRef(1)
 
-  // Render high-resolution 2D typography onto Offscreen Canvas Textures
+  // Render Transparent High-DPI Typography Textures
   const renderTextTextures = useCallback((width: number, height: number, dpr: number) => {
     const w = Math.round(width * dpr)
     const h = Math.round(height * dpr)
     if (w <= 0 || h <= 0) return
+    lastDprRef.current = dpr
 
-    // 1. Texture 1: Romanized Urdu/Hindi Quote
+    // 1. Texture 1: Romanized Urdu/Hindi Quote on 100% TRANSPARENT Canvas
     if (!offscreen1Ref.current) offscreen1Ref.current = document.createElement('canvas')
     const c1 = offscreen1Ref.current
     c1.width = w
     c1.height = h
     const ctx1 = c1.getContext('2d')
     if (ctx1) {
-      ctx1.clearRect(0, 0, w, h)
-      ctx1.fillStyle = '#09090C'
-      ctx1.fillRect(0, 0, w, h)
+      ctx1.clearRect(0, 0, w, h) // 100% Pure Transparent Background
 
       const isMobile = width < 768
       const isTablet = width >= 768 && width < 1200
 
-      // Editorial Subtitle
-      ctx1.fillStyle = 'rgba(244, 241, 232, 0.45)'
-      ctx1.font = `${Math.round(11 * dpr)}px ui-monospace, SFMono-Regular, Menlo, Monaco, monospace`
-      ctx1.textBaseline = 'top'
-      ctx1.fillText('// EDITORIAL MANIFEST // 01', Math.round(24 * dpr), Math.round(30 * dpr))
-
       // Main Italic Serif Quote Typography
       const quoteFontSize = isMobile
-        ? Math.round(28 * dpr)
+        ? Math.round(26 * dpr)
         : isTablet
         ? Math.round(38 * dpr)
-        : Math.round(50 * dpr)
+        : Math.round(48 * dpr)
 
       ctx1.font = `italic 400 ${quoteFontSize}px 'Instrument Serif', Georgia, serif`
       ctx1.fillStyle = '#C4BEF2' // Elegant soft violet/lilac
+      ctx1.textBaseline = 'alphabetic'
 
-      const lineSpacing = quoteFontSize * 1.28
-      const startY = isMobile ? Math.round(80 * dpr) : Math.round(95 * dpr)
-      const startX = Math.round(24 * dpr)
+      const lineSpacing = quoteFontSize * 1.25
+      const startX = Math.round(4 * dpr)
+      const startY = isMobile ? Math.round(60 * dpr) : Math.round(80 * dpr)
 
       if (isMobile) {
         ctx1.fillText('Hum sirf mehfil', startX, startY)
         ctx1.fillText('nahin sanwārte,', startX, startY + lineSpacing)
-        ctx1.fillStyle = '#E8E5F8'
+        ctx1.fillStyle = '#EBE8FB'
         ctx1.fillText('lamhon ko yaadgaar', startX, startY + lineSpacing * 2)
         ctx1.fillText('banate hain.', startX, startY + lineSpacing * 3)
       } else {
         ctx1.fillText('Hum sirf mehfil nahin sanwārte,', startX, startY)
-        ctx1.fillStyle = '#F0EDFD'
+        ctx1.fillStyle = '#F2EFFE'
         ctx1.fillText('lamhon ko yaadgaar banate hain.', startX, startY + lineSpacing)
       }
     }
 
-    // 2. Texture 2: Brand Wordmark (SA PRODUCTION)
+    // 2. Texture 2: Master Brand Wordmark on 100% TRANSPARENT Canvas
     if (!offscreen2Ref.current) offscreen2Ref.current = document.createElement('canvas')
     const c2 = offscreen2Ref.current
     c2.width = w
     c2.height = h
     const ctx2 = c2.getContext('2d')
     if (ctx2) {
-      ctx2.clearRect(0, 0, w, h)
-      ctx2.fillStyle = '#09090C'
-      ctx2.fillRect(0, 0, w, h)
+      ctx2.clearRect(0, 0, w, h) // 100% Pure Transparent Background
 
       const isMobile = width < 768
       const isTablet = width >= 768 && width < 1200
 
-      // Header Tag
-      ctx2.fillStyle = '#7C6ECD'
-      ctx2.font = `600 ${Math.round(11 * dpr)}px ui-monospace, SFMono-Regular, Menlo, Monaco, monospace`
-      ctx2.textBaseline = 'top'
-      ctx2.fillText('CORE BRAND // VARANASI', Math.round(24 * dpr), Math.round(30 * dpr))
-
       // Master Brand Typography
       const brandFontSize = isMobile
-        ? Math.round(44 * dpr)
+        ? Math.round(42 * dpr)
         : isTablet
         ? Math.round(68 * dpr)
-        : Math.round(96 * dpr)
+        : Math.round(92 * dpr)
 
       ctx2.font = `800 ${brandFontSize}px 'Inter Tight', 'Manrope', -apple-system, sans-serif`
       ctx2.fillStyle = '#FFFFFF'
+      ctx2.textBaseline = 'alphabetic'
 
-      const startY = isMobile ? Math.round(85 * dpr) : Math.round(95 * dpr)
-      const startX = Math.round(24 * dpr)
+      const startX = Math.round(4 * dpr)
+      const startY = isMobile ? Math.round(70 * dpr) : Math.round(95 * dpr)
 
       ctx2.fillText('SA PRODUCTION', startX, startY)
 
-      // Sub-label
-      const subFontSize = isMobile ? Math.round(14 * dpr) : Math.round(20 * dpr)
+      // Tagline Typography
+      const subFontSize = isMobile ? Math.round(15 * dpr) : Math.round(22 * dpr)
       ctx2.font = `italic 400 ${subFontSize}px 'Instrument Serif', Georgia, serif`
       ctx2.fillStyle = 'rgba(244, 241, 232, 0.85)'
-      ctx2.fillText('Bring Life to Your Event', startX, startY + brandFontSize * 1.15)
+      ctx2.fillText('Bring Life to Your Event', startX, startY + brandFontSize * 0.45)
     }
 
-    // Upload to WebGL Textures
+    // Upload Textures to WebGL
     const gl = glRef.current
     if (!gl) return
 
     if (!tex1Ref.current) tex1Ref.current = gl.createTexture()
     gl.bindTexture(gl.TEXTURE_2D, tex1Ref.current)
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 0)
+    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true)
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, c1)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
@@ -265,7 +276,7 @@ export const WebGLRippleTransition: React.FC<WebGLRippleTransitionProps> = ({
 
     if (!tex2Ref.current) tex2Ref.current = gl.createTexture()
     gl.bindTexture(gl.TEXTURE_2D, tex2Ref.current)
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 0)
+    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true)
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, c2)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
@@ -273,13 +284,52 @@ export const WebGLRippleTransition: React.FC<WebGLRippleTransitionProps> = ({
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
   }, [])
 
-  // Initialize WebGL Context & Shaders
+  // Draw WebGL Frame
+  const drawFrame = useCallback((progress: number) => {
+    const gl = glRef.current
+    const program = programRef.current
+    if (!gl || !program || !tex1Ref.current || !tex2Ref.current) return
+
+    gl.useProgram(program)
+
+    gl.activeTexture(gl.TEXTURE0)
+    gl.bindTexture(gl.TEXTURE_2D, tex1Ref.current)
+    gl.uniform1i(uniformsRef.current.uTex1, 0)
+
+    gl.activeTexture(gl.TEXTURE1)
+    gl.bindTexture(gl.TEXTURE_2D, tex2Ref.current)
+    gl.uniform1i(uniformsRef.current.uTex2, 1)
+
+    const clampedProgress = Math.max(0.0, Math.min(1.0, progress))
+    gl.uniform1f(uniformsRef.current.uProgress, clampedProgress)
+
+    gl.clearColor(0, 0, 0, 0) // Transparent WebGL Clear
+    gl.clear(gl.COLOR_BUFFER_BIT)
+    gl.drawArrays(gl.TRIANGLES, 0, 6)
+  }, [])
+
+  // Expose Imperative Handle for 0-Re-render GSAP Updates
+  useImperativeHandle(ref, () => ({
+    setProgress: (progress: number) => {
+      currentProgressRef.current = progress
+      drawFrame(progress)
+    },
+    getDebugInfo: () => ({
+      progress: Number(currentProgressRef.current.toFixed(3)),
+      canvasSize: canvasRef.current ? `${canvasRef.current.width} × ${canvasRef.current.height}` : '0 × 0',
+      textureSize: offscreen1Ref.current ? `${offscreen1Ref.current.width} × ${offscreen1Ref.current.height}` : '0 × 0',
+      dpr: lastDprRef.current,
+    }),
+  }))
+
+  // WebGL Context Initialization
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
     const gl = canvas.getContext('webgl', {
-      alpha: false,
+      alpha: true, // Transparent WebGL background
+      premultipliedAlpha: true,
       antialias: true,
       depth: false,
       stencil: false,
@@ -288,7 +338,9 @@ export const WebGLRippleTransition: React.FC<WebGLRippleTransitionProps> = ({
     if (!gl) return
     glRef.current = gl
 
-    // Compile Shaders
+    gl.enable(gl.BLEND)
+    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA)
+
     const createShader = (type: number, src: string) => {
       const shader = gl.createShader(type)
       if (!shader) return null
@@ -318,7 +370,7 @@ export const WebGLRippleTransition: React.FC<WebGLRippleTransitionProps> = ({
     programRef.current = program
     gl.useProgram(program)
 
-    // Full-screen quad
+    // Screen-filling quad
     const quad = new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1])
     const buf = gl.createBuffer()
     gl.bindBuffer(gl.ARRAY_BUFFER, buf)
@@ -344,15 +396,15 @@ export const WebGLRippleTransition: React.FC<WebGLRippleTransitionProps> = ({
       uNoiseWarp: gl.getUniformLocation(program, 'uNoiseWarp'),
     }
 
-    // Set Componentry Default Wave Parameters
-    gl.uniform2f(uniformsRef.current.uOrigin, 0.45, 0.4) // Center-left origin matching quote center
-    gl.uniform1f(uniformsRef.current.uWaveSpeed, 1.45)
-    gl.uniform1f(uniformsRef.current.uSigma, 0.18)
-    gl.uniform1f(uniformsRef.current.uWaveFreq, 4.8)
-    gl.uniform1f(uniformsRef.current.uPushAmt, 0.165) // Strong visible refractive push
-    gl.uniform1f(uniformsRef.current.uCaStrength, 0.038) // Crisp chromatic edge
-    gl.uniform1f(uniformsRef.current.uGlow, 0.82) // Specular wave lift
-    gl.uniform1f(uniformsRef.current.uNoiseWarp, 1.1) // Organic fractal distortion
+    // Componentry Reference Parameter Setup
+    gl.uniform2f(uniformsRef.current.uOrigin, 0.35, 0.38) // Organic center-left origin aligned with quote
+    gl.uniform1f(uniformsRef.current.uWaveSpeed, 1.55)
+    gl.uniform1f(uniformsRef.current.uSigma, 0.16)
+    gl.uniform1f(uniformsRef.current.uWaveFreq, 5.0)
+    gl.uniform1f(uniformsRef.current.uPushAmt, 0.155) // Refractive wave displacement
+    gl.uniform1f(uniformsRef.current.uCaStrength, 0.032) // Chromatic aberration
+    gl.uniform1f(uniformsRef.current.uGlow, 0.75) // Restrained violet sheen
+    gl.uniform1f(uniformsRef.current.uNoiseWarp, 1.05) // Organic Simplex noise
 
     const handleResize = () => {
       if (!canvas || !gl) return
@@ -369,6 +421,7 @@ export const WebGLRippleTransition: React.FC<WebGLRippleTransitionProps> = ({
           gl.uniform2f(uniformsRef.current.uResolution, w, h)
         }
         renderTextTextures(rect.width, rect.height, dpr)
+        drawFrame(currentProgressRef.current)
       }
     }
 
@@ -384,41 +437,18 @@ export const WebGLRippleTransition: React.FC<WebGLRippleTransitionProps> = ({
       if (fs) gl.deleteShader(fs)
       if (buf) gl.deleteBuffer(buf)
     }
-  }, [renderTextTextures])
-
-  // Draw Frame whenever progress changes (driven by GSAP scrub)
-  useEffect(() => {
-    const gl = glRef.current
-    const program = programRef.current
-    if (!gl || !program || !tex1Ref.current || !tex2Ref.current) return
-
-    gl.useProgram(program)
-
-    // Bind Textures
-    gl.activeTexture(gl.TEXTURE0)
-    gl.bindTexture(gl.TEXTURE_2D, tex1Ref.current)
-    gl.uniform1i(uniformsRef.current.uTex1, 0)
-
-    gl.activeTexture(gl.TEXTURE1)
-    gl.bindTexture(gl.TEXTURE_2D, tex2Ref.current)
-    gl.uniform1i(uniformsRef.current.uTex2, 1)
-
-    // Set Progress
-    const clampedProgress = Math.max(0.0, Math.min(1.0, progress))
-    gl.uniform1f(uniformsRef.current.uProgress, clampedProgress)
-
-    gl.drawArrays(gl.TRIANGLES, 0, 6)
-  }, [progress])
+  }, [renderTextTextures, drawFrame])
 
   return (
     <canvas
       ref={canvasRef}
-      className={`w-full h-full block ${className}`}
+      className={`w-full h-full block pointer-events-none ${className}`}
       style={{
-        width: '100%',
-        height: '100%',
+        background: 'transparent',
         touchAction: 'none',
       }}
     />
   )
-}
+})
+
+WebGLRippleTransition.displayName = 'WebGLRippleTransition'
