@@ -155,40 +155,38 @@ export const Hero: React.FC = () => {
           </div>
         </div>
 
-          {/* Middle Unified Cinematic Scene: Transparent WebGL Typographic Canvas + Floating Camera Space */}
-          <div className="relative z-10 my-auto px-6 sm:px-10 lg:px-14 py-4 sm:py-6 max-w-7xl w-full mx-auto">
-            <div className="max-w-5xl w-full">
-              {/* Invisible Transparent WebGL Ripple Layer (Zero Box, Zero Border, Pure Glyph Distortion) */}
-              <div className="relative w-full h-[240px] sm:h-[300px] md:h-[360px] lg:h-[420px]">
-                <WebGLRippleTransition
-                  ref={rippleRef}
-                  className="w-full h-full"
-                />
-              </div>
+        {/* Middle Unified Cinematic Scene: Enlarged Transparent WebGL Typographic Canvas with Overlaid CTAs */}
+        <div className="relative z-10 flex-1 w-full flex flex-col justify-center px-6 sm:px-10 lg:px-16 py-4">
+          <div className="relative w-full h-[360px] sm:h-[460px] md:h-[520px] lg:h-[580px] max-w-7xl mx-auto">
+            {/* Invisible Transparent WebGL Ripple Layer */}
+            <WebGLRippleTransition
+              ref={rippleRef}
+              className="w-full h-full absolute inset-0"
+            />
 
-              {/* Preserved Action CTAs with Aceternity Magnetic Button pattern */}
-              <div
-                ref={ctaRef}
-                className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3.5"
+            {/* Action CTAs Positioned Directly ON / OVER the Ripple Section */}
+            <div
+              ref={ctaRef}
+              className="absolute bottom-4 sm:bottom-8 lg:bottom-10 left-4 sm:left-6 z-20 flex flex-wrap items-center gap-3.5 pointer-events-auto"
+            >
+              <MagneticButton
+                href="#contact"
+                className="h-11 sm:h-13 rounded-full glass-violet px-6 sm:px-8 text-xs sm:text-sm font-semibold uppercase tracking-wider text-white hover:scale-102 transition-all shadow-md group"
               >
-                <MagneticButton
-                  href="#contact"
-                  className="h-11 sm:h-13 rounded-full glass-violet px-6 sm:px-8 text-xs sm:text-sm font-semibold uppercase tracking-wider text-white hover:scale-102 transition-all shadow-md group"
-                >
-                  <span>Start a Project</span>
-                  <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </MagneticButton>
+                <span>Start a Project</span>
+                <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </MagneticButton>
 
-                <MagneticButton
-                  href="#productions"
-                  className="h-11 sm:h-13 rounded-full glass-dark-interactive px-5 sm:px-7 text-xs sm:text-sm font-medium uppercase tracking-wider text-white hover:border-white/40 transition-all"
-                >
-                  <span>View Selected Work</span>
-                  <ArrowDown className="ml-2 h-4 w-4 text-[#7C6ECD]" />
-                </MagneticButton>
-              </div>
+              <MagneticButton
+                href="#productions"
+                className="h-11 sm:h-13 rounded-full glass-dark-interactive px-5 sm:px-7 text-xs sm:text-sm font-medium uppercase tracking-wider text-white hover:border-white/40 transition-all"
+              >
+                <span>View Selected Work</span>
+                <ArrowDown className="ml-2 h-4 w-4 text-[#7C6ECD]" />
+              </MagneticButton>
             </div>
           </div>
+        </div>
 
           {/* Preserved Bottom Hero Ribbon Bar */}
           <div
