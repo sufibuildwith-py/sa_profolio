@@ -7,7 +7,7 @@ This inventory documents the component patterns cherry-picked from the engineeri
 | Aceternity | Card Spotlight | pointer spotlight | Selected Live / Process / Tech / Contact | violet glass radial light | MIT / Permissive | low |
 | Aceternity | Glare Card | hover glare | Selected Live imagery | restrained light sweep (4-8px) | MIT / Permissive | low |
 | Aceternity | Magnetic Button | cursor spring | CTA buttons (Hero, Nav, Contact) | 5–8px displacement | MIT / Permissive | low |
-| Aceternity | Floating Navbar | hide/reveal | Navbar | glass-nav translucent sheet | MIT / Permissive | low |
+| Aceternity | Dynamic Island & Navbar Pill | floating centered pill, sliding highlight, mobile morph | Navbar | liquid glass floating island with active section spy | MIT / Permissive | low |
 | Componentry | Ripple Transition | wave displacement & refraction | Hero Typography Transformation | SVG feTurbulence + feDisplacementMap + traveling wavefront sheen (zero extra WebGL overhead) | MIT / Permissive | low |
 | Componentry | Text Morph | character blend & alignment | Hero Quote → SA PRODUCTION | scroll-driven GSAP Scrub with typographic continuity | MIT / Permissive | low |
 | Componentry | Scroll Choreography | scroll-linked staging | Hero Pinned Sequence | single GSAP pinned scrub timeline | MIT / Permissive | low |
