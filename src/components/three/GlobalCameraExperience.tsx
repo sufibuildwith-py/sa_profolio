@@ -5,12 +5,15 @@ import { gsap, ScrollTrigger } from '../../lib/motion'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
 
 interface CameraDebugState {
+  viewport: string
+  canvasSize: string
   progress: number
   section: string
   pos: [number, number, number]
   userOffset: [number, number]
   rot: [number, number, number]
   scale: number
+  responsiveMode: string
   isDragging: boolean
   isHovered: boolean
   fps: number
@@ -19,8 +22,8 @@ interface CameraDebugState {
 // Master scale multiplier (scaled down ~60-65% for restraint & editorial breathing room)
 const CAMERA_BASE_SCALE = 0.62
 
-// 8 Waypoints art-directed for SA Production's editorial sections
-const WAYPOINTS = [
+// 8 Waypoints art-directed for SA Production's desktop editorial layout
+const DESKTOP_WAYPOINTS = [
   {
     name: '01 Hero',
     progress: 0.0,
@@ -79,6 +82,66 @@ const WAYPOINTS = [
   },
 ]
 
+// 8 Waypoints art-directed for 9:16 Mobile Portrait Frustums (|x| <= 0.85, compact 16-22vw footprint)
+const MOBILE_WAYPOINTS = [
+  {
+    name: '01 Hero',
+    progress: 0.0,
+    pos: { x: 0.65, y: 1.15, z: -0.4 },
+    rot: { x: 0.12, y: -0.35, z: 0.05 },
+    scale: 0.28,
+  },
+  {
+    name: '02 Introduction',
+    progress: 0.14,
+    pos: { x: 0.55, y: -0.1, z: 0.3 },
+    rot: { x: -0.06, y: 0.42, z: -0.05 },
+    scale: 0.32,
+  },
+  {
+    name: '03 Spaces & Worlds (Prominent Moment 1)',
+    progress: 0.28,
+    pos: { x: 0.45, y: 0.15, z: 0.9 },
+    rot: { x: 0.18, y: -0.65, z: 0.1 },
+    scale: 0.38,
+  },
+  {
+    name: '04 Services',
+    progress: 0.44,
+    pos: { x: -0.65, y: -0.2, z: -0.2 },
+    rot: { x: -0.12, y: 0.85, z: -0.1 },
+    scale: 0.26,
+  },
+  {
+    name: '05 Selected Productions',
+    progress: 0.58,
+    pos: { x: 0.60, y: -0.3, z: -0.5 },
+    rot: { x: 0.2, y: -1.15, z: 0.08 },
+    scale: 0.24,
+  },
+  {
+    name: '06 Process & Pipeline',
+    progress: 0.72,
+    pos: { x: -0.50, y: 0.2, z: 0.3 },
+    rot: { x: -0.14, y: 0.38, z: 0.05 },
+    scale: 0.30,
+  },
+  {
+    name: '07 Technical Matrix (Prominent Moment 2)',
+    progress: 0.86,
+    pos: { x: 0.50, y: 0.0, z: 0.8 },
+    rot: { x: 0.12, y: -0.75, z: 0.08 },
+    scale: 0.36,
+  },
+  {
+    name: '08 Contact & Footer',
+    progress: 1.0,
+    pos: { x: 0.55, y: -1.15, z: -0.3 },
+    rot: { x: 0.06, y: 0.18, z: 0.0 },
+    scale: 0.22,
+  },
+]
+
 export const GlobalCameraExperience: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null)
   const hitProxyRef = useRef<HTMLDivElement>(null)
@@ -96,10 +159,7 @@ export const GlobalCameraExperience: React.FC = () => {
   const userOffsetRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 })
 
   useEffect(() => {
-    // Only render full WebGL experience on screens >= 768px (Desktop/Tablet) and when reduced-motion is not requested
     if (typeof window === 'undefined' || !containerRef.current) return
-    const isMobile = window.innerWidth < 768
-    if (isMobile) return
 
     // Verify WebGL availability
     const testCanvas = document.createElement('canvas')
@@ -112,6 +172,7 @@ export const GlobalCameraExperience: React.FC = () => {
     const hitProxy = hitProxyRef.current
     const width = window.innerWidth
     const height = window.innerHeight
+    const isInitialMobile = width < 768
 
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100)
     camera.position.set(0, 0, 7.5)
@@ -123,11 +184,27 @@ export const GlobalCameraExperience: React.FC = () => {
       stencil: false,
       depth: true,
     })
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    
+    const getDPR = () => {
+      const isMobile = window.innerWidth < 768
+      return isMobile
+        ? Math.min(window.devicePixelRatio || 1, 1.25)
+        : Math.min(window.devicePixelRatio || 1, 2.0)
+    }
+
+    renderer.setPixelRatio(getDPR())
     renderer.setSize(width, height)
     renderer.toneMapping = THREE.ACESFilmicToneMapping
     renderer.toneMappingExposure = 1.15
     renderer.outputColorSpace = THREE.SRGBColorSpace
+
+    // Explicit absolute non-blocking styles for WebGL canvas
+    renderer.domElement.style.position = 'absolute'
+    renderer.domElement.style.top = '0'
+    renderer.domElement.style.left = '0'
+    renderer.domElement.style.width = '100%'
+    renderer.domElement.style.height = '100%'
+    renderer.domElement.style.pointerEvents = 'none'
 
     container.appendChild(renderer.domElement)
 
@@ -152,25 +229,21 @@ export const GlobalCameraExperience: React.FC = () => {
     scene.add(underGlow)
 
     // 3. HIERARCHICAL RIG STRUCTURE
-    // Master Journey Group: Controlled by global scroll progress
+    const initialWaypoints = isInitialMobile ? MOBILE_WAYPOINTS : DESKTOP_WAYPOINTS
     const masterJourneyGroup = new THREE.Group()
-    masterJourneyGroup.position.set(WAYPOINTS[0].pos.x, WAYPOINTS[0].pos.y, WAYPOINTS[0].pos.z)
-    masterJourneyGroup.rotation.set(WAYPOINTS[0].rot.x, WAYPOINTS[0].rot.y, WAYPOINTS[0].rot.z)
-    masterJourneyGroup.scale.setScalar(WAYPOINTS[0].scale)
+    masterJourneyGroup.position.set(initialWaypoints[0].pos.x, initialWaypoints[0].pos.y, initialWaypoints[0].pos.z)
+    masterJourneyGroup.rotation.set(initialWaypoints[0].rot.x, initialWaypoints[0].rot.y, initialWaypoints[0].rot.z)
+    masterJourneyGroup.scale.setScalar(initialWaypoints[0].scale)
 
-    // User Offset Group: Controlled by pointer dragging (coexists relative to scroll path)
     const userOffsetGroup = new THREE.Group()
     masterJourneyGroup.add(userOffsetGroup)
 
-    // Hover / Drag Scale Group: Subtly scales on hover (1.04x) and grab (1.06x)
     const hoverScaleGroup = new THREE.Group()
     userOffsetGroup.add(hoverScaleGroup)
 
-    // Ambient Floating Group: Continuous zero-gravity rotation & floating physics
     const ambientFloatGroup = new THREE.Group()
     hoverScaleGroup.add(ambientFloatGroup)
 
-    // Model Group: Centered and normalized camera geometry
     const modelContainerGroup = new THREE.Group()
     ambientFloatGroup.add(modelContainerGroup)
 
@@ -183,7 +256,6 @@ export const GlobalCameraExperience: React.FC = () => {
       (gltf) => {
         const root = gltf.scene
 
-        // Enhance materials for tactile physical realism
         root.traverse((child) => {
           if ((child as THREE.Mesh).isMesh) {
             const mesh = child as THREE.Mesh
@@ -198,14 +270,12 @@ export const GlobalCameraExperience: React.FC = () => {
           }
         })
 
-        // Calculate bounding box and center origin
         const box = new THREE.Box3().setFromObject(root)
         const size = box.getSize(new THREE.Vector3())
         const center = box.getCenter(new THREE.Vector3())
 
         root.position.set(-center.x, -center.y, -center.z)
 
-        // Normalize baseline scale with master scale constraint
         const maxDim = Math.max(size.x, size.y, size.z)
         const normScale = (2.4 / (maxDim || 1)) * CAMERA_BASE_SCALE
         root.scale.setScalar(normScale)
@@ -218,92 +288,113 @@ export const GlobalCameraExperience: React.FC = () => {
       }
     )
 
-    // 5. GLOBAL SCROLLTRIGGER JOURNEY TIMELINE
-    const journeyTL = gsap.timeline({
-      scrollTrigger: {
-        trigger: '#main-content',
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: 1.2,
-        onUpdate: (self) => {
-          if (isDebug) {
-            const p = self.progress
-            let activeIdx = 0
-            for (let i = 0; i < WAYPOINTS.length - 1; i++) {
-              if (p >= WAYPOINTS[i].progress && p <= WAYPOINTS[i + 1].progress) {
-                activeIdx = i
-                break
+    // 5. RESPONSIVE GSAP MATCHMEDIA SCROLL JOURNEY TIMELINES
+    const mm = gsap.matchMedia()
+
+    const buildJourneyTimeline = (waypoints: typeof DESKTOP_WAYPOINTS) => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#main-content',
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 1.2,
+          onUpdate: (self) => {
+            if (isDebug) {
+              const p = self.progress
+              let activeIdx = 0
+              for (let i = 0; i < waypoints.length - 1; i++) {
+                if (p >= waypoints[i].progress && p <= waypoints[i + 1].progress) {
+                  activeIdx = i
+                  break
+                }
               }
+              const isMobile = window.innerWidth < 768
+              setDebugState({
+                viewport: `${window.innerWidth} × ${window.innerHeight}`,
+                canvasSize: `${Math.round(renderer.domElement.clientWidth)} × ${Math.round(renderer.domElement.clientHeight)}`,
+                progress: Math.round(p * 100),
+                section: waypoints[activeIdx].name,
+                pos: [
+                  Number((masterJourneyGroup.position.x + userOffsetGroup.position.x).toFixed(2)),
+                  Number((masterJourneyGroup.position.y + userOffsetGroup.position.y).toFixed(2)),
+                  Number(masterJourneyGroup.position.z.toFixed(2)),
+                ],
+                userOffset: [
+                  Number(userOffsetGroup.position.x.toFixed(2)),
+                  Number(userOffsetGroup.position.y.toFixed(2)),
+                ],
+                rot: [
+                  Number(ambientFloatGroup.rotation.x.toFixed(2)),
+                  Number(ambientFloatGroup.rotation.y.toFixed(2)),
+                  Number(ambientFloatGroup.rotation.z.toFixed(2)),
+                ],
+                scale: Number(masterJourneyGroup.scale.x.toFixed(2)),
+                responsiveMode: isMobile ? 'Mobile (9:16 Portrait)' : 'Desktop',
+                isDragging: isDraggingRef.current,
+                isHovered: isHoveredRef.current,
+                fps: 60,
+              })
             }
-            setDebugState({
-              progress: Math.round(p * 100),
-              section: WAYPOINTS[activeIdx].name,
-              pos: [
-                Number((masterJourneyGroup.position.x + userOffsetGroup.position.x).toFixed(2)),
-                Number((masterJourneyGroup.position.y + userOffsetGroup.position.y).toFixed(2)),
-                Number(masterJourneyGroup.position.z.toFixed(2)),
-              ],
-              userOffset: [
-                Number(userOffsetGroup.position.x.toFixed(2)),
-                Number(userOffsetGroup.position.y.toFixed(2)),
-              ],
-              rot: [
-                Number(ambientFloatGroup.rotation.x.toFixed(2)),
-                Number(ambientFloatGroup.rotation.y.toFixed(2)),
-                Number(ambientFloatGroup.rotation.z.toFixed(2)),
-              ],
-              scale: Number(masterJourneyGroup.scale.x.toFixed(2)),
-              isDragging: isDraggingRef.current,
-              isHovered: isHoveredRef.current,
-              fps: 60,
-            })
-          }
+          },
         },
-      },
+      })
+
+      masterJourneyGroup.position.set(waypoints[0].pos.x, waypoints[0].pos.y, waypoints[0].pos.z)
+      masterJourneyGroup.rotation.set(waypoints[0].rot.x, waypoints[0].rot.y, waypoints[0].rot.z)
+      masterJourneyGroup.scale.setScalar(waypoints[0].scale)
+
+      for (let i = 1; i < waypoints.length; i++) {
+        const prevWP = waypoints[i - 1]
+        const currWP = waypoints[i]
+        const duration = currWP.progress - prevWP.progress
+
+        tl.to(
+          masterJourneyGroup.position,
+          {
+            x: currWP.pos.x,
+            y: currWP.pos.y,
+            z: currWP.pos.z,
+            duration,
+            ease: 'power1.inOut',
+          },
+          prevWP.progress
+        )
+
+        tl.to(
+          masterJourneyGroup.rotation,
+          {
+            x: currWP.rot.x,
+            y: currWP.rot.y,
+            z: currWP.rot.z,
+            duration,
+            ease: 'power1.inOut',
+          },
+          prevWP.progress
+        )
+
+        tl.to(
+          masterJourneyGroup.scale,
+          {
+            x: currWP.scale,
+            y: currWP.scale,
+            z: currWP.scale,
+            duration,
+            ease: 'power1.inOut',
+          },
+          prevWP.progress
+        )
+      }
+
+      return tl
+    }
+
+    mm.add('(min-width: 769px)', () => {
+      buildJourneyTimeline(DESKTOP_WAYPOINTS)
     })
 
-    // Chain waypoint segments across normalized timeline duration
-    for (let i = 1; i < WAYPOINTS.length; i++) {
-      const prevWP = WAYPOINTS[i - 1]
-      const currWP = WAYPOINTS[i]
-      const duration = currWP.progress - prevWP.progress
-
-      journeyTL.to(
-        masterJourneyGroup.position,
-        {
-          x: currWP.pos.x,
-          y: currWP.pos.y,
-          z: currWP.pos.z,
-          duration,
-          ease: 'power1.inOut',
-        },
-        prevWP.progress
-      )
-
-      journeyTL.to(
-        masterJourneyGroup.rotation,
-        {
-          x: currWP.rot.x,
-          y: currWP.rot.y,
-          z: currWP.rot.z,
-          duration,
-          ease: 'power1.inOut',
-        },
-        prevWP.progress
-      )
-
-      journeyTL.to(
-        masterJourneyGroup.scale,
-        {
-          x: currWP.scale,
-          y: currWP.scale,
-          z: currWP.scale,
-          duration,
-          ease: 'power1.inOut',
-        },
-        prevWP.progress
-      )
-    }
+    mm.add('(max-width: 768px)', () => {
+      buildJourneyTimeline(MOBILE_WAYPOINTS)
+    })
 
     // 6. CONTINUOUS ZERO-G AMBIENT FLOATING & ROTATION LOOP
     const clock = new THREE.Clock()
@@ -312,7 +403,6 @@ export const GlobalCameraExperience: React.FC = () => {
     const tempWorldPos = new THREE.Vector3()
 
     const render = () => {
-      // Pause rendering if page is hidden
       if (document.hidden) {
         animationFrameId = requestAnimationFrame(render)
         return
@@ -321,20 +411,16 @@ export const GlobalCameraExperience: React.FC = () => {
       const delta = clock.getDelta()
 
       if (!prefersReducedMotion) {
-        // Only advance ambient physics when user is not physically holding/dragging the object
         if (!isDraggingRef.current) {
           ambientTime += delta
 
-          // Continuous slow rotation (~1 revolution per 35s)
           ambientFloatGroup.rotation.y = ambientTime * 0.18
 
-          // Multi-axis organic zero-gravity drift
           ambientFloatGroup.rotation.x =
             Math.sin(ambientTime * 0.35) * 0.08 + Math.cos(ambientTime * 0.17) * 0.03
           ambientFloatGroup.rotation.z =
             Math.cos(ambientTime * 0.28) * 0.06 + Math.sin(ambientTime * 0.45) * 0.02
 
-          // Weightless gentle spatial floating
           ambientFloatGroup.position.x = Math.sin(ambientTime * 0.42) * 0.08
           ambientFloatGroup.position.y = Math.cos(ambientTime * 0.55) * 0.12
           ambientFloatGroup.position.z = Math.sin(ambientTime * 0.31) * 0.06
@@ -348,13 +434,15 @@ export const GlobalCameraExperience: React.FC = () => {
         const screenX = (projected.x * 0.5 + 0.5) * window.innerWidth
         const screenY = (-(projected.y * 0.5) + 0.5) * window.innerHeight
 
-        // Calculate dynamic hit size based on depth and scale
         const dist = Math.max(0.5, camera.position.z - tempWorldPos.z)
         const vFOV = (camera.fov * Math.PI) / 180
         const visibleHeightAtDepth = 2 * Math.tan(vFOV / 2) * dist
+        const isMobile = window.innerWidth < 768
+        const minHit = isMobile ? 80 : 110
+        const maxHit = isMobile ? 150 : 220
         const hitSize = Math.max(
-          110,
-          Math.min(220, (1.2 / visibleHeightAtDepth) * window.innerHeight * masterJourneyGroup.scale.x * 2.2)
+          minHit,
+          Math.min(maxHit, (1.2 / visibleHeightAtDepth) * window.innerHeight * masterJourneyGroup.scale.x * 2.2)
         )
 
         hitProxy.style.transform = `translate3d(${screenX}px, ${screenY}px, 0) translate(-50%, -50%)`
@@ -395,7 +483,6 @@ export const GlobalCameraExperience: React.FC = () => {
 
     const handlePointerDown = (e: PointerEvent) => {
       if (!hitProxy) return
-      // Prevent horizontal scroll capture and capture pointer
       e.stopPropagation()
       try {
         hitProxy.setPointerCapture(e.pointerId)
@@ -422,7 +509,6 @@ export const GlobalCameraExperience: React.FC = () => {
       const dy = e.clientY - lastPointerRef.current.y
       lastPointerRef.current = { x: e.clientX, y: e.clientY }
 
-      // Convert 2D screen pixel delta into 3D world units at the current camera depth
       modelContainerGroup.getWorldPosition(tempWorldPos)
       const dist = Math.max(0.5, camera.position.z - tempWorldPos.z)
       const vFOV = (camera.fov * Math.PI) / 180
@@ -432,9 +518,12 @@ export const GlobalCameraExperience: React.FC = () => {
       const deltaWorldX = (dx / window.innerWidth) * visibleWidthAtDepth
       const deltaWorldY = (-dy / window.innerHeight) * visibleHeightAtDepth
 
-      // Apply to userOffsetGroup with generous boundary clamping
-      const nextX = THREE.MathUtils.clamp(userOffsetGroup.position.x + deltaWorldX, -4.5, 4.5)
-      const nextY = THREE.MathUtils.clamp(userOffsetGroup.position.y + deltaWorldY, -3.5, 3.5)
+      const isMobile = window.innerWidth < 768
+      const clampX = isMobile ? 1.2 : 4.5
+      const clampY = isMobile ? 2.5 : 3.5
+
+      const nextX = THREE.MathUtils.clamp(userOffsetGroup.position.x + deltaWorldX, -clampX, clampX)
+      const nextY = THREE.MathUtils.clamp(userOffsetGroup.position.y + deltaWorldY, -clampY, clampY)
 
       userOffsetGroup.position.x = nextX
       userOffsetGroup.position.y = nextY
@@ -452,7 +541,6 @@ export const GlobalCameraExperience: React.FC = () => {
       }
       isDraggingRef.current = false
 
-      // Smoothly return scale to normal or hover
       const targetScale = isHoveredRef.current ? 1.04 : 1.0
       gsap.to(hoverScaleGroup.scale, {
         x: targetScale,
@@ -478,6 +566,7 @@ export const GlobalCameraExperience: React.FC = () => {
       const h = window.innerHeight
       camera.aspect = w / h
       camera.updateProjectionMatrix()
+      renderer.setPixelRatio(getDPR())
       renderer.setSize(w, h)
     }
 
@@ -495,7 +584,7 @@ export const GlobalCameraExperience: React.FC = () => {
         hitProxy.removeEventListener('pointercancel', handlePointerUp)
       }
       cancelAnimationFrame(animationFrameId)
-      journeyTL.kill()
+      mm.revert()
       ScrollTrigger.getAll().forEach((st) => {
         if (st.vars.trigger === '#main-content') st.kill()
       })
@@ -515,12 +604,22 @@ export const GlobalCameraExperience: React.FC = () => {
         ref={containerRef}
         className="fixed inset-0 pointer-events-none z-[4] overflow-hidden"
         aria-hidden="true"
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: '100vw',
+          height: '100vh',
+          pointerEvents: 'none',
+        }}
       />
 
       {/* Localized Camera Hit Proxy — Only intercepts pointers directly over the camera object */}
       <div
         ref={hitProxyRef}
-        className={`fixed top-0 left-0 rounded-full z-[6] pointer-events-auto cursor-grab active:cursor-grabbing select-none touch-none ${
+        className={`fixed top-0 left-0 rounded-full z-[6] pointer-events-auto cursor-grab active:cursor-grabbing select-none ${
           isDebug
             ? 'border-2 border-dashed border-[#7C6ECD] bg-[#7C6ECD]/15 flex items-center justify-center font-mono text-[9px] text-[#7C6ECD] font-bold uppercase'
             : ''
@@ -528,6 +627,7 @@ export const GlobalCameraExperience: React.FC = () => {
         aria-label="Interactive Floating Production Camera (Drag to reposition)"
         style={{
           willChange: 'transform, width, height',
+          touchAction: 'pan-y',
         }}
       >
         {isDebug && <span>CAM HITBOX</span>}
@@ -535,23 +635,39 @@ export const GlobalCameraExperience: React.FC = () => {
 
       {/* Development Camera Trajectory & Drag Diagnostic Overlay (?cameraDebug=1) */}
       {isDebug && debugState && (
-        <div className="fixed bottom-4 left-4 z-50 rounded-lg bg-black/90 p-4 font-mono text-[11px] text-white/90 backdrop-blur-md border border-[#7C6ECD]/40 max-w-sm pointer-events-none shadow-2xl">
+        <div className="fixed bottom-4 left-4 z-50 rounded-xl bg-black/95 p-4 font-mono text-[11px] text-white/90 backdrop-blur-md border border-[#7C6ECD]/40 max-w-xs pointer-events-none shadow-2xl">
           <div className="flex items-center justify-between border-b border-white/20 pb-2 mb-2 font-bold text-[#7C6ECD]">
-            <span>CAMERA JOURNEY DEBUG</span>
+            <span>CAMERA RESPONSIVE DEBUG</span>
             <span>{debugState.progress}%</span>
           </div>
           <div className="space-y-1 text-white/80">
+            <div>
+              <span className="text-white/40">Mode: </span>
+              <span className="text-emerald-300 font-semibold">{debugState.responsiveMode}</span>
+            </div>
+            <div>
+              <span className="text-white/40">Viewport: </span>
+              <span>{debugState.viewport}</span>
+            </div>
+            <div>
+              <span className="text-white/40">Canvas Size: </span>
+              <span>{debugState.canvasSize}</span>
+            </div>
             <div>
               <span className="text-white/40">Section: </span>
               <span className="text-amber-300 font-semibold">{debugState.section}</span>
             </div>
             <div>
-              <span className="text-white/40">Total Pos (X,Y,Z): </span>
+              <span className="text-white/40">Pos (X,Y,Z): </span>
               <span>{debugState.pos.join(', ')}</span>
             </div>
             <div>
-              <span className="text-white/40">User Offset (X,Y): </span>
+              <span className="text-white/40">User Offset: </span>
               <span className="text-cyan-300 font-semibold">{debugState.userOffset.join(', ')}</span>
+            </div>
+            <div>
+              <span className="text-white/40">Scale: </span>
+              <span>{debugState.scale}x</span>
             </div>
             <div>
               <span className="text-white/40">Dragging: </span>
@@ -559,18 +675,8 @@ export const GlobalCameraExperience: React.FC = () => {
                 {debugState.isDragging ? 'YES (Ambient Paused)' : 'NO'}
               </span>
             </div>
-            <div>
-              <span className="text-white/40">Hovered: </span>
-              <span className={debugState.isHovered ? 'text-violet-300' : 'text-white/50'}>
-                {debugState.isHovered ? 'YES' : 'NO'}
-              </span>
-            </div>
-            <div>
-              <span className="text-white/40">Scale: </span>
-              <span>{debugState.scale}x (Base: {CAMERA_BASE_SCALE})</span>
-            </div>
             <div className="pt-1 text-[10px] text-emerald-400 border-t border-white/10 mt-1">
-              ● Grabbable 3D Object Coexisting with Global Scroll
+              ● Pin-Spacers: 0px (Independent Layer)
             </div>
           </div>
         </div>
