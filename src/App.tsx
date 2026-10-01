@@ -1,5 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLenis } from "./hooks/useLenis";
+
+gsap.registerPlugin(ScrollTrigger);
 import { CustomCursor } from "./components/common/CustomCursor";
 import { Preloader } from "./components/common/Preloader";
 import { Navbar } from "./components/navigation/Navbar";
@@ -22,6 +26,16 @@ export function App() {
 
   // Initialize smooth scrolling with Lenis + GSAP ScrollTrigger sync
   useLenis(true);
+
+  // Recalculate ScrollTrigger markers after preloader finishes and DOM settles
+  useEffect(() => {
+    if (isIntroComplete) {
+      const timer = setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [isIntroComplete]);
 
   return (
     <div className="relative min-h-screen w-full bg-[#050505] text-[#F4F2ED] antialiased overflow-x-hidden selection:bg-[#7C6ECD] selection:text-[#F4F2ED]">

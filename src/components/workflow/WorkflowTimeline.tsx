@@ -8,49 +8,93 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function WorkflowTimeline() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const timelineWrapperRef = useRef<HTMLDivElement>(null);
   const beamRef = useRef<HTMLDivElement>(null);
+  const beamHeadRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || !timelineWrapperRef.current) return;
 
     const ctx = gsap.context(() => {
-      // Tracing beam progress line tracking scroll through workflow
-      if (beamRef.current) {
+      // 1. Tracing beam progress line tracking scroll through workflow timeline
+      if (beamRef.current && timelineWrapperRef.current) {
         gsap.fromTo(
           beamRef.current,
-          { height: "0%" },
+          { scaleY: 0 },
           {
-            height: "100%",
+            scaleY: 1,
             ease: "none",
             scrollTrigger: {
-              trigger: containerRef.current,
-              start: "top 60%",
-              end: "bottom 80%",
-              scrub: true,
+              trigger: timelineWrapperRef.current,
+              start: "top 75%",
+              end: "bottom 75%",
+              scrub: 0.3,
+              onUpdate: (self) => {
+                if (beamHeadRef.current && timelineWrapperRef.current) {
+                  const progress = self.progress;
+                  const wrapperHeight = timelineWrapperRef.current.offsetHeight;
+                  const currentY = progress * wrapperHeight;
+                  gsap.set(beamHeadRef.current, {
+                    y: currentY,
+                    opacity: progress > 0.005 ? 1 : 0,
+                  });
+                }
+              },
             },
           }
         );
       }
 
-      // Step cards entrance stagger
-      const steps = gsap.utils.toArray<HTMLElement>(".workflow-step-node");
-      steps.forEach((step) => {
-        gsap.fromTo(
-          step,
-          { opacity: 0.25, y: 30 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: step,
-              start: "top 78%",
-              end: "top 45%",
-              scrub: 0.5,
-            },
-          }
-        );
+      // 2. Section Header entrance
+      gsap.fromTo(
+        ".workflow-header-anim",
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 80%",
+          },
+        }
+      );
+
+      // 3. Step cards entrance stagger & milestone node activation
+      const stepNodes = gsap.utils.toArray<HTMLElement>(".workflow-step-node");
+      stepNodes.forEach((node) => {
+        const milestone = node.querySelector<HTMLElement>(".step-milestone");
+        const card = node.querySelector<HTMLElement>(".step-card");
+
+        if (card) {
+          gsap.fromTo(
+            card,
+            { opacity: 0.35, y: 40, scale: 0.98 },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.7,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: node,
+                start: "top 82%",
+                end: "top 48%",
+                scrub: 0.5,
+              },
+            }
+          );
+        }
+
+        if (milestone) {
+          ScrollTrigger.create({
+            trigger: node,
+            start: "top 75%",
+            end: "bottom 25%",
+            toggleClass: { targets: milestone, className: "is-active-milestone" },
+          });
+        }
       });
     }, containerRef);
 
@@ -65,7 +109,7 @@ export function WorkflowTimeline() {
     >
       <div className="max-w-7xl mx-auto w-full">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10 border-b border-[#F4F2ED]/12">
+        <div className="workflow-header-anim flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10 border-b border-[#F4F2ED]/12">
           <div>
             <div className="flex items-center gap-3 font-mono text-[10px] sm:text-xs uppercase tracking-widest text-[#F4F2ED]/50 mb-2.5">
               <span className="h-2 w-2 rounded-full bg-emerald-400" />
@@ -87,14 +131,22 @@ export function WorkflowTimeline() {
         </div>
 
         {/* Tracing Beam Vertical Timeline */}
-        <div className="relative mt-12 md:mt-16 pl-6 sm:pl-12 md:pl-20">
+        <div ref={timelineWrapperRef} className="relative mt-12 md:mt-16 pl-6 sm:pl-12 md:pl-20">
           {/* Static track line */}
           <div className="absolute left-2 sm:left-4 md:left-6 top-0 bottom-0 w-[2px] bg-[#F4F2ED]/10" />
 
           {/* Glowing Animated Tracing Beam */}
           <div
             ref={beamRef}
-            className="absolute left-2 sm:left-4 md:left-6 top-0 w-[2px] bg-gradient-to-b from-[#7C6ECD] via-indigo-400 to-[#7C6ECD]/80 shadow-[0_0_12px_rgba(124,110,205,0.6)] origin-top will-change-transform"
+            className="absolute left-2 sm:left-4 md:left-6 top-0 bottom-0 w-[2px] bg-gradient-to-b from-[#7C6ECD] via-indigo-400 to-[#7C6ECD] shadow-[0_0_14px_rgba(124,110,205,0.7)] origin-top will-change-transform"
+            style={{ transform: "scaleY(0)" }}
+          />
+
+          {/* Glowing Leading Laser Head */}
+          <div
+            ref={beamHeadRef}
+            className="absolute left-2 sm:left-4 md:left-6 top-0 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-[#7C6ECD] shadow-[0_0_16px_#7C6ECD,0_0_24px_rgba(124,110,205,0.8)] pointer-events-none will-change-transform z-10"
+            style={{ opacity: 0 }}
           />
 
           {/* Timeline Nodes */}
@@ -105,14 +157,14 @@ export function WorkflowTimeline() {
                 className="workflow-step-node relative group"
               >
                 {/* Node Milestone Indicator */}
-                <div className="absolute -left-[30px] sm:-left-[46px] md:-left-[70px] top-1.5 flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-[#08080A] border-2 border-[#7C6ECD]/80 shadow-[0_0_14px_rgba(124,110,205,0.35)] group-hover:scale-125 transition-transform duration-300">
-                  <span className="font-mono text-[10px] font-bold text-[#7C6ECD]">
+                <div className="step-milestone absolute -left-[30px] sm:-left-[46px] md:-left-[70px] top-1.5 flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-[#08080A] border-2 border-[#7C6ECD]/60 text-[#7C6ECD] transition-all duration-300 group-hover:scale-125">
+                  <span className="font-mono text-[10px] font-bold">
                     {step.step}
                   </span>
                 </div>
 
                 {/* Card Container */}
-                <div className="rounded-xl bg-[#111114] border border-[#F4F2ED]/10 p-5 sm:p-7 md:p-8 transition-all duration-300 hover:border-[#7C6ECD]/40 hover:bg-[#15151A]">
+                <div className="step-card rounded-xl bg-[#111114] border border-[#F4F2ED]/10 p-5 sm:p-7 md:p-8 transition-all duration-300 hover:border-[#7C6ECD]/40 hover:bg-[#15151A] will-change-transform">
                   <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 border-b border-[#F4F2ED]/10">
                     <div>
                       <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#7C6ECD]/80 mb-1">
