@@ -56,7 +56,7 @@ export function Navbar({ onOpenProjectModal }: NavbarProps) {
               SA PRODUCTION
             </span>
             <span className="hidden lg:inline-block font-mono text-[9px] uppercase tracking-widest text-[#F4F2ED]/40 border-l border-[#F4F2ED]/15 pl-2.5">
-              EST. KANPUR
+              EST. VARANASI
             </span>
           </a>
 

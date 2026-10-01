@@ -16,7 +16,7 @@ export function ProjectInquiryModal({ isOpen, onClose }: ProjectInquiryModalProp
     email: "",
     phone: "",
     eventType: "WEDDINGS",
-    city: "Kanpur",
+    city: "Varanasi",
     date: "",
     estimatedScope: "FULL_PRODUCTION",
     notes: "",
@@ -68,7 +68,7 @@ export function ProjectInquiryModal({ isOpen, onClose }: ProjectInquiryModalProp
               DISPATCH BRIEF RECEIVED
             </h3>
             <p className="mt-3 text-sm text-[#F4F2ED]/70 max-w-md font-sans">
-              Our technical direction desk in Kanpur will review venue parameters and power requirements, and contact you directly via phone / WhatsApp.
+              Our technical direction desk in Varanasi will review venue parameters and power requirements, and contact you directly via phone / WhatsApp.
             </p>
             <div className="mt-8">
               <MagneticButton

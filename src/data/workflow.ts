@@ -54,7 +54,7 @@ export const workflowSteps: WorkflowStep[] = [
     phase: "DISPATCH",
     title: "EQUIPMENT PREPARATION",
     category: "HARDWARE",
-    description: "Inside our central tech depot in Kanpur, assets are pulled, tested, serialized, firmware-checked, and packed into shockproof road flight cases.",
+    description: "Inside our central tech depot in Varanasi, assets are pulled, tested, serialized, firmware-checked, and packed into shockproof road flight cases.",
     checklist: [
       "Firmware updates & master console testing",
       "Cable continuity & RF antenna bench tests",

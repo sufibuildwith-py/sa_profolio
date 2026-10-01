@@ -33,7 +33,7 @@ export function ToolkitArchive() {
           </div>
           <div className="max-w-md">
             <p className="font-sans text-xs sm:text-sm text-[#F4F2ED]/70 leading-relaxed">
-              Every asset is owned, serialized, firmware-locked, and flight-cased in our central Kanpur tech warehouse.
+              Every asset is owned, serialized, firmware-locked, and flight-cased in our central Varanasi tech warehouse.
             </p>
             <p className="mt-1.5 font-mono text-[10px] sm:text-xs text-cyan-400 uppercase tracking-widest">
               ZERO SUB-RENTAL UNCERTAINTY
@@ -153,7 +153,7 @@ export function ToolkitArchive() {
             <div className="mt-6 pt-4 border-t border-[#F4F2ED]/10 flex items-center justify-between font-mono text-[11px] text-[#F4F2ED]/50">
               <span className="flex items-center gap-1.5">
                 <HardDrive className="h-3.5 w-3.5" />
-                DEPOT KANPUR · BAY 04
+                DEPOT VARANASI · BAY 04
               </span>
               <span className="flex items-center gap-1.5 text-indigo-300">
                 <ShieldAlert className="h-3.5 w-3.5" />

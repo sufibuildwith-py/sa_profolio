@@ -51,7 +51,7 @@ export function OperationalScale() {
     {
       number: "INDIA",
       label: "MULTI-CITY OPERATIONS",
-      detail: "Central logistics depot in Kanpur with mobile production crews deployed nationwide.",
+      detail: "Central logistics depot in Varanasi with mobile production crews deployed nationwide.",
       icon: MapPin,
     },
     {
@@ -137,7 +137,7 @@ export function OperationalScale() {
               CENTRAL DEPOT LOGISTICS & DEPLOYMENT SCOPE
             </span>
             <span className="text-[#F4F2ED]/40 text-[11px]">
-              KANPUR HEADQUARTERS // {siteConfig.headquarters.coordinates}
+              VARANASI HEADQUARTERS // {siteConfig.headquarters.coordinates}
             </span>
           </div>
 

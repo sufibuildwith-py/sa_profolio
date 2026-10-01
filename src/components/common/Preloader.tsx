@@ -72,7 +72,7 @@ export function Preloader({ onComplete }: PreloaderProps) {
           <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#7C6ECD] animate-pulse" />
           SYSTEM BOOT // SA EXECUTION CORE
         </span>
-        <span>KANPUR · INDIA</span>
+        <span>VARANASI · INDIA</span>
       </div>
 
       {/* Center Cinematic Typography */}

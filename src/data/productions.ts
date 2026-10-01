@@ -390,7 +390,7 @@ export const selectedProductions: ProductionCaseStudy[] = [
     category: "CONFERENCES",
     date: "24-11-2026",
     venue: "University Auditorium",
-    location: "Kanpur, Uttar Pradesh",
+    location: "Varanasi, Uttar Pradesh",
     priority: "NORMAL",
     equipmentSummary: "3 Cameras · LED Wall · Audio Kit · Multi-Cam Record",
     equipmentBreakdown: {
@@ -412,10 +412,10 @@ export const selectedProductions: ProductionCaseStudy[] = [
       "Keynote presentation resolution and aspect check",
       "Chancellor and dignitary lapel mic soundchecks",
       "Continuous archive recording to dual NVMe drives",
-      "Kanpur home-base dispatch & logistics verification"
+      "Varanasi home-base dispatch & logistics verification"
     ],
     timeWindow: "08:00 – 18:00 IST",
-    summary: "Flagship educational convocation at home base in Kanpur. Flawless acoustic reproduction across a historic 1,500-seat amphitheater hall.",
+    summary: "Flagship educational convocation at home base in Varanasi. Flawless acoustic reproduction across a historic 1,500-seat amphitheater hall.",
     image: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1600&q=80",
     imageAlt: "University amphitheater hall with stage and lighting"
   }

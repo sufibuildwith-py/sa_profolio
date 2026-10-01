@@ -1,6 +1,6 @@
 # SA PRODUCTION — Premium Cinematic Portfolio
 
-A dark luxury cinematic portfolio website built from scratch for **SA Production**, an Indian event and production house based in Kanpur, Uttar Pradesh, with pan-India mobilization.
+A dark luxury cinematic portfolio website built from scratch for **SA Production**, an Indian event and production house based in Varanasi, Uttar Pradesh, with pan-India mobilization.
 
 Designed to communicate scale, technical discipline, hardware custody, and flawless live execution.
 
