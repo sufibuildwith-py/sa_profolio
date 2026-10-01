@@ -201,7 +201,7 @@ export const WebGLRippleTransition = forwardRef<
         : Math.round(62 * dpr)
 
       ctx1.font = `italic 400 ${quoteFontSize}px Instrument Serif, Georgia, Times, serif`
-      ctx1.fillStyle = '#E8E4FD'
+      ctx1.fillStyle = '#514691'
       ctx1.textBaseline = 'top'
 
       const lineSpacing = quoteFontSize * 1.25
@@ -211,12 +211,12 @@ export const WebGLRippleTransition = forwardRef<
       if (isMobile) {
         ctx1.fillText('Hum sirf mehfil', startX, startY)
         ctx1.fillText('nahin sanwārte,', startX, startY + lineSpacing)
-        ctx1.fillStyle = '#FFFFFF'
+        ctx1.fillStyle = '#09090C'
         ctx1.fillText('lamhon ko yaadgaar', startX, startY + lineSpacing * 2)
         ctx1.fillText('banate hain.', startX, startY + lineSpacing * 3)
       } else {
         ctx1.fillText('Hum sirf mehfil nahin sanwārte,', startX, startY)
-        ctx1.fillStyle = '#FFFFFF'
+        ctx1.fillStyle = '#09090C'
         ctx1.fillText('lamhon ko yaadgaar banate hain.', startX, startY + lineSpacing)
       }
     }
@@ -239,7 +239,7 @@ export const WebGLRippleTransition = forwardRef<
         : Math.round(108 * dpr)
 
       ctx2.font = `800 ${brandFontSize}px Inter Tight, Manrope, -apple-system, sans-serif`
-      ctx2.fillStyle = '#FFFFFF'
+      ctx2.fillStyle = '#09090C'
       ctx2.textBaseline = 'top'
 
       const startX = Math.round(Math.max(24, width * 0.042) * dpr)
@@ -249,7 +249,7 @@ export const WebGLRippleTransition = forwardRef<
 
       const subFontSize = isMobile ? Math.round(16 * dpr) : Math.round(24 * dpr)
       ctx2.font = `italic 400 ${subFontSize}px Instrument Serif, Georgia, Times, serif`
-      ctx2.fillStyle = 'rgba(244, 241, 232, 0.90)'
+      ctx2.fillStyle = '#514691'
       ctx2.fillText('Bring Life to Your Event', startX, startY + brandFontSize * 1.15)
     }
 

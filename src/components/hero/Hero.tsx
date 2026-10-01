@@ -130,7 +130,7 @@ export const Hero: React.FC = () => {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative w-full bg-transparent text-white overflow-hidden"
+      className="relative w-full bg-[#F4F1E8] text-[#09090C] overflow-hidden"
       aria-label="Hero Section"
     >
       {/* Pinned Viewport Container with Transparent Glass Styling */}
@@ -138,16 +138,16 @@ export const Hero: React.FC = () => {
         ref={pinFrameRef}
         className="relative flex h-[100svh] w-full flex-col justify-between overflow-hidden glass-gloss"
       >
-        {/* Transparent Smoked Glass Background Layer with Backdrop Blur & Subtle Radial Depth */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#09090C]/45 via-[#09090C]/30 to-[#09090C]/55 backdrop-blur-xl -z-10" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_75%_50%_at_40%_25%,rgba(124,110,205,0.16),transparent_70%)] pointer-events-none -z-10" />
-        <div className="grain-overlay-dark pointer-events-none absolute inset-0 opacity-20 mix-blend-overlay z-0" />
+        {/* Transparent Off-White Glass Material Layer with Inset Highlights & Subtle Violet Tint */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[rgba(124,110,205,0.065)] via-[rgba(9,9,12,0.025)] to-[rgba(124,110,205,0.04)] backdrop-blur-xl -z-10" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_75%_50%_at_35%_25%,rgba(124,110,205,0.12),transparent_70%)] pointer-events-none -z-10" />
+        <div className="grain-overlay pointer-events-none absolute inset-0 opacity-20 mix-blend-multiply z-0" />
 
         {/* Top Header Location Eyebrow */}
         <div className="relative z-10 pt-16 sm:pt-20 md:pt-22 px-6 sm:px-10 lg:px-16 flex items-center justify-between">
           <div
             ref={eyebrowRef}
-            className="flex items-center gap-2 font-mono text-[10px] sm:text-xs tracking-[0.25em] uppercase text-white/75"
+            className="flex items-center gap-2 font-mono text-[10px] sm:text-xs tracking-[0.25em] uppercase text-[#09090C]/65"
           >
             <span className="flex h-2 w-2 relative">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7C6ECD] opacity-75" />
@@ -178,7 +178,7 @@ export const Hero: React.FC = () => {
 
           <MagneticButton
             href="#productions"
-            className="h-11 sm:h-13 rounded-full glass-dark-interactive px-5 sm:px-7 text-xs sm:text-sm font-medium uppercase tracking-wider text-white hover:border-white/40 transition-all"
+            className="h-11 sm:h-13 rounded-full glass-light-interactive px-5 sm:px-7 text-xs sm:text-sm font-medium uppercase tracking-wider text-[#09090C] hover:border-[#7C6ECD]/40 transition-all"
           >
             <span>View Selected Work</span>
             <ArrowDown className="ml-2 h-4 w-4 text-[#7C6ECD]" />
@@ -188,29 +188,29 @@ export const Hero: React.FC = () => {
           {/* Preserved Bottom Hero Ribbon Bar */}
           <div
             ref={bottomBarRef}
-            className="relative z-10 glass-dark border-t border-hairline-dark px-6 sm:px-10 lg:px-14 py-3.5 flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono tracking-widest text-white/65"
+            className="relative z-10 glass-light border-t border-hairline px-6 sm:px-10 lg:px-14 py-3.5 flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono tracking-widest text-[#09090C]/65"
           >
             <div className="flex flex-wrap items-center gap-4 sm:gap-8">
-              <span className="flex items-center gap-1.5 text-white/90">
+              <span className="flex items-center gap-1.5 text-[#09090C]/90">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#7C6ECD]" /> SOUND
               </span>
-              <span className="flex items-center gap-1.5 text-white/90">
+              <span className="flex items-center gap-1.5 text-[#09090C]/90">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#7C6ECD]" /> LIGHTING
               </span>
-              <span className="flex items-center gap-1.5 text-white/90">
+              <span className="flex items-center gap-1.5 text-[#09090C]/90">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#7C6ECD]" /> STAGE
               </span>
-              <span className="flex items-center gap-1.5 text-white/90">
+              <span className="flex items-center gap-1.5 text-[#09090C]/90">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#7C6ECD]" /> LED / VISUALS
               </span>
-              <span className="hidden sm:inline-flex items-center gap-1.5 text-white/90">
+              <span className="hidden sm:inline-flex items-center gap-1.5 text-[#09090C]/90">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#7C6ECD]" /> CAMERA & CREW
               </span>
             </div>
 
             <div className="flex items-center gap-2 text-[#7C6ECD]">
               <span>●</span>
-              <span className="text-white/80">VARANASI PRODUCTION DESK</span>
+              <span className="text-[#09090C]/80">VARANASI PRODUCTION DESK</span>
             </div>
           </div>
       </div>
