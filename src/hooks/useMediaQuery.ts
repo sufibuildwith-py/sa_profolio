@@ -1,29 +1,28 @@
 import { useEffect, useState } from "react";
 
 export function useMediaQuery(query: string): boolean {
-  const [matches, setMatches] = useState(false);
+  const [matches, setMatches] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia(query).matches;
+  });
 
   useEffect(() => {
     const media = window.matchMedia(query);
-    if (media.matches !== matches) {
-      setMatches(media.matches);
-    }
     const listener = (e: MediaQueryListEvent) => setMatches(e.matches);
     media.addEventListener("change", listener);
     return () => media.removeEventListener("change", listener);
-  }, [matches, query]);
+  }, [query]);
 
   return matches;
 }
 
 export function useIsTouchDevice(): boolean {
-  const [isTouch, setIsTouch] = useState(false);
-
-  useEffect(() => {
+  const [isTouch] = useState(() => {
+    if (typeof window === "undefined") return false;
     const hasCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
     const hasTouchPoints = "ontouchstart" in window || navigator.maxTouchPoints > 0;
-    setIsTouch(hasCoarsePointer || hasTouchPoints);
-  }, []);
+    return hasCoarsePointer || hasTouchPoints;
+  });
 
   return isTouch;
 }

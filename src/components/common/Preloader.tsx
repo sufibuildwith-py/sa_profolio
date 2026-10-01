@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import gsap from "gsap";
 
 interface PreloaderProps {
@@ -11,7 +11,7 @@ export function Preloader({ onComplete }: PreloaderProps) {
   const hasExitedRef = useRef(false);
 
   // Execute exit animation safely when ready
-  const triggerExit = () => {
+  const triggerExit = useCallback(() => {
     if (hasExitedRef.current) return;
     hasExitedRef.current = true;
     setDisplayProgress(100);
@@ -46,7 +46,7 @@ export function Preloader({ onComplete }: PreloaderProps) {
       },
       "-=0.1"
     );
-  };
+  }, [onComplete]);
 
   useEffect(() => {
     // Snappy loading progression
@@ -58,7 +58,7 @@ export function Preloader({ onComplete }: PreloaderProps) {
     ];
 
     return () => timers.forEach(clearTimeout);
-  }, []);
+  }, [triggerExit]);
 
   return (
     <div

@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { siteConfig } from "../../data/siteConfig";
 import { MagneticButton } from "../common/MagneticButton";
+import { HeroVideoBackground } from "./HeroVideoBackground";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -102,10 +103,8 @@ export function Hero({ onOpenProjectModal, isReady }: HeroProps) {
       id="hero"
       className="relative min-h-[100dvh] w-full flex flex-col justify-between overflow-hidden bg-[#050505] px-6 sm:px-10 md:px-16 pt-24 sm:pt-28 md:pt-32 pb-8 sm:pb-10 select-none"
     >
-      {/* Atmospheric Stage Lighting Gradients (Navy / Violet Production Tone) */}
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_75%_50%_at_50%_-5%,rgba(124,110,205,0.09),transparent_65%)] pointer-events-none" />
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_85%_65%,rgba(56,189,248,0.04),transparent_50%)] pointer-events-none" />
-      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#050505] via-[#050505]/70 to-transparent pointer-events-none z-1" />
+      {/* Real Cinematic Production Video Background */}
+      <HeroVideoBackground />
 
       {/* Top Status & Technical Metadata */}
       <div

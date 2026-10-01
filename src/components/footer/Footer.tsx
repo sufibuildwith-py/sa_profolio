@@ -1,6 +1,8 @@
 import { ArrowUp } from "lucide-react";
 import { siteConfig } from "../../data/siteConfig";
 
+const CURRENT_YEAR = new Date().getFullYear();
+
 export function Footer() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -132,7 +134,7 @@ export function Footer() {
         {/* Bottom Bar: Copyright & Compliance */}
         <div className="pt-8 border-t border-[#F4F2ED]/10 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-[10px] uppercase tracking-widest text-[#F4F2ED]/40">
           <span>
-            © {new Date().getFullYear()} SA PRODUCTION. ALL RIGHTS RESERVED.
+            © {CURRENT_YEAR} SA PRODUCTION. ALL RIGHTS RESERVED.
           </span>
           <span className="flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
