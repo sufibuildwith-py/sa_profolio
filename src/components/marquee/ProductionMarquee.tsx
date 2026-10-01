@@ -67,19 +67,19 @@ export function ProductionMarquee() {
   return (
     <div
       ref={marqueeRef}
-      className="relative w-full py-16 md:py-24 bg-[#070709] border-y border-[#F4F2ED]/10 overflow-hidden select-none"
+      className="relative w-full py-10 md:py-14 bg-[#070709] border-y border-[#F4F2ED]/10 overflow-hidden select-none"
       aria-hidden="true"
     >
       {/* Row 1 */}
       <div
         ref={row1Ref}
-        className="flex whitespace-nowrap will-change-transform font-display font-black text-4xl sm:text-6xl md:text-7xl uppercase tracking-tighter text-[#F4F2ED]/15 hover:text-[#F4F2ED]/30 transition-colors"
+        className="flex whitespace-nowrap will-change-transform font-display font-black text-2xl sm:text-4xl md:text-5xl uppercase tracking-tighter text-[#F4F2ED]/15 hover:text-[#F4F2ED]/30 transition-colors"
       >
         {Array.from({ length: 4 }).flatMap((_, i) =>
           keywordsRow1.map((kw, idx) => (
-            <span key={`${i}-${idx}`} className="inline-flex items-center gap-6 md:gap-10 mr-6 md:mr-10">
+            <span key={`${i}-${idx}`} className="inline-flex items-center gap-4 md:gap-8 mr-4 md:mr-8">
               <span>{kw}</span>
-              <span className="text-[#E10600]/40 text-2xl sm:text-4xl">·</span>
+              <span className="text-[#7C6ECD]/40 text-xl sm:text-3xl">·</span>
             </span>
           ))
         )}
@@ -88,13 +88,13 @@ export function ProductionMarquee() {
       {/* Row 2 (Alternating direction & styling) */}
       <div
         ref={row2Ref}
-        className="flex whitespace-nowrap will-change-transform font-serif italic text-3xl sm:text-5xl md:text-6xl text-[#F4F2ED]/10 mt-3 md:mt-5"
+        className="flex whitespace-nowrap will-change-transform font-serif italic text-xl sm:text-3xl md:text-4xl text-[#F4F2ED]/10 mt-2 md:mt-3"
       >
         {Array.from({ length: 4 }).flatMap((_, i) =>
           keywordsRow2.map((kw, idx) => (
-            <span key={`${i}-${idx}`} className="inline-flex items-center gap-6 md:gap-10 mr-6 md:mr-10">
+            <span key={`${i}-${idx}`} className="inline-flex items-center gap-4 md:gap-8 mr-4 md:mr-8">
               <span className="tracking-tight">{kw}</span>
-              <span className="text-cyan-400/30 text-xl sm:text-3xl font-sans not-italic">/</span>
+              <span className="text-cyan-400/30 text-lg sm:text-2xl font-sans not-italic">/</span>
             </span>
           ))
         )}

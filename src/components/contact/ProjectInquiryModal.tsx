@@ -85,18 +85,18 @@ export function ProjectInquiryModal({ isOpen, onClose }: ProjectInquiryModalProp
           </div>
         ) : (
           <div>
-            <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#E10600] mb-2">
-              <span className="h-2 w-2 rounded-full bg-[#E10600] animate-pulse" />
+            <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#7C6ECD] mb-2">
+              <span className="h-2 w-2 rounded-full bg-[#7C6ECD] animate-pulse" />
               <span>DIRECT DISPATCH DESK // PROJECT BRIEF</span>
             </div>
-            <h2 className="font-display font-black text-2xl sm:text-4xl uppercase tracking-tight text-[#F4F2ED]">
+            <h2 className="font-display font-black text-2xl sm:text-3xl uppercase tracking-tight text-[#F4F2ED]">
               INITIATE PRODUCTION
             </h2>
             <p className="mt-2 text-xs sm:text-sm text-[#F4F2ED]/60 font-sans">
               Provide technical scope parameters. We respond with initial gear manifest and technical feasibility within hours.
             </p>
 
-            <form onSubmit={handleSubmit} className="mt-8 space-y-5 font-mono text-xs">
+            <form onSubmit={handleSubmit} className="mt-6 space-y-4 font-mono text-xs">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[10px] uppercase tracking-wider text-[#F4F2ED]/50 mb-1.5">
@@ -108,7 +108,7 @@ export function ProjectInquiryModal({ isOpen, onClose }: ProjectInquiryModalProp
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="e.g. Rohan Sharma"
-                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-3 text-[#F4F2ED] placeholder:text-[#F4F2ED]/25 focus:border-[#E10600] focus:outline-none"
+                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-2.5 text-[#F4F2ED] placeholder:text-[#F4F2ED]/25 focus:border-[#7C6ECD] focus:outline-none"
                   />
                 </div>
 
@@ -121,7 +121,7 @@ export function ProjectInquiryModal({ isOpen, onClose }: ProjectInquiryModalProp
                     value={formData.clientOrCompany}
                     onChange={(e) => setFormData({ ...formData, clientOrCompany: e.target.value })}
                     placeholder="e.g. Sharma Family / Acme Tech"
-                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-3 text-[#F4F2ED] placeholder:text-[#F4F2ED]/25 focus:border-[#E10600] focus:outline-none"
+                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-2.5 text-[#F4F2ED] placeholder:text-[#F4F2ED]/25 focus:border-[#7C6ECD] focus:outline-none"
                   />
                 </div>
               </div>
@@ -137,7 +137,7 @@ export function ProjectInquiryModal({ isOpen, onClose }: ProjectInquiryModalProp
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="+91 90000 00000"
-                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-3 text-[#F4F2ED] placeholder:text-[#F4F2ED]/25 focus:border-[#E10600] focus:outline-none"
+                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-2.5 text-[#F4F2ED] placeholder:text-[#F4F2ED]/25 focus:border-[#7C6ECD] focus:outline-none"
                   />
                 </div>
 
@@ -151,7 +151,7 @@ export function ProjectInquiryModal({ isOpen, onClose }: ProjectInquiryModalProp
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="client@example.com"
-                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-3 text-[#F4F2ED] placeholder:text-[#F4F2ED]/25 focus:border-[#E10600] focus:outline-none"
+                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-2.5 text-[#F4F2ED] placeholder:text-[#F4F2ED]/25 focus:border-[#7C6ECD] focus:outline-none"
                   />
                 </div>
               </div>
@@ -164,7 +164,7 @@ export function ProjectInquiryModal({ isOpen, onClose }: ProjectInquiryModalProp
                   <select
                     value={formData.eventType}
                     onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
-                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-3 text-[#F4F2ED] focus:border-[#E10600] focus:outline-none"
+                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-2.5 text-[#F4F2ED] focus:border-[#7C6ECD] focus:outline-none"
                   >
                     <option value="WEDDINGS">Weddings & Sangeet</option>
                     <option value="CORPORATE">Corporate Summit</option>
@@ -185,7 +185,7 @@ export function ProjectInquiryModal({ isOpen, onClose }: ProjectInquiryModalProp
                     value={formData.city}
                     onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                     placeholder="e.g. Bengaluru, Mumbai"
-                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-3 text-[#F4F2ED] placeholder:text-[#F4F2ED]/25 focus:border-[#E10600] focus:outline-none"
+                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-2.5 text-[#F4F2ED] placeholder:text-[#F4F2ED]/25 focus:border-[#7C6ECD] focus:outline-none"
                   />
                 </div>
 
@@ -197,7 +197,7 @@ export function ProjectInquiryModal({ isOpen, onClose }: ProjectInquiryModalProp
                     type="date"
                     value={formData.date}
                     onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-3 text-[#F4F2ED] focus:border-[#E10600] focus:outline-none"
+                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-2.5 text-[#F4F2ED] focus:border-[#7C6ECD] focus:outline-none"
                   />
                 </div>
               </div>
@@ -211,18 +211,18 @@ export function ProjectInquiryModal({ isOpen, onClose }: ProjectInquiryModalProp
                   value={formData.notes}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                   placeholder="Mention required cameras, LED screen sizes, audio channel count, venue specs..."
-                  className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-3 text-[#F4F2ED] placeholder:text-[#F4F2ED]/25 focus:border-[#E10600] focus:outline-none resize-none"
+                  className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-2.5 text-[#F4F2ED] placeholder:text-[#F4F2ED]/25 focus:border-[#7C6ECD] focus:outline-none resize-none"
                 />
               </div>
 
-              <div className="pt-4 flex items-center justify-between">
+              <div className="pt-3 flex items-center justify-between">
                 <span className="text-[10px] text-[#F4F2ED]/40">
                   DIRECT LINE: {siteConfig.contact.phone}
                 </span>
                 <MagneticButton
                   type="submit"
                   variant="primary"
-                  className="text-xs px-8 py-3.5"
+                  className="text-xs px-7 py-3"
                 >
                   <span>SUBMIT DISPATCH BRIEF</span>
                   <Send className="h-3.5 w-3.5" />

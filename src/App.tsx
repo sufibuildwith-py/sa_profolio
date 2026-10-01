@@ -24,7 +24,7 @@ export function App() {
   useLenis(true);
 
   return (
-    <div className="relative min-h-screen w-full bg-[#050505] text-[#F4F2ED] antialiased overflow-x-hidden selection:bg-[#E10600] selection:text-[#F4F2ED]">
+    <div className="relative min-h-screen w-full bg-[#050505] text-[#F4F2ED] antialiased overflow-x-hidden selection:bg-[#7C6ECD] selection:text-[#F4F2ED]">
       {/* Subtle Cinematic Film Grain Texture */}
       <div className="grain-overlay" aria-hidden="true" />
 

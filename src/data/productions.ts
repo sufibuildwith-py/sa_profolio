@@ -57,9 +57,9 @@ export const productionWorlds: ProductionWorld[] = [
       "Ultra-Quiet Generator Sync"
     ],
     keySpecs: ["Zero Audio Delay", "CRI > 96 Lighting", "Multi-Zone Sound FOH"],
-    backdropMood: "ambient-red",
-    accentColor: "#E10600",
-    bgGradient: "from-red-950/30 via-neutral-950 to-black"
+    backdropMood: "ambient-violet",
+    accentColor: "#7C6ECD",
+    bgGradient: "from-indigo-950/30 via-neutral-950 to-black"
   },
   {
     id: "corporate",
@@ -171,9 +171,9 @@ export const productionWorlds: ProductionWorld[] = [
       "Dedicated Floor Audio Engineering"
     ],
     keySpecs: ["Pure Harmonic Resonance", "Warm 3200K Glow", "Ultra-Low Noise Floor"],
-    backdropMood: "rich-ruby",
-    accentColor: "#E10600",
-    bgGradient: "from-red-950/20 via-neutral-950 to-black"
+    backdropMood: "rich-indigo",
+    accentColor: "#818CF8",
+    bgGradient: "from-indigo-950/20 via-neutral-950 to-black"
   },
   {
     id: "commercial",

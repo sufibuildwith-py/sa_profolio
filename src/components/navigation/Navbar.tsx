@@ -50,7 +50,7 @@ export function Navbar({ onOpenProjectModal }: NavbarProps) {
             data-cursor="TOP"
           >
             <span className="flex h-3 w-3 items-center justify-center">
-              <span className="h-2 w-2 rounded-full bg-[#E10600] group-hover:scale-125 transition-transform" />
+              <span className="h-2 w-2 rounded-full bg-[#7C6ECD] group-hover:scale-125 transition-transform" />
             </span>
             <span className="font-display font-black tracking-tight text-lg md:text-xl uppercase">
               SA PRODUCTION
@@ -102,7 +102,7 @@ export function Navbar({ onOpenProjectModal }: NavbarProps) {
         <div className="fixed inset-0 z-[1000] flex flex-col justify-between bg-[#050505] p-8 md:hidden select-none animate-in fade-in duration-300">
           <div className="flex items-center justify-between border-b border-[#F4F2ED]/10 pb-6">
             <div className="flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-[#E10600]" />
+              <span className="h-2 w-2 rounded-full bg-[#7C6ECD]" />
               <span className="font-display font-black tracking-tight text-xl text-[#F4F2ED]">
                 SA PRODUCTION
               </span>

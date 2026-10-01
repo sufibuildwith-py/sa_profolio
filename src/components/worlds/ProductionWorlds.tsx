@@ -41,22 +41,22 @@ export function ProductionWorlds() {
     <section
       ref={containerRef}
       id="worlds"
-      className="relative min-h-screen w-full bg-[#070708] px-6 sm:px-10 md:px-16 py-28 md:py-36 border-t border-[#F4F2ED]/10 select-none overflow-hidden"
+      className="relative w-full bg-[#070708] px-6 sm:px-10 md:px-16 py-20 md:py-28 border-t border-[#F4F2ED]/10 select-none overflow-hidden"
     >
       {/* Background ambient lighting linked to active world */}
       <div
-        className={`absolute inset-0 bg-gradient-to-b ${activeWorld.bgGradient} opacity-50 transition-all duration-1000 pointer-events-none`}
+        className={`absolute inset-0 bg-gradient-to-b ${activeWorld.bgGradient} opacity-40 transition-all duration-1000 pointer-events-none`}
       />
 
       <div className="relative z-10 max-w-7xl mx-auto w-full">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-[#F4F2ED]/12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10 border-b border-[#F4F2ED]/12">
           <div>
-            <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#F4F2ED]/50 mb-3">
-              <span className="h-2 w-2 rounded-full bg-[#E10600]" />
+            <div className="flex items-center gap-3 font-mono text-[10px] sm:text-xs uppercase tracking-widest text-[#F4F2ED]/50 mb-2.5">
+              <span className="h-2 w-2 rounded-full bg-[#7C6ECD]" />
               <span>THE PRODUCTION WORLDS // 08 DISCIPLINES</span>
             </div>
-            <h2 className="font-display font-black text-4xl sm:text-6xl md:text-7xl uppercase tracking-tight text-[#F4F2ED]">
+            <h2 className="font-display font-black text-[clamp(2rem,4.5vw,4.2rem)] uppercase tracking-tight text-[#F4F2ED] leading-tight">
               ENGINEERED ENVIRONMENTS.
             </h2>
           </div>
@@ -72,7 +72,7 @@ export function ProductionWorlds() {
               key={world.id}
               onClick={() => handleSelectWorld(idx)}
               data-cursor="VIEW"
-              className={`shrink-0 flex items-center gap-2.5 px-4 py-2.5 rounded-full font-mono text-xs uppercase tracking-wider transition-all duration-300 ${
+              className={`shrink-0 flex items-center gap-2.5 px-4 py-2 rounded-full font-mono text-xs uppercase tracking-wider transition-all duration-300 ${
                 idx === activeIndex
                   ? "bg-[#F4F2ED] text-[#050505] font-bold shadow-[0_0_20px_rgba(244,242,237,0.2)]"
                   : "bg-[#141416] text-[#F4F2ED]/60 hover:text-[#F4F2ED] hover:bg-[#1f1f24] border border-[#F4F2ED]/10"
@@ -87,47 +87,47 @@ export function ProductionWorlds() {
         {/* Main Immersive Production World Stage Viewport */}
         <div
           ref={contentRef}
-          className="mt-10 rounded-2xl bg-[#0F0F12] border border-[#F4F2ED]/12 p-8 sm:p-12 md:p-16 relative overflow-hidden shadow-2xl transition-all duration-500"
+          className="mt-8 rounded-2xl bg-[#0F0F12] border border-[#F4F2ED]/12 p-6 sm:p-10 md:p-12 relative overflow-hidden shadow-2xl transition-all duration-500"
         >
           {/* Subtle world watermark */}
-          <div className="absolute right-4 bottom-4 font-display font-black text-7xl sm:text-9xl md:text-[14rem] text-[#F4F2ED]/[0.03] pointer-events-none select-none">
+          <div className="absolute right-4 bottom-4 font-display font-black text-7xl sm:text-9xl md:text-[11rem] text-[#F4F2ED]/[0.03] pointer-events-none select-none">
             {activeWorld.number}
           </div>
 
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left Column: World Narrative & Scale */}
             <div className="lg:col-span-7 flex flex-col justify-between">
               <div>
-                <div className="flex items-center gap-3 font-mono text-xs tracking-widest text-[#F4F2ED]/50 uppercase mb-4">
-                  <span className="text-[#E10600] font-bold">{activeWorld.number} / 08</span>
+                <div className="flex items-center gap-3 font-mono text-xs tracking-widest text-[#F4F2ED]/50 uppercase mb-3">
+                  <span className="text-[#7C6ECD] font-bold">{activeWorld.number} / 08</span>
                   <span className="text-[#F4F2ED]/25">·</span>
                   <span>{activeWorld.category}</span>
                 </div>
 
-                <h3 className="font-display font-black text-3xl sm:text-5xl md:text-6xl text-[#F4F2ED] uppercase tracking-tight leading-tight">
+                <h3 className="font-display font-black text-[clamp(1.75rem,3.4vw,3.2rem)] text-[#F4F2ED] uppercase tracking-tight leading-tight">
                   {activeWorld.headline}
                 </h3>
 
-                <p className="mt-6 text-lg sm:text-xl text-[#F4F2ED]/85 font-light leading-relaxed">
+                <p className="mt-4 text-base sm:text-lg text-[#F4F2ED]/85 font-light leading-relaxed">
                   {activeWorld.tagline}
                 </p>
 
-                <p className="mt-4 text-sm sm:text-base text-[#F4F2ED]/60 leading-relaxed max-w-xl">
+                <p className="mt-3 text-xs sm:text-sm text-[#F4F2ED]/60 leading-relaxed max-w-xl">
                   {activeWorld.scaleDescription}
                 </p>
               </div>
 
               {/* Technical Specifications Pills */}
-              <div className="mt-8 pt-8 border-t border-[#F4F2ED]/10 flex flex-wrap items-center gap-3">
+              <div className="mt-6 pt-6 border-t border-[#F4F2ED]/10 flex flex-wrap items-center gap-2.5">
                 <span className="font-mono text-[10px] uppercase text-[#F4F2ED]/40 tracking-widest">
                   RIG PARAMETERS:
                 </span>
                 {activeWorld.keySpecs.map((spec) => (
                   <span
                     key={spec}
-                    className="inline-flex items-center gap-1.5 font-mono text-xs px-3 py-1 rounded-md bg-[#1a1a20] border border-[#F4F2ED]/10 text-red-400"
+                    className="inline-flex items-center gap-1.5 font-mono text-xs px-3 py-1 rounded-md bg-[#16161D] border border-[#7C6ECD]/25 text-[#7C6ECD]"
                   >
-                    <CheckCircle2 className="h-3 w-3 text-[#E10600]" />
+                    <CheckCircle2 className="h-3 w-3 text-[#7C6ECD]" />
                     {spec}
                   </span>
                 ))}
@@ -135,22 +135,22 @@ export function ProductionWorlds() {
             </div>
 
             {/* Right Column: Typical Production Rig Card */}
-            <div className="lg:col-span-5 rounded-xl bg-[#09090C] border border-[#F4F2ED]/10 p-6 sm:p-8">
-              <div className="flex items-center justify-between pb-4 border-b border-[#F4F2ED]/10 font-mono text-xs uppercase tracking-widest text-[#F4F2ED]/60">
+            <div className="lg:col-span-5 rounded-xl bg-[#09090C] border border-[#F4F2ED]/10 p-5 sm:p-6">
+              <div className="flex items-center justify-between pb-3.5 border-b border-[#F4F2ED]/10 font-mono text-[11px] uppercase tracking-widest text-[#F4F2ED]/60">
                 <span className="flex items-center gap-2">
-                  <Layers className="h-4 w-4 text-[#E10600]" />
+                  <Layers className="h-3.5 w-3.5 text-[#7C6ECD]" />
                   TYPICAL DEPLOYMENT RIG
                 </span>
-                <span className="text-[#E10600] font-semibold">SA CERTIFIED</span>
+                <span className="text-[#7C6ECD] font-semibold">SA CERTIFIED</span>
               </div>
 
-              <div className="mt-6 flex flex-col gap-3.5">
+              <div className="mt-5 flex flex-col gap-2.5">
                 {activeWorld.typicalRig.map((item, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center justify-between p-3 rounded-lg bg-[#141418] border border-[#F4F2ED]/5 font-mono text-xs text-[#F4F2ED]/90"
+                    className="flex items-center justify-between p-2.5 rounded-lg bg-[#141418] border border-[#F4F2ED]/5 font-mono text-xs text-[#F4F2ED]/90"
                   >
-                    <span className="flex items-center gap-2.5">
+                    <span className="flex items-center gap-2">
                       <span className="text-[10px] text-[#F4F2ED]/40">0{idx + 1}</span>
                       <span>{item}</span>
                     </span>
@@ -159,11 +159,11 @@ export function ProductionWorlds() {
                 ))}
               </div>
 
-              <div className="mt-8 pt-6 border-t border-[#F4F2ED]/10 flex items-center justify-between font-mono text-xs text-[#F4F2ED]/50">
+              <div className="mt-6 pt-4 border-t border-[#F4F2ED]/10 flex items-center justify-between font-mono text-[11px] text-[#F4F2ED]/50">
                 <span>WARMUP: 4 HOURS MIN</span>
                 <a
                   href="#contact"
-                  className="flex items-center gap-1.5 text-[#E10600] hover:text-white transition-colors"
+                  className="flex items-center gap-1.5 text-[#7C6ECD] hover:text-white transition-colors"
                 >
                   <span>REQUEST SPEC</span>
                   <ArrowRight className="h-3.5 w-3.5" />

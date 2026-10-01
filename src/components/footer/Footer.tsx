@@ -10,17 +10,17 @@ export function Footer() {
     <footer className="relative w-full bg-[#030304] px-6 sm:px-10 md:px-20 pt-20 pb-12 border-t border-[#F4F2ED]/10 select-none">
       <div className="max-w-7xl mx-auto w-full">
         {/* Animated Accent Line */}
-        <div className="relative h-px w-full bg-[#F4F2ED]/10 overflow-hidden mb-16">
-          <div className="absolute inset-y-0 w-36 bg-gradient-to-r from-transparent via-[#E10600] to-transparent animate-[pulse_3s_ease-in-out_infinite]" />
+        <div className="relative h-px w-full bg-[#F4F2ED]/10 overflow-hidden mb-12">
+          <div className="absolute inset-y-0 w-36 bg-gradient-to-r from-transparent via-[#7C6ECD] to-transparent animate-[pulse_3s_ease-in-out_infinite]" />
         </div>
 
-        {/* Top: Massive Brand Headline */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-16 border-b border-[#F4F2ED]/10">
+        {/* Top: Brand Headline */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-12 border-b border-[#F4F2ED]/10">
           <div>
-            <h2 className="font-display font-black text-5xl sm:text-7xl md:text-9xl tracking-tighter text-[#F4F2ED] uppercase leading-[0.85]">
+            <h2 className="font-display font-black text-[clamp(2.5rem,6vw,6rem)] tracking-tighter text-[#F4F2ED] uppercase leading-[0.88]">
               SA PRODUCTION
             </h2>
-            <p className="mt-4 font-mono text-xs sm:text-sm tracking-[0.3em] text-[#F4F2ED]/50 uppercase">
+            <p className="mt-3 font-mono text-[11px] sm:text-xs tracking-[0.25em] text-[#F4F2ED]/50 uppercase">
               SOUND · LIGHT · STAGE · VISUALS · PRODUCTION
             </p>
           </div>
@@ -31,39 +31,39 @@ export function Footer() {
             className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#F4F2ED]/60 hover:text-white transition-colors group"
           >
             <span>BACK TO TOP</span>
-            <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#F4F2ED]/20 group-hover:border-[#F4F2ED] group-hover:bg-[#F4F2ED] group-hover:text-black transition-all">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[#F4F2ED]/20 group-hover:border-[#F4F2ED] group-hover:bg-[#F4F2ED] group-hover:text-black transition-all">
               <ArrowUp className="h-4 w-4" />
             </div>
           </button>
         </div>
 
         {/* Middle Navigation & Socials */}
-        <div className="py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 font-mono text-xs uppercase tracking-widest">
+        <div className="py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 font-mono text-xs uppercase tracking-widest">
           <div>
-            <span className="text-[10px] text-[#F4F2ED]/40 block mb-4">DIRECT ACCESS</span>
-            <ul className="space-y-3 text-[#F4F2ED]/75">
+            <span className="text-[10px] text-[#F4F2ED]/40 block mb-3">DIRECT ACCESS</span>
+            <ul className="space-y-2.5 text-[#F4F2ED]/75">
               <li>
-                <a href="#productions" className="hover:text-[#E10600] transition-colors">
+                <a href="#productions" className="hover:text-[#7C6ECD] transition-colors">
                   01 // SELECTED WORK
                 </a>
               </li>
               <li>
-                <a href="#worlds" className="hover:text-[#E10600] transition-colors">
+                <a href="#worlds" className="hover:text-[#7C6ECD] transition-colors">
                   02 // PRODUCTION WORLDS
                 </a>
               </li>
               <li>
-                <a href="#services" className="hover:text-[#E10600] transition-colors">
+                <a href="#services" className="hover:text-[#7C6ECD] transition-colors">
                   03 // CORE CAPABILITIES
                 </a>
               </li>
               <li>
-                <a href="#system" className="hover:text-[#E10600] transition-colors">
+                <a href="#system" className="hover:text-[#7C6ECD] transition-colors">
                   04 // EXECUTION SYSTEM
                 </a>
               </li>
               <li>
-                <a href="#toolkit" className="hover:text-[#E10600] transition-colors">
+                <a href="#toolkit" className="hover:text-[#7C6ECD] transition-colors">
                   05 // DEPOT TOOLKIT
                 </a>
               </li>
@@ -71,13 +71,13 @@ export function Footer() {
           </div>
 
           <div>
-            <span className="text-[10px] text-[#F4F2ED]/40 block mb-4">HEADQUARTERS</span>
-            <p className="text-[#F4F2ED]/80 leading-relaxed normal-case">
+            <span className="text-[10px] text-[#F4F2ED]/40 block mb-3">HEADQUARTERS</span>
+            <p className="text-[#F4F2ED]/80 leading-relaxed normal-case text-xs">
               {siteConfig.headquarters.hub}
               <br />
               {siteConfig.headquarters.address}
               <br />
-              <span className="font-mono text-[10px] text-[#E10600] uppercase">
+              <span className="font-mono text-[10px] text-[#7C6ECD] uppercase">
                 {siteConfig.headquarters.coordinates}
               </span>
             </p>
