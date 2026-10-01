@@ -138,10 +138,20 @@ export const Hero: React.FC = () => {
         ref={pinFrameRef}
         className="relative flex h-[100svh] w-full flex-col justify-between overflow-hidden glass-gloss"
       >
+        {/* Static Velvet Hero Background Image Layer (Behind glass and content) */}
+        <img
+          src="/hero-velvet-bg.jpg"
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none z-0 select-none"
+          aria-hidden="true"
+          loading="eager"
+          decoding="async"
+        />
+
         {/* Transparent Off-White Glass Material Layer with Inset Highlights & Subtle Violet Tint */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[rgba(124,110,205,0.065)] via-[rgba(9,9,12,0.025)] to-[rgba(124,110,205,0.04)] backdrop-blur-xl -z-10" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_75%_50%_at_35%_25%,rgba(124,110,205,0.12),transparent_70%)] pointer-events-none -z-10" />
-        <div className="grain-overlay pointer-events-none absolute inset-0 opacity-20 mix-blend-multiply z-0" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[rgba(124,110,205,0.065)] via-[rgba(9,9,12,0.025)] to-[rgba(124,110,205,0.04)] backdrop-blur-xl pointer-events-none z-[1]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_75%_50%_at_35%_25%,rgba(124,110,205,0.12),transparent_70%)] pointer-events-none z-[1]" />
+        <div className="grain-overlay pointer-events-none absolute inset-0 opacity-20 mix-blend-multiply z-[2]" />
 
         {/* Top Header Location Eyebrow */}
         <div className="relative z-10 pt-16 sm:pt-20 md:pt-22 px-6 sm:px-10 lg:px-16 flex items-center justify-between">
