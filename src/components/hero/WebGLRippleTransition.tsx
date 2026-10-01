@@ -76,6 +76,18 @@ float snoise(vec2 v){
 
 void main() {
   vec2 uv = vUv;
+
+  // Complete rest at start (0.00 -> 0.12): Quote is 100% pristine, fully visible with 0 distortion
+  if (uProgress <= 0.12) {
+    gl_FragColor = texture2D(uTex1, uv);
+    return;
+  }
+  // Complete rest at end (0.85 -> 1.00): Brand identity is 100% settled and clean
+  if (uProgress >= 0.85) {
+    gl_FragColor = texture2D(uTex2, uv);
+    return;
+  }
+
   float aspect = uResolution.x / max(uResolution.y, 1.0);
 
   // Aspect-corrected coordinate space for circular wave propagation
@@ -87,17 +99,18 @@ void main() {
   float dist = length(p - origin);
   
   // 1. Organic Simplex Noise Warp
-  float noise = snoise(uv * 3.5 + uProgress * 1.5) * 0.09 * uNoiseWarp;
+  float noise = snoise(uv * 3.5 + uProgress * 1.5) * 0.08 * uNoiseWarp;
   float dNoisy = dist + noise;
 
   // 2. Wavefront radius mapped smoothly across scroll progress
-  float waveProg = smoothstep(0.08, 0.90, uProgress);
+  float waveProg = smoothstep(0.12, 0.85, uProgress);
   float maxTravel = (aspect + 0.8) * uWaveSpeed;
   float waveR = waveProg * maxTravel;
   float distToWave = dNoisy - waveR;
 
-  // 3. Gaussian Ripple Envelope (Physical wave thickness)
-  float envelope = exp(-pow(distToWave / max(uSigma, 0.01), 2.0));
+  // 3. Gaussian Ripple Envelope with active gating
+  float activeEnvelope = smoothstep(0.12, 0.22, uProgress) * smoothstep(0.85, 0.75, uProgress);
+  float envelope = exp(-pow(distToWave / max(uSigma, 0.01), 2.0)) * activeEnvelope;
 
   // 4. Concentric Ripple Oscillation
   float waveOsc = sin(distToWave * uWaveFreq * 6.28318);
@@ -373,7 +386,7 @@ export const WebGLRippleTransition = forwardRef<
     }
 
     // Parameters for visible refractive wave transformation
-    gl.uniform2f(uniformsRef.current.uOrigin, 0.05, 0.40) // Initiates at left edge of quote
+    gl.uniform2f(uniformsRef.current.uOrigin, -0.15, 0.40) // Initiates outside left edge of quote
     gl.uniform1f(uniformsRef.current.uWaveSpeed, 1.25)
     gl.uniform1f(uniformsRef.current.uSigma, 0.28) // Wide, physical water wave envelope
     gl.uniform1f(uniformsRef.current.uWaveFreq, 4.2)
