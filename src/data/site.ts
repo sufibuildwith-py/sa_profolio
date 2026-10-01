@@ -42,9 +42,9 @@ export const siteConfig: SiteConfig = {
     locationLabel: 'Varanasi, Uttar Pradesh, India',
     addressLine: 'Varanasi, UP, India',
     email: 'contact@saproduction.in',
-    phone: '+919876543210',
-    phoneDisplay: '+91 (0) Varanasi Production Desk',
-    whatsappUrl: 'https://wa.me/919876543210?text=Hello%20SA%20Production,%20I%20would%20like%20to%20discuss%20an%20event%20production%20requirement.',
+    phone: '',
+    phoneDisplay: 'Varanasi Production Desk',
+    whatsappUrl: '',
   },
   navigation: [
     { label: 'Work', href: '#productions' },

@@ -38,8 +38,10 @@ export const ContactSection: React.FC = () => {
       formData.requirements.join(', ') || 'Complete Technical Production'
     )}%0A*Notes:* ${encodeURIComponent(formData.notes || 'None')}`
 
-    const whatsappUrl = `https://wa.me/919876543210?text=${message}`
-    window.open(whatsappUrl, '_blank')
+    if (siteConfig.contact.whatsappUrl) {
+      const whatsappUrl = `${siteConfig.contact.whatsappUrl}?text=${message}`
+      window.open(whatsappUrl, '_blank')
+    }
     setSubmitted(true)
   }
 
@@ -86,9 +88,14 @@ export const ContactSection: React.FC = () => {
 
               <div className="flex flex-col gap-3.5">
                 <a
-                  href={siteConfig.contact.whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={siteConfig.contact.whatsappUrl || '#'}
+                  target={siteConfig.contact.whatsappUrl ? '_blank' : undefined}
+                  rel={siteConfig.contact.whatsappUrl ? 'noopener noreferrer' : undefined}
+                  onClick={(e) => {
+                    if (!siteConfig.contact.whatsappUrl) {
+                      e.preventDefault()
+                    }
+                  }}
                   className="flex items-center justify-between group p-3.5 rounded-xl glass-dark hover:border-[#7C6ECD]/60 transition-all"
                 >
                   <div className="flex items-center gap-3">
