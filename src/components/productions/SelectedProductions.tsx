@@ -13,7 +13,7 @@ export const SelectedProductions: React.FC = () => {
   return (
     <section
       id="productions"
-      className="relative w-full py-14 sm:py-20 lg:py-24 px-5 sm:px-8 md:px-12 lg:px-16 bg-[#F4F1E8]"
+      className="relative w-full py-10 sm:py-16 lg:py-24 px-5 sm:px-8 md:px-12 lg:px-16 bg-[#F4F1E8]"
       aria-label="Selected Production Portfolio"
     >
       <div className="mx-auto max-w-7xl">
@@ -29,7 +29,7 @@ export const SelectedProductions: React.FC = () => {
         </div>
 
         {/* Section Title */}
-        <div className="mt-6 sm:mt-8 mb-8 sm:mb-12 max-w-3xl">
+        <div className="mt-6 sm:mt-8 mb-6 sm:mb-12 max-w-3xl">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight text-[#09090C]">
             SELECTED LIVE <br />
             <span className="font-serif italic font-normal text-[#514691] lowercase">
@@ -42,14 +42,14 @@ export const SelectedProductions: React.FC = () => {
         </div>
 
         {/* Sticky Stacking Production Cards with Aceternity CardSpotlight & GlareCard */}
-        <div className="flex flex-col gap-8 sm:gap-10">
+        <div className="flex flex-col gap-6 sm:gap-10">
           {selectedProductionsData.map((project, index) => {
             return (
               <CardSpotlight
                 key={project.id}
                 onClick={() => setSelectedProduction(project)}
                 data-cursor="VIEW"
-                className="group sticky top-20 sm:top-24 cursor-pointer overflow-hidden rounded-2xl sm:rounded-3xl glass-light-interactive shadow-xl transition-all duration-300 hover:border-[#7C6ECD]/50"
+                className="group relative lg:sticky lg:top-24 cursor-pointer overflow-hidden rounded-2xl sm:rounded-3xl glass-light-interactive shadow-xl transition-all duration-300 hover:border-[#7C6ECD]/50"
                 style={{
                   zIndex: 10 + index,
                 }}

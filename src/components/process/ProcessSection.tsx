@@ -9,7 +9,7 @@ export const ProcessSection: React.FC = () => {
   return (
     <section
       id="process"
-      className="relative w-full py-14 sm:py-20 lg:py-24 px-5 sm:px-8 md:px-12 lg:px-16 bg-[#F4F1E8]"
+      className="relative w-full py-10 sm:py-16 lg:py-24 px-5 sm:px-8 md:px-12 lg:px-16 bg-[#F4F1E8]"
       aria-label="How We Work — Production Workflow"
     >
       <div className="mx-auto max-w-7xl">
@@ -25,7 +25,7 @@ export const ProcessSection: React.FC = () => {
         </div>
 
         {/* Section Headline */}
-        <div className="mt-6 sm:mt-8 mb-8 sm:mb-12 max-w-3xl">
+        <div className="mt-6 sm:mt-8 mb-6 sm:mb-12 max-w-3xl">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight text-[#09090C]">
             HOW WE ENGINEER <br />
             <span className="font-serif italic font-normal text-[#514691] lowercase">

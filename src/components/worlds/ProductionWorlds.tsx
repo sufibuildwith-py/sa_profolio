@@ -12,7 +12,7 @@ export const ProductionWorlds: React.FC = () => {
   return (
     <section
       id="worlds"
-      className="relative w-full py-12 sm:py-16 lg:py-20 bg-[#09090C] text-white"
+      className="relative w-full py-10 sm:py-16 lg:py-20 bg-[#09090C] text-white"
       aria-label="Production Worlds & Event Categories"
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8 md:px-12 lg:px-16">
@@ -28,7 +28,7 @@ export const ProductionWorlds: React.FC = () => {
         </div>
 
         {/* Section Title */}
-        <div className="mt-6 mb-8 sm:mb-10 max-w-3xl">
+        <div className="mt-6 mb-6 sm:mb-10 max-w-3xl">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold uppercase tracking-tight text-white">
             SPACES & ENVIRONMENTS <br />
             <span className="font-serif italic font-normal text-white/80 lowercase">
@@ -43,7 +43,7 @@ export const ProductionWorlds: React.FC = () => {
         {/* Main Unified Composition: Production Stage Photography (7 cols) + Smoked Glass Category Rail (5 cols) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
           {/* Left Column: Live Event Stage Photography with Smoked Glass Frames */}
-          <div className="lg:col-span-7 flex flex-col justify-between rounded-2xl glass-dark shadow-2xl overflow-hidden min-h-[420px] sm:min-h-[480px] lg:min-h-[520px]">
+          <div className="lg:col-span-7 flex flex-col justify-between rounded-2xl glass-dark shadow-2xl overflow-hidden min-h-[280px] sm:min-h-[400px] lg:min-h-[520px]">
             {/* Stage Top Bar in Smoked Translucent Glass */}
             <div className="flex items-center justify-between px-5 py-3.5 border-b border-hairline-dark bg-black/40 backdrop-blur-md z-20">
               <div className="flex items-center gap-2 font-mono text-[10px] sm:text-xs text-[#7C6ECD] tracking-widest uppercase">
@@ -58,7 +58,7 @@ export const ProductionWorlds: React.FC = () => {
             </div>
 
             {/* Stage Photographic Canvas Area */}
-            <div className="relative flex-1 w-full overflow-hidden min-h-[300px] sm:min-h-[360px]">
+            <div className="relative flex-1 w-full overflow-hidden min-h-[220px] sm:min-h-[320px]">
               {productionWorldsData.map((world, idx) => (
                 <div
                   key={world.id}
