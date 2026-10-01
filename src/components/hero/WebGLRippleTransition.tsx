@@ -182,18 +182,18 @@ export const WebGLRippleTransition = forwardRef<
       const isTablet = width >= 768 && width < 1200
 
       const quoteFontSize = isMobile
-        ? Math.round(30 * dpr)
+        ? Math.round(28 * dpr)
         : isTablet
-        ? Math.round(48 * dpr)
-        : Math.round(64 * dpr)
+        ? Math.round(46 * dpr)
+        : Math.round(62 * dpr)
 
       ctx1.font = `italic 400 ${quoteFontSize}px Instrument Serif, Georgia, Times, serif`
       ctx1.fillStyle = '#E8E4FD'
       ctx1.textBaseline = 'top'
 
       const lineSpacing = quoteFontSize * 1.25
-      const startX = Math.round(24 * dpr)
-      const startY = Math.round(32 * dpr)
+      const startX = Math.round(Math.max(24, width * 0.042) * dpr)
+      const startY = Math.round(Math.max(96, height * 0.28) * dpr)
 
       if (isMobile) {
         ctx1.fillText('Hum sirf mehfil', startX, startY)
@@ -220,21 +220,21 @@ export const WebGLRippleTransition = forwardRef<
       const isTablet = width >= 768 && width < 1200
 
       const brandFontSize = isMobile
-        ? Math.round(52 * dpr)
+        ? Math.round(48 * dpr)
         : isTablet
-        ? Math.round(84 * dpr)
-        : Math.round(112 * dpr)
+        ? Math.round(78 * dpr)
+        : Math.round(108 * dpr)
 
       ctx2.font = `800 ${brandFontSize}px Inter Tight, Manrope, -apple-system, sans-serif`
       ctx2.fillStyle = '#FFFFFF'
       ctx2.textBaseline = 'top'
 
-      const startX = Math.round(24 * dpr)
-      const startY = Math.round(32 * dpr)
+      const startX = Math.round(Math.max(24, width * 0.042) * dpr)
+      const startY = Math.round(Math.max(96, height * 0.28) * dpr)
 
       ctx2.fillText('SA PRODUCTION', startX, startY)
 
-      const subFontSize = isMobile ? Math.round(18 * dpr) : Math.round(26 * dpr)
+      const subFontSize = isMobile ? Math.round(16 * dpr) : Math.round(24 * dpr)
       ctx2.font = `italic 400 ${subFontSize}px Instrument Serif, Georgia, Times, serif`
       ctx2.fillStyle = 'rgba(244, 241, 232, 0.90)'
       ctx2.fillText('Bring Life to Your Event', startX, startY + brandFontSize * 1.15)
