@@ -26,7 +26,7 @@ export function SelectedProductions({ onOpenProjectModal }: SelectedProductionsP
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-[#F4F2ED]/12">
           <div>
             <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#F4F2ED]/50 mb-3">
-              <span className="h-2 w-2 rounded-full bg-amber-400" />
+              <span className="h-2 w-2 rounded-full bg-[#E10600]" />
               <span>VERIFIED CASE STUDIES // PAN-INDIA DEPLOYMENTS</span>
             </div>
             <h2 className="font-display font-black text-4xl sm:text-6xl md:text-8xl uppercase tracking-[-0.03em] text-[#F4F2ED] leading-[0.9]">
@@ -38,7 +38,7 @@ export function SelectedProductions({ onOpenProjectModal }: SelectedProductionsP
             <p className="font-sans text-sm sm:text-base text-[#F4F2ED]/70 leading-relaxed">
               Every production is a complex orchestration of timing, power, acoustics, and optics. Review real equipment deployments and operational workflows.
             </p>
-            <p className="mt-2 font-mono text-xs text-amber-400 uppercase tracking-widest">
+            <p className="mt-2 font-mono text-xs text-[#E10600] uppercase tracking-widest">
               50+ PRODUCTION ARCHIVE RECORDS
             </p>
           </div>
@@ -69,7 +69,7 @@ export function SelectedProductions({ onOpenProjectModal }: SelectedProductionsP
               key={project.id}
               onClick={() => setActiveProject(project)}
               data-cursor="OPEN"
-              className="group relative rounded-2xl bg-[#0D0D11] border border-[#F4F2ED]/12 overflow-hidden transition-all duration-500 hover:border-amber-400/50 hover:shadow-[0_20px_40px_rgba(0,0,0,0.8)] cursor-pointer"
+              className="group relative rounded-2xl bg-[#0D0D11] border border-[#F4F2ED]/12 overflow-hidden transition-all duration-500 hover:border-[#E10600]/50 hover:shadow-[0_20px_40px_rgba(0,0,0,0.8)] cursor-pointer"
               style={{
                 top: `${index * 12}px`,
               }}
@@ -79,7 +79,7 @@ export function SelectedProductions({ onOpenProjectModal }: SelectedProductionsP
                 <div className="lg:col-span-6 p-8 sm:p-12 flex flex-col justify-between">
                   <div>
                     <div className="flex items-center justify-between font-mono text-xs uppercase tracking-widest text-[#F4F2ED]/50 mb-6">
-                      <span className="text-amber-400 font-bold">
+                      <span className="text-[#E10600] font-bold">
                         {project.number} / {project.category}
                       </span>
                       <span className="flex items-center gap-2">
@@ -94,7 +94,7 @@ export function SelectedProductions({ onOpenProjectModal }: SelectedProductionsP
 
                     <div className="mt-4 flex flex-wrap items-center gap-4 font-mono text-xs text-[#F4F2ED]/60 uppercase">
                       <span className="flex items-center gap-1.5">
-                        <MapPin className="h-3.5 w-3.5 text-amber-400" />
+                        <MapPin className="h-3.5 w-3.5 text-[#E10600]" />
                         {project.location}
                       </span>
                       <span>·</span>
@@ -111,13 +111,13 @@ export function SelectedProductions({ onOpenProjectModal }: SelectedProductionsP
 
                   {/* Rig Hardware Badge & Execution Flow */}
                   <div className="mt-8 pt-6 border-t border-[#F4F2ED]/10">
-                    <div className="flex items-center gap-2 text-xs font-mono text-amber-300 uppercase tracking-wider mb-2">
+                    <div className="flex items-center gap-2 text-xs font-mono text-red-400 uppercase tracking-wider mb-2">
                       <Wrench className="h-3.5 w-3.5" />
                       <span>{project.equipmentSummary}</span>
                     </div>
 
                     <div className="flex items-center justify-between mt-6">
-                      <span className="font-mono text-xs text-[#F4F2ED]/50 group-hover:text-amber-400 transition-colors">
+                      <span className="font-mono text-xs text-[#F4F2ED]/50 group-hover:text-[#E10600] transition-colors">
                         VIEW FULL TECHNICAL BREAKDOWN →
                       </span>
                       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#181820] text-[#F4F2ED] group-hover:bg-[#F4F2ED] group-hover:text-black transition-colors">

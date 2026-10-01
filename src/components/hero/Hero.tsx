@@ -3,7 +3,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { siteConfig } from "../../data/siteConfig";
-import { Hero3D } from "./Hero3D";
 import { MagneticButton } from "../common/MagneticButton";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -11,11 +10,9 @@ gsap.registerPlugin(ScrollTrigger);
 interface HeroProps {
   onOpenProjectModal: () => void;
   isReady: boolean;
-  onAssetProgress?: (percent: number) => void;
-  onAssetLoaded?: () => void;
 }
 
-export function Hero({ onOpenProjectModal, isReady, onAssetProgress, onAssetLoaded }: HeroProps) {
+export function Hero({ onOpenProjectModal, isReady }: HeroProps) {
   const heroRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const sublineRef = useRef<HTMLDivElement>(null);
@@ -105,12 +102,9 @@ export function Hero({ onOpenProjectModal, isReady, onAssetProgress, onAssetLoad
       id="hero"
       className="relative min-h-screen w-full flex flex-col justify-between overflow-hidden bg-[#050505] px-6 sm:px-10 md:px-16 pt-32 pb-12 select-none"
     >
-      {/* 3D Stage Hardware Canvas */}
-      <Hero3D onProgress={onAssetProgress} onLoaded={onAssetLoaded} />
-
       {/* Atmospheric Stage Vignette and Lighting Gradients */}
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(234,179,8,0.12),transparent_70%)] pointer-events-none" />
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_85%_65%,rgba(56,189,248,0.07),transparent_50%)] pointer-events-none" />
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(225,6,0,0.06),transparent_70%)] pointer-events-none" />
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_85%_65%,rgba(225,6,0,0.04),transparent_50%)] pointer-events-none" />
       <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#050505] via-[#050505]/70 to-transparent pointer-events-none z-1" />
 
       {/* Top Status & Technical Metadata */}
@@ -119,7 +113,7 @@ export function Hero({ onOpenProjectModal, isReady, onAssetProgress, onAssetLoad
         className="relative z-10 flex flex-wrap items-center justify-between gap-4 font-mono text-[11px] uppercase tracking-widest text-[#F4F2ED]/60"
       >
         <div className="inline-flex items-center gap-2.5 rounded-full border border-[#F4F2ED]/15 bg-[#111111]/70 px-3.5 py-1.5 backdrop-blur-xs">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="h-1.5 w-1.5 rounded-full bg-[#E10600] animate-pulse" />
           <span>STAGE / LIGHT / SOUND / RIG // DISPATCH READY</span>
         </div>
         <div className="hidden sm:flex items-center gap-3">
@@ -160,7 +154,7 @@ export function Hero({ onOpenProjectModal, isReady, onAssetProgress, onAssetLoad
         >
           {siteConfig.descriptors.map((desc, idx) => (
             <span key={desc} className="flex items-center gap-2 sm:gap-4">
-              <span className="hover:text-amber-400 transition-colors">{desc}</span>
+              <span className="hover:text-[#E10600] transition-colors">{desc}</span>
               {idx < siteConfig.descriptors.length - 1 && (
                 <span className="text-[#F4F2ED]/25 font-light">·</span>
               )}

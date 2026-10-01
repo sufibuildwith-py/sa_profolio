@@ -7,7 +7,7 @@ export function ServiceMicroInteractions({ type }: MicroInteractionProps) {
     // Waveform motion and frequency spectrum lines
     return (
       <div className="relative h-28 w-44 rounded-lg bg-black/60 border border-[#F4F2ED]/15 p-3 flex flex-col justify-between overflow-hidden">
-        <div className="flex items-center justify-between font-mono text-[9px] text-amber-400">
+        <div className="flex items-center justify-between font-mono text-[9px] text-[#E10600]">
           <span>RTA 96kHz</span>
           <span className="animate-pulse">0.0 dB</span>
         </div>
@@ -15,7 +15,7 @@ export function ServiceMicroInteractions({ type }: MicroInteractionProps) {
           {[40, 65, 85, 95, 70, 50, 80, 100, 60, 45, 90, 75, 55, 30].map((h, i) => (
             <div
               key={i}
-              className="w-1.5 bg-gradient-to-t from-amber-500/30 to-amber-400 rounded-t-xs animate-pulse"
+              className="w-1.5 bg-gradient-to-t from-red-600/30 to-[#E10600] rounded-t-xs animate-pulse"
               style={{
                 height: `${h}%`,
                 animationDelay: `${(i % 5) * 0.15}s`,
@@ -37,14 +37,14 @@ export function ServiceMicroInteractions({ type }: MicroInteractionProps) {
     // Moving light beams & stage illumination
     return (
       <div className="relative h-28 w-44 rounded-lg bg-black/60 border border-[#F4F2ED]/15 p-3 flex flex-col justify-between overflow-hidden">
-        <div className="flex items-center justify-between font-mono text-[9px] text-amber-300">
+        <div className="flex items-center justify-between font-mono text-[9px] text-red-400">
           <span>DMX 512</span>
           <span>CH 1–64</span>
         </div>
         <div className="relative h-14 w-full flex items-center justify-center overflow-hidden">
-          <div className="absolute top-0 w-12 h-16 bg-gradient-to-b from-amber-400/80 via-amber-300/20 to-transparent rotate-[-22deg] origin-top blur-xs animate-pulse" />
+          <div className="absolute top-0 w-12 h-16 bg-gradient-to-b from-[#E10600]/80 via-red-500/20 to-transparent rotate-[-22deg] origin-top blur-xs animate-pulse" />
           <div className="absolute top-0 w-12 h-16 bg-gradient-to-b from-cyan-400/80 via-cyan-300/20 to-transparent rotate-[22deg] origin-top blur-xs animate-pulse" />
-          <div className="absolute bottom-1 h-1.5 w-20 rounded-full bg-amber-400/40 blur-xs" />
+          <div className="absolute bottom-1 h-1.5 w-20 rounded-full bg-[#E10600]/40 blur-xs" />
         </div>
         <div className="font-mono text-[8px] text-[#F4F2ED]/40 text-center">
           BEAM ANGLE: 2.2° // TIME-SYNC
@@ -96,7 +96,7 @@ export function ServiceMicroInteractions({ type }: MicroInteractionProps) {
                 i % 3 === 0
                   ? "bg-cyan-400/90"
                   : i % 4 === 0
-                  ? "bg-amber-400/90"
+                  ? "bg-[#E10600]/90"
                   : "bg-white/30"
               }`}
             />
@@ -151,7 +151,7 @@ export function ServiceMicroInteractions({ type }: MicroInteractionProps) {
         </div>
         <div className="flex justify-between">
           <span>LIGHTING CUE:</span>
-          <span className="text-amber-300">CUE 48.2</span>
+          <span className="text-red-400">CUE 48.2</span>
         </div>
         <div className="flex justify-between">
           <span>COMMS INTERCOM:</span>

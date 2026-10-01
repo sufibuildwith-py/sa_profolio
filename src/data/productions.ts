@@ -57,9 +57,9 @@ export const productionWorlds: ProductionWorld[] = [
       "Ultra-Quiet Generator Sync"
     ],
     keySpecs: ["Zero Audio Delay", "CRI > 96 Lighting", "Multi-Zone Sound FOH"],
-    backdropMood: "ambient-gold",
-    accentColor: "#EAB308",
-    bgGradient: "from-amber-950/30 via-neutral-950 to-black"
+    backdropMood: "ambient-red",
+    accentColor: "#E10600",
+    bgGradient: "from-red-950/30 via-neutral-950 to-black"
   },
   {
     id: "corporate",
@@ -171,9 +171,9 @@ export const productionWorlds: ProductionWorld[] = [
       "Dedicated Floor Audio Engineering"
     ],
     keySpecs: ["Pure Harmonic Resonance", "Warm 3200K Glow", "Ultra-Low Noise Floor"],
-    backdropMood: "rich-amber",
-    accentColor: "#F59E0B",
-    bgGradient: "from-amber-950/20 via-neutral-950 to-black"
+    backdropMood: "rich-ruby",
+    accentColor: "#E10600",
+    bgGradient: "from-red-950/20 via-neutral-950 to-black"
   },
   {
     id: "commercial",
@@ -306,7 +306,7 @@ export const selectedProductions: ProductionCaseStudy[] = [
     timeWindow: "14:00 – 23:30 IST",
     summary: "Monumental luxury wedding ceremony requiring delicate ceremonial sound amplification with zero visible wire clutter and flattering natural illumination.",
     image: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=80",
-    imageAlt: "Luxury wedding reception stage with warm golden lighting"
+    imageAlt: "Luxury wedding reception stage with warm architectural illumination"
   },
   {
     id: "arora-corporate-summit",

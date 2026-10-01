@@ -16,7 +16,7 @@ export function ContactSection({ onOpenProjectModal }: ContactSectionProps) {
     >
       <div className="max-w-7xl mx-auto w-full my-auto">
         <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#F4F2ED]/50 mb-8">
-          <span className="h-2 w-2 rounded-full bg-amber-400" />
+          <span className="h-2 w-2 rounded-full bg-[#E10600]" />
           <span>PRODUCTION COMMISSIONS // INITIATE DIRECT</span>
         </div>
 
@@ -24,7 +24,7 @@ export function ContactSection({ onOpenProjectModal }: ContactSectionProps) {
         <h2 className="font-display font-black text-[clamp(2.8rem,9vw,9.5rem)] uppercase tracking-[-0.04em] text-[#F4F2ED] leading-[0.88]">
           HAVE A SHOW <br />
           IN MIND? <br />
-          <span className="font-serif italic font-normal text-amber-400">
+          <span className="font-serif italic font-normal text-[#E10600]">
             Let's Build It.
           </span>
         </h2>
@@ -65,9 +65,9 @@ export function ContactSection({ onOpenProjectModal }: ContactSectionProps) {
             </span>
             <a
               href={`tel:${siteConfig.contact.phone.replace(/[^0-9+]/g, "")}`}
-              className="text-base text-[#F4F2ED] hover:text-amber-400 transition-colors flex items-center gap-2"
+              className="text-base text-[#F4F2ED] hover:text-[#E10600] transition-colors flex items-center gap-2"
             >
-              <Phone className="h-4 w-4 text-amber-400" />
+              <Phone className="h-4 w-4 text-[#E10600]" />
               {siteConfig.contact.phone}
             </a>
             <span className="text-[11px] text-[#F4F2ED]/40 mt-1 block">
@@ -96,7 +96,7 @@ export function ContactSection({ onOpenProjectModal }: ContactSectionProps) {
               HEADQUARTERS & DEPOT
             </span>
             <div className="text-sm text-[#F4F2ED]/85 flex items-start gap-2">
-              <MapPin className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
+              <MapPin className="h-4 w-4 text-[#E10600] shrink-0 mt-0.5" />
               <span>{siteConfig.headquarters.hub}, {siteConfig.headquarters.city}</span>
             </div>
             <span className="text-[11px] text-[#F4F2ED]/40 mt-1 block">

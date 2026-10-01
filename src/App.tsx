@@ -17,8 +17,6 @@ import { ProjectInquiryModal } from "./components/contact/ProjectInquiryModal";
 import { Footer } from "./components/footer/Footer";
 
 export function App() {
-  const [assetProgress, setAssetProgress] = useState(15);
-  const [isAssetLoaded, setIsAssetLoaded] = useState(false);
   const [isIntroComplete, setIsIntroComplete] = useState(false);
   const [projectModalOpen, setProjectModalOpen] = useState(false);
 
@@ -26,32 +24,26 @@ export function App() {
   useLenis(true);
 
   return (
-    <div className="relative min-h-screen w-full bg-[#050505] text-[#F4F2ED] antialiased overflow-x-hidden selection:bg-[#F4F2ED] selection:text-[#050505]">
+    <div className="relative min-h-screen w-full bg-[#050505] text-[#F4F2ED] antialiased overflow-x-hidden selection:bg-[#E10600] selection:text-[#F4F2ED]">
       {/* Subtle Cinematic Film Grain Texture */}
       <div className="grain-overlay" aria-hidden="true" />
 
       {/* Desktop Custom Lerping Cursor */}
       <CustomCursor />
 
-      {/* Preloader with genuine 3D asset progress */}
+      {/* Preloader with clean cinematic entrance */}
       {!isIntroComplete && (
-        <Preloader
-          progress={assetProgress}
-          isReady={isAssetLoaded}
-          onComplete={() => setIsIntroComplete(true)}
-        />
+        <Preloader onComplete={() => setIsIntroComplete(true)} />
       )}
 
       {/* Floating Dynamic Navbar */}
       <Navbar onOpenProjectModal={() => setProjectModalOpen(true)} />
 
       <main className="relative z-10 flex flex-col w-full">
-        {/* Hero Section with Real 3D Production Asset & Cinematic Camera Choreography */}
+        {/* Hero Section with Clean Dark Luxury Backdrop & Typography */}
         <Hero
           onOpenProjectModal={() => setProjectModalOpen(true)}
           isReady={isIntroComplete}
-          onAssetProgress={(p) => setAssetProgress(p)}
-          onAssetLoaded={() => setIsAssetLoaded(true)}
         />
 
         {/* Intro Statement: "We don't just show up. We set the whole thing in motion." */}

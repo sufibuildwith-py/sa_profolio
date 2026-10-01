@@ -53,7 +53,7 @@ export function ProductionWorlds() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-[#F4F2ED]/12">
           <div>
             <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#F4F2ED]/50 mb-3">
-              <span className="h-2 w-2 rounded-full bg-amber-400" />
+              <span className="h-2 w-2 rounded-full bg-[#E10600]" />
               <span>THE PRODUCTION WORLDS // 08 DISCIPLINES</span>
             </div>
             <h2 className="font-display font-black text-4xl sm:text-6xl md:text-7xl uppercase tracking-tight text-[#F4F2ED]">
@@ -99,7 +99,7 @@ export function ProductionWorlds() {
             <div className="lg:col-span-7 flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-3 font-mono text-xs tracking-widest text-[#F4F2ED]/50 uppercase mb-4">
-                  <span className="text-amber-400 font-bold">{activeWorld.number} / 08</span>
+                  <span className="text-[#E10600] font-bold">{activeWorld.number} / 08</span>
                   <span className="text-[#F4F2ED]/25">·</span>
                   <span>{activeWorld.category}</span>
                 </div>
@@ -125,9 +125,9 @@ export function ProductionWorlds() {
                 {activeWorld.keySpecs.map((spec) => (
                   <span
                     key={spec}
-                    className="inline-flex items-center gap-1.5 font-mono text-xs px-3 py-1 rounded-md bg-[#1a1a20] border border-[#F4F2ED]/10 text-amber-300"
+                    className="inline-flex items-center gap-1.5 font-mono text-xs px-3 py-1 rounded-md bg-[#1a1a20] border border-[#F4F2ED]/10 text-red-400"
                   >
-                    <CheckCircle2 className="h-3 w-3" />
+                    <CheckCircle2 className="h-3 w-3 text-[#E10600]" />
                     {spec}
                   </span>
                 ))}
@@ -138,10 +138,10 @@ export function ProductionWorlds() {
             <div className="lg:col-span-5 rounded-xl bg-[#09090C] border border-[#F4F2ED]/10 p-6 sm:p-8">
               <div className="flex items-center justify-between pb-4 border-b border-[#F4F2ED]/10 font-mono text-xs uppercase tracking-widest text-[#F4F2ED]/60">
                 <span className="flex items-center gap-2">
-                  <Layers className="h-4 w-4 text-amber-400" />
+                  <Layers className="h-4 w-4 text-[#E10600]" />
                   TYPICAL DEPLOYMENT RIG
                 </span>
-                <span className="text-amber-400 font-semibold">SA CERTIFIED</span>
+                <span className="text-[#E10600] font-semibold">SA CERTIFIED</span>
               </div>
 
               <div className="mt-6 flex flex-col gap-3.5">
@@ -163,7 +163,7 @@ export function ProductionWorlds() {
                 <span>WARMUP: 4 HOURS MIN</span>
                 <a
                   href="#contact"
-                  className="flex items-center gap-1.5 text-amber-400 hover:text-white transition-colors"
+                  className="flex items-center gap-1.5 text-[#E10600] hover:text-white transition-colors"
                 >
                   <span>REQUEST SPEC</span>
                   <ArrowRight className="h-3.5 w-3.5" />

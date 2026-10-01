@@ -79,7 +79,7 @@ export function ProductionMarquee() {
           keywordsRow1.map((kw, idx) => (
             <span key={`${i}-${idx}`} className="inline-flex items-center gap-6 md:gap-10 mr-6 md:mr-10">
               <span>{kw}</span>
-              <span className="text-amber-400/40 text-2xl sm:text-4xl">·</span>
+              <span className="text-[#E10600]/40 text-2xl sm:text-4xl">·</span>
             </span>
           ))
         )}

@@ -47,7 +47,7 @@ export function ProjectDetailModal({
         </button>
 
         {/* Modal Top Metadata */}
-        <div className="flex flex-wrap items-center gap-3 font-mono text-xs text-amber-400 uppercase tracking-widest mb-3">
+        <div className="flex flex-wrap items-center gap-3 font-mono text-xs text-[#E10600] uppercase tracking-widest mb-3">
           <span className="font-bold">PROD-{project.number}</span>
           <span className="text-[#F4F2ED]/20">/</span>
           <span>{project.category}</span>
@@ -62,7 +62,7 @@ export function ProjectDetailModal({
         {/* Location & Time Info */}
         <div className="mt-4 flex flex-wrap items-center gap-6 font-mono text-xs text-[#F4F2ED]/60 uppercase tracking-wider pb-6 border-b border-[#F4F2ED]/10">
           <span className="flex items-center gap-2">
-            <MapPin className="h-3.5 w-3.5 text-amber-400" />
+            <MapPin className="h-3.5 w-3.5 text-[#E10600]" />
             {project.venue}, {project.location}
           </span>
           <span className="flex items-center gap-2">
@@ -91,7 +91,7 @@ export function ProjectDetailModal({
 
         {/* Production Narrative Summary */}
         <div className="mt-8">
-          <h3 className="font-mono text-xs uppercase tracking-widest text-amber-400 mb-2">
+          <h3 className="font-mono text-xs uppercase tracking-widest text-[#E10600] mb-2">
             [ TECHNICAL SHOW DIRECTIVE ]
           </h3>
           <p className="text-base sm:text-lg text-[#F4F2ED]/90 font-light leading-relaxed">
@@ -136,7 +136,7 @@ export function ProjectDetailModal({
 
         {/* Crew Leads Roster */}
         <div className="mt-8 rounded-xl bg-[#101014] border border-[#F4F2ED]/10 p-6">
-          <h4 className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-amber-400 mb-4">
+          <h4 className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#E10600] mb-4">
             <Users className="h-4 w-4" />
             ON-SITE CREW SUPERVISION
           </h4>

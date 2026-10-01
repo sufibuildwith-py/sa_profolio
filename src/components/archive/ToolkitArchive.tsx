@@ -72,12 +72,12 @@ export function ToolkitArchive() {
                   data-cursor="OPEN"
                   className={`p-5 rounded-xl border transition-all duration-300 cursor-pointer ${
                     isSelected
-                      ? "bg-[#15151B] border-amber-400/80 shadow-[0_0_24px_rgba(245,158,11,0.15)]"
+                      ? "bg-[#15151B] border-[#E10600]/80 shadow-[0_0_24px_rgba(225,6,0,0.15)]"
                       : "bg-[#0B0B0D] border-[#F4F2ED]/8 hover:border-[#F4F2ED]/30 hover:bg-[#111114]"
                   }`}
                 >
                   <div className="flex items-center justify-between gap-4 font-mono text-[10px] uppercase tracking-widest mb-2">
-                    <span className="text-amber-400 font-bold">{item.category}</span>
+                    <span className="text-[#E10600] font-bold">{item.category}</span>
                     <span className="px-2.5 py-0.5 rounded-full bg-[#1a1a20] border border-[#F4F2ED]/10 text-[#F4F2ED]/70">
                       {item.tier}
                     </span>
@@ -95,8 +95,8 @@ export function ToolkitArchive() {
 
           {/* Right Column: Active Hardware Inspection Console */}
           <div className="lg:col-span-5 rounded-2xl bg-[#0E0E12] border border-[#F4F2ED]/15 p-6 sm:p-8 relative overflow-hidden shadow-2xl">
-            {/* Ambient amber glow */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-amber-400/5 rounded-full blur-3xl pointer-events-none" />
+            {/* Ambient red glow */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-[#E10600]/5 rounded-full blur-3xl pointer-events-none" />
 
             <div className="flex items-center justify-between pb-5 border-b border-[#F4F2ED]/10 font-mono text-xs uppercase tracking-widest text-[#F4F2ED]/60">
               <span className="flex items-center gap-2 text-emerald-400">
@@ -107,7 +107,7 @@ export function ToolkitArchive() {
             </div>
 
             <div className="mt-6">
-              <span className="font-mono text-[10px] text-amber-400 font-bold uppercase tracking-widest">
+              <span className="font-mono text-[10px] text-[#E10600] font-bold uppercase tracking-widest">
                 [ SPECIFICATION REPORT ]
               </span>
               <h3 className="font-display font-black text-2xl sm:text-3xl text-[#F4F2ED] uppercase tracking-tight mt-1">
@@ -126,7 +126,7 @@ export function ToolkitArchive() {
               </div>
 
               <div className="rounded-lg bg-[#070709] border border-[#F4F2ED]/8 p-3.5">
-                <div className="flex items-center gap-2 text-amber-300 text-[10px] uppercase tracking-wider mb-1">
+                <div className="flex items-center gap-2 text-red-400 text-[10px] uppercase tracking-wider mb-1">
                   <Terminal className="h-3.5 w-3.5" />
                   <span>OPERATIONAL APPLICATION</span>
                 </div>
@@ -137,13 +137,13 @@ export function ToolkitArchive() {
             {/* Hardware Engineering Highlights */}
             <div className="mt-6 pt-6 border-t border-[#F4F2ED]/10">
               <h4 className="font-mono text-[10px] uppercase tracking-widest text-[#F4F2ED]/50 mb-3 flex items-center gap-2">
-                <Sparkles className="h-3 w-3 text-amber-400" />
+                <Sparkles className="h-3 w-3 text-[#E10600]" />
                 ENGINEERING HIGHLIGHTS
               </h4>
               <ul className="space-y-2 font-mono text-xs text-[#F4F2ED]/80">
                 {activeItem.highlights.map((hl, i) => (
                   <li key={i} className="flex items-center gap-2.5">
-                    <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#E10600]" />
                     <span>{hl}</span>
                   </li>
                 ))}
@@ -155,7 +155,7 @@ export function ToolkitArchive() {
                 <HardDrive className="h-3.5 w-3.5" />
                 DEPOT KANPUR · BAY 04
               </span>
-              <span className="flex items-center gap-1.5 text-amber-300">
+              <span className="flex items-center gap-1.5 text-red-400">
                 <ShieldAlert className="h-3.5 w-3.5" />
                 ANNUAL LOAD PASS
               </span>

@@ -83,7 +83,7 @@ export function OperationalScale() {
         {/* Section Header */}
         <div className="max-w-4xl pb-16 border-b border-[#F4F2ED]/12">
           <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#F4F2ED]/50 mb-3">
-            <span className="h-2 w-2 rounded-full bg-amber-400" />
+            <span className="h-2 w-2 rounded-full bg-[#E10600]" />
             <span>OPERATIONAL SCALE // GROUNDED DATA MODEL</span>
           </div>
           <h2 className="font-display font-black text-4xl sm:text-6xl md:text-8xl uppercase tracking-[-0.03em] text-[#F4F2ED] leading-[0.9]">
@@ -102,14 +102,14 @@ export function OperationalScale() {
             return (
               <div
                 key={idx}
-                className="scale-stat-card rounded-2xl bg-[#0C0C0F] border border-[#F4F2ED]/10 p-8 flex flex-col justify-between hover:border-amber-400/40 transition-colors"
+                className="scale-stat-card rounded-2xl bg-[#0C0C0F] border border-[#F4F2ED]/10 p-8 flex flex-col justify-between hover:border-[#E10600]/40 transition-colors"
               >
                 <div>
                   <div className="flex items-center justify-between pb-6 border-b border-[#F4F2ED]/10">
                     <span className="font-display font-black text-4xl sm:text-5xl lg:text-6xl text-[#F4F2ED]">
                       {stat.number}
                     </span>
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#16161D] text-amber-400">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#16161D] text-[#E10600]">
                       <Icon className="h-5 w-5" />
                     </div>
                   </div>
@@ -132,7 +132,7 @@ export function OperationalScale() {
         {/* Operational Categories Footprint */}
         <div className="mt-16 rounded-2xl bg-[#09090C] border border-[#F4F2ED]/10 p-8 sm:p-12">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#F4F2ED]/10 font-mono text-xs uppercase tracking-widest">
-            <span className="text-amber-400 font-bold flex items-center gap-2">
+            <span className="text-[#E10600] font-bold flex items-center gap-2">
               <MapPin className="h-4 w-4" />
               CENTRAL DEPOT LOGISTICS & DEPLOYMENT SCOPE
             </span>

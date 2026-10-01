@@ -11,8 +11,9 @@
   --color-muted: rgba(244, 242, 237, 0.45);
   --color-hairline: rgba(244, 242, 237, 0.16);
   --color-hairline-subtle: rgba(244, 242, 237, 0.08);
-  --color-amber-stage: #EAB308;
-  --color-amber-glow: rgba(234, 179, 8, 0.12);
+  --color-accent: #E10600;
+  --color-accent-dim: rgba(225, 6, 0, 0.15);
+  --color-accent-glow: rgba(225, 6, 0, 0.25);
   --color-cyan-beam: #38BDF8;
   --color-cyan-glow: rgba(56, 189, 248, 0.12);
 
@@ -31,6 +32,9 @@
   --soft-white: rgba(244, 242, 237, 0.72);
   --muted: rgba(244, 242, 237, 0.45);
   --hairline: rgba(244, 242, 237, 0.16);
+  --accent: #E10600;
+  --accent-dim: rgba(225, 6, 0, 0.15);
+  --accent-glow: rgba(225, 6, 0, 0.25);
 }
 
 html, body {
@@ -54,7 +58,7 @@ html, body {
   border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(244, 242, 237, 0.4);
+  background: rgba(225, 6, 0, 0.6);
 }
 
 /* Grain texture overlay */

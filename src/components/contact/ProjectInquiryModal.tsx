@@ -85,8 +85,8 @@ export function ProjectInquiryModal({ isOpen, onClose }: ProjectInquiryModalProp
           </div>
         ) : (
           <div>
-            <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-amber-400 mb-2">
-              <span className="h-2 w-2 rounded-full bg-amber-400 animate-pulse" />
+            <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#E10600] mb-2">
+              <span className="h-2 w-2 rounded-full bg-[#E10600] animate-pulse" />
               <span>DIRECT DISPATCH DESK // PROJECT BRIEF</span>
             </div>
             <h2 className="font-display font-black text-2xl sm:text-4xl uppercase tracking-tight text-[#F4F2ED]">
@@ -108,7 +108,7 @@ export function ProjectInquiryModal({ isOpen, onClose }: ProjectInquiryModalProp
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="e.g. Rohan Sharma"
-                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-3 text-[#F4F2ED] placeholder:text-[#F4F2ED]/25 focus:border-amber-400 focus:outline-none"
+                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-3 text-[#F4F2ED] placeholder:text-[#F4F2ED]/25 focus:border-[#E10600] focus:outline-none"
                   />
                 </div>
 
@@ -121,7 +121,7 @@ export function ProjectInquiryModal({ isOpen, onClose }: ProjectInquiryModalProp
                     value={formData.clientOrCompany}
                     onChange={(e) => setFormData({ ...formData, clientOrCompany: e.target.value })}
                     placeholder="e.g. Sharma Family / Acme Tech"
-                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-3 text-[#F4F2ED] placeholder:text-[#F4F2ED]/25 focus:border-amber-400 focus:outline-none"
+                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-3 text-[#F4F2ED] placeholder:text-[#F4F2ED]/25 focus:border-[#E10600] focus:outline-none"
                   />
                 </div>
               </div>
@@ -137,7 +137,7 @@ export function ProjectInquiryModal({ isOpen, onClose }: ProjectInquiryModalProp
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="+91 90000 00000"
-                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-3 text-[#F4F2ED] placeholder:text-[#F4F2ED]/25 focus:border-amber-400 focus:outline-none"
+                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-3 text-[#F4F2ED] placeholder:text-[#F4F2ED]/25 focus:border-[#E10600] focus:outline-none"
                   />
                 </div>
 
@@ -151,7 +151,7 @@ export function ProjectInquiryModal({ isOpen, onClose }: ProjectInquiryModalProp
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="client@example.com"
-                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-3 text-[#F4F2ED] placeholder:text-[#F4F2ED]/25 focus:border-amber-400 focus:outline-none"
+                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-3 text-[#F4F2ED] placeholder:text-[#F4F2ED]/25 focus:border-[#E10600] focus:outline-none"
                   />
                 </div>
               </div>
@@ -164,7 +164,7 @@ export function ProjectInquiryModal({ isOpen, onClose }: ProjectInquiryModalProp
                   <select
                     value={formData.eventType}
                     onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
-                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-3 text-[#F4F2ED] focus:border-amber-400 focus:outline-none"
+                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-3 text-[#F4F2ED] focus:border-[#E10600] focus:outline-none"
                   >
                     <option value="WEDDINGS">Weddings & Sangeet</option>
                     <option value="CORPORATE">Corporate Summit</option>
@@ -185,7 +185,7 @@ export function ProjectInquiryModal({ isOpen, onClose }: ProjectInquiryModalProp
                     value={formData.city}
                     onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                     placeholder="e.g. Bengaluru, Mumbai"
-                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-3 text-[#F4F2ED] placeholder:text-[#F4F2ED]/25 focus:border-amber-400 focus:outline-none"
+                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-3 text-[#F4F2ED] placeholder:text-[#F4F2ED]/25 focus:border-[#E10600] focus:outline-none"
                   />
                 </div>
 
@@ -197,7 +197,7 @@ export function ProjectInquiryModal({ isOpen, onClose }: ProjectInquiryModalProp
                     type="date"
                     value={formData.date}
                     onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-3 text-[#F4F2ED] focus:border-amber-400 focus:outline-none"
+                    className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-3 text-[#F4F2ED] focus:border-[#E10600] focus:outline-none"
                   />
                 </div>
               </div>
@@ -211,7 +211,7 @@ export function ProjectInquiryModal({ isOpen, onClose }: ProjectInquiryModalProp
                   value={formData.notes}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                   placeholder="Mention required cameras, LED screen sizes, audio channel count, venue specs..."
-                  className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-3 text-[#F4F2ED] placeholder:text-[#F4F2ED]/25 focus:border-amber-400 focus:outline-none resize-none"
+                  className="w-full rounded-lg bg-[#14141A] border border-[#F4F2ED]/12 px-4 py-3 text-[#F4F2ED] placeholder:text-[#F4F2ED]/25 focus:border-[#E10600] focus:outline-none resize-none"
                 />
               </div>
 

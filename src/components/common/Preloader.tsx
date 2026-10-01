@@ -2,22 +2,13 @@ import { useEffect, useState, useRef } from "react";
 import gsap from "gsap";
 
 interface PreloaderProps {
-  progress?: number;
-  isReady?: boolean;
   onComplete: () => void;
 }
 
-export function Preloader({ progress = 0, isReady = false, onComplete }: PreloaderProps) {
-  const [displayProgress, setDisplayProgress] = useState(15);
+export function Preloader({ onComplete }: PreloaderProps) {
+  const [displayProgress, setDisplayProgress] = useState(24);
   const containerRef = useRef<HTMLDivElement>(null);
   const hasExitedRef = useRef(false);
-
-  // Smoothly increment visual display progress
-  useEffect(() => {
-    if (progress > displayProgress) {
-      setDisplayProgress(progress);
-    }
-  }, [progress, displayProgress]);
 
   // Execute exit animation safely when ready
   const triggerExit = () => {
@@ -58,23 +49,15 @@ export function Preloader({ progress = 0, isReady = false, onComplete }: Preload
   };
 
   useEffect(() => {
-    if (isReady && !hasExitedRef.current) {
-      const timer = setTimeout(() => {
-        triggerExit();
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [isReady]);
+    // Stepped incremental sequence for smooth cinematic entrance
+    const timers = [
+      setTimeout(() => setDisplayProgress(62), 250),
+      setTimeout(() => setDisplayProgress(88), 650),
+      setTimeout(() => setDisplayProgress(100), 1050),
+      setTimeout(() => triggerExit(), 1350),
+    ];
 
-  // Safety fallback so visitor is NEVER stuck on loading screen
-  useEffect(() => {
-    const safetyFallback = setTimeout(() => {
-      if (!hasExitedRef.current) {
-        triggerExit();
-      }
-    }, 2800);
-
-    return () => clearTimeout(safetyFallback);
+    return () => timers.forEach(clearTimeout);
   }, []);
 
   return (
@@ -86,8 +69,8 @@ export function Preloader({ progress = 0, isReady = false, onComplete }: Preload
       {/* Top Metadata */}
       <div className="preloader-text-wrap flex items-center justify-between font-mono text-[11px] tracking-widest text-[#F4F2ED]/50 uppercase">
         <span className="flex items-center gap-2">
-          <span className="inline-block h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
-          SYSTEM BOOT // ASSET STREAM
+          <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#E10600] animate-pulse" />
+          SYSTEM BOOT // SA EXECUTION CORE
         </span>
         <span>KANPUR · INDIA</span>
       </div>
@@ -103,10 +86,10 @@ export function Preloader({ progress = 0, isReady = false, onComplete }: Preload
           SOUND · LIGHT · STAGE · VISUALS · PRODUCTION
         </p>
 
-        {/* Real asset loading progress line */}
+        {/* Real loading progress line */}
         <div className="mt-10 h-[1px] w-48 sm:w-72 md:w-96 bg-[#F4F2ED]/10 overflow-hidden relative">
           <div
-            className="h-full bg-gradient-to-r from-amber-400 via-amber-200 to-[#F4F2ED] transition-all duration-300 ease-out"
+            className="h-full bg-gradient-to-r from-[#E10600] via-red-500 to-[#F4F2ED] transition-all duration-300 ease-out"
             style={{ width: `${displayProgress}%` }}
           />
         </div>
@@ -114,7 +97,7 @@ export function Preloader({ progress = 0, isReady = false, onComplete }: Preload
 
       {/* Bottom Percentage Counter */}
       <div className="preloader-text-wrap flex items-end justify-between font-mono text-[11px] tracking-widest text-[#F4F2ED]/50 uppercase">
-        <span className="text-amber-400 font-medium">STREAMING 3D ASSETS</span>
+        <span className="text-[#E10600] font-medium">INITIALIZING HARDWARE BUS</span>
         <span className="text-[#F4F2ED] text-sm tabular-nums font-bold">
           {displayProgress.toString().padStart(2, "0")}%
         </span>

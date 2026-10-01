@@ -92,7 +92,7 @@ export function IntroStatement() {
                 <span
                   key={wIdx}
                   className={`intro-word inline-block will-change-transform ${
-                    word === "MOTION." ? "font-serif italic font-normal text-amber-400" : ""
+                    word === "MOTION." ? "font-serif italic font-normal text-[#E10600]" : ""
                   }`}
                 >
                   {word}
@@ -108,7 +108,7 @@ export function IntroStatement() {
             [ COORDINATED TECHNICAL ARCHITECTURE ]
             <div className="mt-4 flex flex-col gap-2.5 text-[11px] text-[#F4F2ED]/70">
               <span className="flex items-center gap-2">
-                <Zap className="h-3.5 w-3.5 text-amber-400" />
+                <Zap className="h-3.5 w-3.5 text-[#E10600]" />
                 3-Phase Isolated Power Grids
               </span>
               <span className="flex items-center gap-2">

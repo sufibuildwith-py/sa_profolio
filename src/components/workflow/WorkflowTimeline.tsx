@@ -80,7 +80,7 @@ export function WorkflowTimeline() {
             <p className="font-sans text-sm sm:text-base text-[#F4F2ED]/70 leading-relaxed">
               Nothing is left to chance. From CAD blueprints to timecoded show files and post-event data checksums, our protocol guarantees zero-failure execution.
             </p>
-            <p className="mt-2 font-mono text-xs text-amber-400 uppercase tracking-widest">
+            <p className="mt-2 font-mono text-xs text-[#E10600] uppercase tracking-widest">
               SYSTEMATIC · AUDITED · REPEATABLE
             </p>
           </div>
@@ -94,7 +94,7 @@ export function WorkflowTimeline() {
           {/* Glowing Animated Tracing Beam */}
           <div
             ref={beamRef}
-            className="absolute left-2 sm:left-4 md:left-6 top-0 w-[2px] bg-gradient-to-b from-amber-400 via-yellow-200 to-amber-500 shadow-[0_0_12px_rgba(245,158,11,0.8)] origin-top will-change-transform"
+            className="absolute left-2 sm:left-4 md:left-6 top-0 w-[2px] bg-gradient-to-b from-[#E10600] via-red-500 to-[#E10600]/80 shadow-[0_0_12px_rgba(225,6,0,0.7)] origin-top will-change-transform"
           />
 
           {/* Timeline Nodes */}
@@ -105,17 +105,17 @@ export function WorkflowTimeline() {
                 className="workflow-step-node relative group"
               >
                 {/* Node Milestone Indicator */}
-                <div className="absolute -left-[30px] sm:-left-[46px] md:-left-[70px] top-1.5 flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-[#08080A] border-2 border-amber-400/80 shadow-[0_0_14px_rgba(245,158,11,0.4)] group-hover:scale-125 transition-transform duration-300">
-                  <span className="font-mono text-[10px] font-bold text-amber-400">
+                <div className="absolute -left-[30px] sm:-left-[46px] md:-left-[70px] top-1.5 flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-[#08080A] border-2 border-[#E10600]/80 shadow-[0_0_14px_rgba(225,6,0,0.35)] group-hover:scale-125 transition-transform duration-300">
+                  <span className="font-mono text-[10px] font-bold text-[#E10600]">
                     {step.step}
                   </span>
                 </div>
 
                 {/* Card Container */}
-                <div className="rounded-xl bg-[#111114] border border-[#F4F2ED]/10 p-6 sm:p-8 md:p-10 transition-all duration-300 hover:border-amber-400/40 hover:bg-[#15151A]">
+                <div className="rounded-xl bg-[#111114] border border-[#F4F2ED]/10 p-6 sm:p-8 md:p-10 transition-all duration-300 hover:border-[#E10600]/40 hover:bg-[#15151A]">
                   <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-[#F4F2ED]/10">
                     <div>
-                      <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-amber-400/80 mb-1">
+                      <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#E10600]/80 mb-1">
                         <span>PHASE {step.step}</span>
                         <span className="text-[#F4F2ED]/30">/</span>
                         <span>{step.phase}</span>
@@ -126,7 +126,7 @@ export function WorkflowTimeline() {
                     </div>
 
                     <div className="inline-flex items-center gap-2 rounded-full border border-[#F4F2ED]/15 bg-[#08080A] px-4 py-1.5 font-mono text-xs text-[#F4F2ED]/70">
-                      <Shield className="h-3.5 w-3.5 text-amber-400" />
+                      <Shield className="h-3.5 w-3.5 text-[#E10600]" />
                       <span>{step.category}</span>
                     </div>
                   </div>
@@ -152,7 +152,7 @@ export function WorkflowTimeline() {
                     </div>
 
                     <div className="md:col-span-4 rounded-lg bg-[#0A0A0C] border border-[#F4F2ED]/10 p-4">
-                      <h4 className="font-mono text-[9px] uppercase tracking-widest text-amber-400 mb-1">
+                      <h4 className="font-mono text-[9px] uppercase tracking-widest text-[#E10600] mb-1">
                         STAGE DELIVERABLE
                       </h4>
                       <p className="font-mono text-xs text-[#F4F2ED]/90 font-medium">

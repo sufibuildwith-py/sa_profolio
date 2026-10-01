@@ -11,7 +11,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto w-full">
         {/* Animated Accent Line */}
         <div className="relative h-px w-full bg-[#F4F2ED]/10 overflow-hidden mb-16">
-          <div className="absolute inset-y-0 w-36 bg-gradient-to-r from-transparent via-amber-400 to-transparent animate-[pulse_3s_ease-in-out_infinite]" />
+          <div className="absolute inset-y-0 w-36 bg-gradient-to-r from-transparent via-[#E10600] to-transparent animate-[pulse_3s_ease-in-out_infinite]" />
         </div>
 
         {/* Top: Massive Brand Headline */}
@@ -43,27 +43,27 @@ export function Footer() {
             <span className="text-[10px] text-[#F4F2ED]/40 block mb-4">DIRECT ACCESS</span>
             <ul className="space-y-3 text-[#F4F2ED]/75">
               <li>
-                <a href="#productions" className="hover:text-amber-400 transition-colors">
+                <a href="#productions" className="hover:text-[#E10600] transition-colors">
                   01 // SELECTED WORK
                 </a>
               </li>
               <li>
-                <a href="#worlds" className="hover:text-amber-400 transition-colors">
+                <a href="#worlds" className="hover:text-[#E10600] transition-colors">
                   02 // PRODUCTION WORLDS
                 </a>
               </li>
               <li>
-                <a href="#services" className="hover:text-amber-400 transition-colors">
+                <a href="#services" className="hover:text-[#E10600] transition-colors">
                   03 // CORE CAPABILITIES
                 </a>
               </li>
               <li>
-                <a href="#system" className="hover:text-amber-400 transition-colors">
+                <a href="#system" className="hover:text-[#E10600] transition-colors">
                   04 // EXECUTION SYSTEM
                 </a>
               </li>
               <li>
-                <a href="#toolkit" className="hover:text-amber-400 transition-colors">
+                <a href="#toolkit" className="hover:text-[#E10600] transition-colors">
                   05 // DEPOT TOOLKIT
                 </a>
               </li>
@@ -77,7 +77,7 @@ export function Footer() {
               <br />
               {siteConfig.headquarters.address}
               <br />
-              <span className="font-mono text-[10px] text-amber-400 uppercase">
+              <span className="font-mono text-[10px] text-[#E10600] uppercase">
                 {siteConfig.headquarters.coordinates}
               </span>
             </p>

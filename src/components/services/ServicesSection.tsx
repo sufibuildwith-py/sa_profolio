@@ -16,7 +16,7 @@ export function ServicesSection() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-12 border-b border-[#F4F2ED]/15">
           <div>
             <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#F4F2ED]/50 mb-3">
-              <span className="h-2 w-2 rounded-full bg-amber-400" />
+              <span className="h-2 w-2 rounded-full bg-[#E10600]" />
               <span>CORE CAPABILITIES // DOMAIN EXPERTISE</span>
             </div>
             <h2 className="font-display font-black text-4xl sm:text-6xl md:text-8xl uppercase tracking-[-0.03em] text-[#F4F2ED] leading-[0.9]">
@@ -54,7 +54,7 @@ export function ServicesSection() {
                   <div className="flex items-baseline gap-6 sm:gap-10">
                     <span
                       className={`font-mono text-xs sm:text-sm transition-all duration-300 ${
-                        isHovered ? "text-amber-400 translate-x-1" : "text-[#F4F2ED]/40"
+                        isHovered ? "text-[#E10600] translate-x-1" : "text-[#F4F2ED]/40"
                       }`}
                     >
                       {service.number}
@@ -117,13 +117,13 @@ export function ServicesSection() {
                     </div>
 
                     <div className="md:col-span-3">
-                      <h4 className="font-mono text-[10px] uppercase tracking-widest text-amber-400 mb-2.5">
+                      <h4 className="font-mono text-[10px] uppercase tracking-widest text-[#E10600] mb-2.5">
                         OPERATIONAL CAPABILITIES
                       </h4>
                       <ul className="space-y-1.5 font-mono text-xs text-[#F4F2ED]/70">
                         {service.operationalCapabilities.map((cap, i) => (
                           <li key={i} className="flex items-center gap-2">
-                            <span className="h-1 w-1 rounded-full bg-amber-400/80" />
+                            <span className="h-1 w-1 rounded-full bg-[#E10600]" />
                             <span>{cap}</span>
                           </li>
                         ))}
