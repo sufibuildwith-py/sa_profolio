@@ -15,8 +15,8 @@ interface HeroProps {
 
 export function Hero({ onOpenProjectModal, isReady }: HeroProps) {
   const heroRef = useRef<HTMLDivElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
-  const sublineRef = useRef<HTMLDivElement>(null);
+  const statementRef = useRef<HTMLDivElement>(null);
+  const accentLineRef = useRef<HTMLDivElement>(null);
   const metaRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
@@ -25,73 +25,66 @@ export function Hero({ onOpenProjectModal, isReady }: HeroProps) {
     if (!isReady || !heroRef.current) return;
 
     const ctx = gsap.context(() => {
-      // 1. Initial Entrance Animation
+      // 1. Single Cinematic Mask Entrance Animation
       const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
       tl.fromTo(
         badgeRef.current,
         { opacity: 0, y: 15 },
-        { opacity: 1, y: 0, duration: 0.8, delay: 0.1 }
+        { opacity: 1, y: 0, duration: 0.7, delay: 0.1 }
       )
       .fromTo(
-        ".hero-word",
-        { y: "115%", opacity: 0 },
+        accentLineRef.current,
+        { scaleY: 0, opacity: 0 },
+        { scaleY: 1, opacity: 1, duration: 0.45, ease: "power3.out" },
+        "-=0.4"
+      )
+      .fromTo(
+        ".statement-line",
+        { y: "110%", opacity: 0, filter: "blur(4px)" },
         {
           y: "0%",
           opacity: 1,
-          duration: 1.1,
-          stagger: 0.07,
+          filter: "blur(0px)",
+          duration: 0.85,
+          stagger: 0.1,
           ease: "power4.out",
         },
-        "-=0.5"
-      )
-      .fromTo(
-        sublineRef.current,
-        { opacity: 0, y: 15 },
-        { opacity: 1, y: 0, duration: 0.8 },
-        "-=0.7"
+        "-=0.35"
       )
       .fromTo(
         [metaRef.current, ctaRef.current],
         { opacity: 0, y: 15 },
         { opacity: 1, y: 0, duration: 0.7, stagger: 0.08 },
-        "-=0.5"
+        "-=0.4"
       );
 
-      // 2. Controlled Hero Scroll Transition
-      gsap.to(headlineRef.current, {
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: 1,
-        },
-        y: -100,
-        scale: 0.96,
-        opacity: 0.2,
-      });
+      // 2. Controlled Scroll Transition
+      if (statementRef.current) {
+        gsap.to(statementRef.current, {
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: "top top",
+            end: "60% top",
+            scrub: 1,
+          },
+          y: -40,
+          opacity: 0,
+        });
+      }
 
-      gsap.to(sublineRef.current, {
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: "top top",
-          end: "60% top",
-          scrub: 1,
-        },
-        y: -60,
-        opacity: 0,
-      });
-
-      gsap.to(ctaRef.current, {
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: "top top",
-          end: "50% top",
-          scrub: 1,
-        },
-        y: -40,
-        opacity: 0,
-      });
+      if (ctaRef.current) {
+        gsap.to(ctaRef.current, {
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: "top top",
+            end: "50% top",
+            scrub: 1,
+          },
+          y: -30,
+          opacity: 0,
+        });
+      }
     }, heroRef);
 
     return () => ctx.revert();
@@ -122,43 +115,34 @@ export function Hero({ onOpenProjectModal, isReady }: HeroProps) {
         </div>
       </div>
 
-      {/* Center Cinematic Typography (Balanced responsive clamp sizing) */}
-      <div className="relative z-10 my-auto max-w-7xl mx-auto w-full py-6 sm:py-8 md:py-10">
-        <h1
-          ref={headlineRef}
-          className="font-display font-black uppercase text-left tracking-[-0.035em] text-[#F4F2ED] leading-[0.92]"
-        >
-          <div className="overflow-hidden">
-            <span className="hero-word inline-block text-[clamp(2.4rem,5.8vw,5.5rem)] font-extrabold mr-3 sm:mr-6">
-              SA
-            </span>
-            <span className="hero-word inline-block text-[clamp(2.4rem,5.8vw,5.5rem)] font-extrabold text-[#F4F2ED]">
-              PRODUCTION
-            </span>
-          </div>
-          <div className="overflow-hidden mt-1 sm:mt-2">
-            <span className="hero-word inline-block font-serif italic font-normal text-[clamp(1.65rem,3.8vw,3.6rem)] tracking-tight text-[#F4F2ED]/85">
-              We Build
-            </span>
-            <span className="hero-word inline-block text-[clamp(1.65rem,3.8vw,3.6rem)] font-black text-[#F4F2ED] ml-3 sm:ml-5">
-              The Moment.
-            </span>
-          </div>
-        </h1>
+      {/* Upper-Left Cinematic Editorial Statement (Leaves Center Area Clear for Video's Embedded Branding) */}
+      <div
+        ref={statementRef}
+        className="relative z-10 max-w-7xl mx-auto w-full my-auto pt-6 sm:pt-10 pb-6"
+      >
+        <div className="max-w-[320px] sm:max-w-[380px] md:max-w-[440px] flex items-stretch gap-3.5 sm:gap-4.5">
+          {/* Vertical Accent Line */}
+          <div
+            ref={accentLineRef}
+            className="w-[2px] bg-gradient-to-b from-[#7C6ECD] via-[#7C6ECD]/70 to-transparent rounded-full origin-top shrink-0"
+          />
 
-        {/* Secondary Descriptors */}
-        <div
-          ref={sublineRef}
-          className="mt-6 sm:mt-8 max-w-2xl flex flex-wrap items-center gap-2 sm:gap-3 font-mono text-[11px] sm:text-xs tracking-[0.22em] text-[#F4F2ED]/70 uppercase"
-        >
-          {siteConfig.descriptors.map((desc, idx) => (
-            <span key={desc} className="flex items-center gap-2 sm:gap-3">
-              <span className="hover:text-[#7C6ECD] transition-colors">{desc}</span>
-              {idx < siteConfig.descriptors.length - 1 && (
-                <span className="text-[#F4F2ED]/25 font-light">·</span>
-              )}
-            </span>
-          ))}
+          {/* Masked Editorial Text */}
+          <div className="flex flex-col">
+            <div className="overflow-hidden">
+              <h1 className="statement-line font-display font-black text-[clamp(1.45rem,2.8vw,2.5rem)] uppercase tracking-[-0.03em] text-[#F4F2ED] leading-[1.02]">
+                WE BRING{" "}
+                <span className="font-serif italic font-normal text-[#7C6ECD] tracking-normal text-[1.1em] px-0.5">
+                  LIFE
+                </span>
+              </h1>
+            </div>
+            <div className="overflow-hidden mt-0.5 sm:mt-1">
+              <div className="statement-line font-display font-black text-[clamp(1.45rem,2.8vw,2.5rem)] uppercase tracking-[-0.03em] text-[#F4F2ED] leading-[1.02]">
+                TO EVERY EVENT.
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 

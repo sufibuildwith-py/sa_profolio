@@ -54,14 +54,14 @@ export function HeroVideoBackground() {
         />
       )}
 
-      {/* Layer 1: Dark Cinematic Contrast Tint */}
-      <div className="absolute inset-0 bg-[#050505]/55" />
+      {/* Layer 1: Subtle Dark Base Contrast Tint */}
+      <div className="absolute inset-0 bg-[#050505]/40" />
 
-      {/* Layer 2: Stage Light Radial Vignette (Emphasizes center typography while letting real production lighting show through) */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(5,5,5,0.25)_0%,rgba(5,5,5,0.75)_80%,#050505_100%)]" />
+      {/* Layer 2: Stage Light Radial Vignette (Keeps center footage clear while darkening edges for typography) */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(5,5,5,0.1)_0%,rgba(5,5,5,0.6)_85%,#050505_100%)]" />
 
       {/* Layer 3: Restrained Stage Violet Glow Accent */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_45%_at_50%_-10%,rgba(124,110,205,0.12),transparent_70%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_45%_at_50%_-10%,rgba(124,110,205,0.10),transparent_70%)]" />
 
       {/* Layer 4: Top Navbar Shadow Gradient & Bottom Seamless Blend into Next Section */}
       <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#050505]/80 to-transparent" />
