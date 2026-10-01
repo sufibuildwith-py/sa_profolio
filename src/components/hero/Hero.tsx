@@ -130,7 +130,7 @@ export const Hero: React.FC = () => {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative w-full bg-[#09090C] text-white overflow-hidden"
+      className="relative w-full bg-transparent text-white overflow-hidden"
       aria-label="Hero Section"
     >
       {/* Pinned Viewport Container with Transparent Glass Styling */}
@@ -138,10 +138,10 @@ export const Hero: React.FC = () => {
         ref={pinFrameRef}
         className="relative flex h-[100svh] w-full flex-col justify-between overflow-hidden glass-gloss"
       >
-        {/* Transparent Smoked Glass Background Layer with 16px Blur & Subtle Radial Depth */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#09090C]/85 via-[#09090C]/70 to-[#09090C]/90 backdrop-blur-2xl -z-10" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_75%_50%_at_40%_25%,rgba(124,110,205,0.12),transparent_70%)] pointer-events-none -z-10" />
-        <div className="grain-overlay-dark pointer-events-none absolute inset-0 opacity-35 mix-blend-overlay z-0" />
+        {/* Transparent Smoked Glass Background Layer with Backdrop Blur & Subtle Radial Depth */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#09090C]/45 via-[#09090C]/30 to-[#09090C]/55 backdrop-blur-xl -z-10" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_75%_50%_at_40%_25%,rgba(124,110,205,0.16),transparent_70%)] pointer-events-none -z-10" />
+        <div className="grain-overlay-dark pointer-events-none absolute inset-0 opacity-20 mix-blend-overlay z-0" />
 
         {/* Top Header Location Eyebrow */}
         <div className="relative z-10 pt-16 sm:pt-20 md:pt-22 px-6 sm:px-10 lg:px-16 flex items-center justify-between">
