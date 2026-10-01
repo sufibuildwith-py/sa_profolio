@@ -1,188 +1,170 @@
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowDown, ArrowUpRight } from "lucide-react";
-import { siteConfig } from "../../data/siteConfig";
-import { MagneticButton } from "../common/MagneticButton";
-import { HeroVideoBackground } from "./HeroVideoBackground";
+import React, { useEffect, useRef } from 'react'
+import { ArrowDown, ArrowUpRight, Radio } from 'lucide-react'
+import { siteConfig } from '../../data/site'
+import { VideoBackground } from '../media/VideoBackground'
+import { MagneticButton } from '../ui/MagneticButton'
+import { gsap, EASE } from '../../lib/motion'
+import { useReducedMotion } from '../../hooks/useReducedMotion'
 
-gsap.registerPlugin(ScrollTrigger);
-
-interface HeroProps {
-  onOpenProjectModal: () => void;
-  isReady: boolean;
-}
-
-export function Hero({ onOpenProjectModal, isReady }: HeroProps) {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const statementRef = useRef<HTMLDivElement>(null);
-  const accentLineRef = useRef<HTMLDivElement>(null);
-  const metaRef = useRef<HTMLDivElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
-  const badgeRef = useRef<HTMLDivElement>(null);
+export const Hero: React.FC = () => {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const eyebrowRef = useRef<HTMLDivElement>(null)
+  const headlineRef = useRef<HTMLHeadingElement>(null)
+  const subRef = useRef<HTMLParagraphElement>(null)
+  const ctaRef = useRef<HTMLDivElement>(null)
+  const bottomBarRef = useRef<HTMLDivElement>(null)
+  const prefersReducedMotion = useReducedMotion()
 
   useEffect(() => {
-    if (!isReady || !heroRef.current) return;
+    if (prefersReducedMotion) return
 
-    const ctx = gsap.context(() => {
-      // 1. Single Cinematic Mask Entrance Animation
-      const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+    const tl = gsap.timeline({ defaults: { ease: EASE.cinematic } })
 
-      tl.fromTo(
-        badgeRef.current,
+    tl.fromTo(
+      eyebrowRef.current,
+      { opacity: 0, y: 15 },
+      { opacity: 1, y: 0, duration: 0.8, delay: 0.2 }
+    )
+      .fromTo(
+        headlineRef.current,
+        { opacity: 0, y: 25 },
+        { opacity: 1, y: 0, duration: 1.0 },
+        '-=0.5'
+      )
+      .fromTo(
+        subRef.current,
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.8 },
+        '-=0.6'
+      )
+      .fromTo(
+        ctaRef.current,
         { opacity: 0, y: 15 },
-        { opacity: 1, y: 0, duration: 0.7, delay: 0.1 }
+        { opacity: 1, y: 0, duration: 0.7 },
+        '-=0.5'
       )
       .fromTo(
-        accentLineRef.current,
-        { scaleY: 0, opacity: 0 },
-        { scaleY: 1, opacity: 1, duration: 0.45, ease: "power3.out" },
-        "-=0.4"
+        bottomBarRef.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.8 },
+        '-=0.4'
       )
-      .fromTo(
-        ".statement-line",
-        { y: "110%", opacity: 0, filter: "blur(4px)" },
-        {
-          y: "0%",
-          opacity: 1,
-          filter: "blur(0px)",
-          duration: 0.85,
-          stagger: 0.1,
-          ease: "power4.out",
-        },
-        "-=0.35"
-      )
-      .fromTo(
-        [metaRef.current, ctaRef.current],
-        { opacity: 0, y: 15 },
-        { opacity: 1, y: 0, duration: 0.7, stagger: 0.08 },
-        "-=0.4"
-      );
 
-      // 2. Controlled Scroll Transition
-      if (statementRef.current) {
-        gsap.to(statementRef.current, {
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: "top top",
-            end: "60% top",
-            scrub: 1,
-          },
-          y: -40,
-          opacity: 0,
-        });
-      }
-
-      if (ctaRef.current) {
-        gsap.to(ctaRef.current, {
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: "top top",
-            end: "50% top",
-            scrub: 1,
-          },
-          y: -30,
-          opacity: 0,
-        });
-      }
-    }, heroRef);
-
-    return () => ctx.revert();
-  }, [isReady]);
+    return () => {
+      tl.kill()
+    }
+  }, [prefersReducedMotion])
 
   return (
     <section
-      ref={heroRef}
-      id="hero"
-      className="relative min-h-[100dvh] w-full flex flex-col justify-between overflow-hidden bg-[#050505] px-6 sm:px-10 md:px-16 pt-24 sm:pt-28 md:pt-32 pb-8 sm:pb-10 select-none"
+      ref={containerRef}
+      className="relative flex min-h-[100svh] w-full flex-col justify-between p-3 sm:p-5 md:p-6 lg:p-7"
+      aria-label="Hero Section"
     >
-      {/* Real Cinematic Production Video Background */}
-      <HeroVideoBackground />
-
-      {/* Top Status & Technical Metadata */}
-      <div
-        ref={badgeRef}
-        className="relative z-10 max-w-7xl mx-auto w-full flex flex-wrap items-center justify-between gap-4 font-mono text-[10px] sm:text-[11px] uppercase tracking-widest text-[#F4F2ED]/60"
-      >
-        <div className="inline-flex items-center gap-2.5 rounded-full border border-[#F4F2ED]/15 bg-[#111111]/70 px-3.5 py-1.5 backdrop-blur-xs">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#7C6ECD] animate-pulse" />
-          <span>STAGE / LIGHT / SOUND / RIG // DISPATCH READY</span>
-        </div>
-        <div className="hidden sm:flex items-center gap-3">
-          <span>{siteConfig.headquarters.coordinates}</span>
-          <span className="text-[#F4F2ED]/25">/</span>
-          <span>{siteConfig.established}</span>
-        </div>
-      </div>
-
-      {/* Upper-Left Cinematic Editorial Statement (Leaves Center Area Clear for Video's Embedded Branding) */}
-      <div
-        ref={statementRef}
-        className="relative z-10 max-w-7xl mx-auto w-full my-auto pt-6 sm:pt-10 pb-6"
-      >
-        <div className="max-w-[320px] sm:max-w-[380px] md:max-w-[440px] flex items-stretch gap-3.5 sm:gap-4.5">
-          {/* Vertical Accent Line */}
-          <div
-            ref={accentLineRef}
-            className="w-[2px] bg-gradient-to-b from-[#7C6ECD] via-[#7C6ECD]/70 to-transparent rounded-full origin-top shrink-0"
+      {/* Inset Main Visual Frame */}
+      <div className="relative flex min-h-[calc(100svh-1.5rem)] sm:min-h-[calc(100svh-2.5rem)] md:min-h-[calc(100svh-3rem)] lg:min-h-[calc(100svh-3.5rem)] w-full flex-col justify-between overflow-hidden rounded-2xl sm:rounded-3xl border border-hairline-dark bg-[#09090C] text-white shadow-2xl">
+        {/* Background Real Event Video */}
+        <div className="absolute inset-0 z-0">
+          <VideoBackground
+            src="/herovid.mp4?v=2"
+            poster="/herovid-poster.jpg"
+            overlayOpacity={0.45}
           />
+          {/* Subtle noise grain texture */}
+          <div className="grain-overlay-dark pointer-events-none absolute inset-0 opacity-40 mix-blend-overlay" />
+        </div>
 
-          {/* Masked Editorial Text */}
-          <div className="flex flex-col">
-            <div className="overflow-hidden">
-              <h1 className="statement-line font-display font-black text-[clamp(1.45rem,2.8vw,2.5rem)] uppercase tracking-[-0.03em] text-[#F4F2ED] leading-[1.02]">
-                WE BRING{" "}
-                <span className="font-serif italic font-normal text-[#7C6ECD] tracking-normal text-[1.1em] px-0.5">
-                  LIFE
-                </span>
-              </h1>
-            </div>
-            <div className="overflow-hidden mt-0.5 sm:mt-1">
-              <div className="statement-line font-display font-black text-[clamp(1.45rem,2.8vw,2.5rem)] uppercase tracking-[-0.03em] text-[#F4F2ED] leading-[1.02]">
-                TO EVERY EVENT.
-              </div>
-            </div>
+        {/* Top Header Placeholder spacing */}
+        <div className="relative z-10 pt-16 sm:pt-20 md:pt-22 px-6 sm:px-10 lg:px-14 flex items-center justify-between">
+          <div
+            ref={eyebrowRef}
+            className="flex items-center gap-2 font-mono text-[10px] sm:text-xs tracking-[0.25em] uppercase text-white/75"
+          >
+            <span className="flex h-2 w-2 relative">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7C6ECD] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#7C6ECD]"></span>
+            </span>
+            <span>EVENT PRODUCTION // VARANASI, INDIA</span>
+          </div>
+
+          <div className="hidden lg:flex items-center gap-2 font-mono text-[10px] tracking-widest uppercase text-white/70 glass-dark-interactive px-3.5 py-1.5 rounded-full">
+            <Radio className="h-3 w-3 text-[#7C6ECD]" />
+            <span>ON-SITE TECHNICAL DIRECTION</span>
+          </div>
+        </div>
+
+        {/* Hero Middle Content */}
+        <div className="relative z-10 my-auto px-6 sm:px-10 lg:px-14 py-6 sm:py-8 max-w-5xl">
+          <h1
+            ref={headlineRef}
+            className="text-[clamp(2.2rem,5vw,5.2rem)] font-extrabold uppercase leading-[0.94] tracking-[-0.035em] text-white text-balance"
+          >
+            WE BRING LIFE <br />
+            <span className="font-serif font-normal italic lowercase tracking-normal text-white/90">
+              to every
+            </span>{' '}
+            EVENT.
+          </h1>
+
+          <p
+            ref={subRef}
+            className="mt-4 sm:mt-5 max-w-2xl text-xs sm:text-sm md:text-base font-light leading-relaxed text-white/80 text-pretty"
+          >
+            {siteConfig.heroSub}
+          </p>
+
+          {/* Action CTAs with Aceternity Magnetic Button pattern */}
+          <div
+            ref={ctaRef}
+            className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3.5"
+          >
+            <MagneticButton
+              href="#contact"
+              className="h-11 sm:h-13 rounded-full glass-violet px-6 sm:px-8 text-xs sm:text-sm font-semibold uppercase tracking-wider text-white hover:scale-102 transition-all shadow-md group"
+            >
+              <span>Start a Project</span>
+              <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </MagneticButton>
+
+            <MagneticButton
+              href="#productions"
+              className="h-11 sm:h-13 rounded-full glass-dark-interactive px-5 sm:px-7 text-xs sm:text-sm font-medium uppercase tracking-wider text-white hover:border-white/40 transition-all"
+            >
+              <span>View Selected Work</span>
+              <ArrowDown className="ml-2 h-4 w-4 text-[#7C6ECD]" />
+            </MagneticButton>
+          </div>
+        </div>
+
+        {/* Bottom Hero Ribbon Bar */}
+        <div
+          ref={bottomBarRef}
+          className="relative z-10 glass-dark border-t border-hairline-dark px-6 sm:px-10 lg:px-14 py-3.5 flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono tracking-widest text-white/65"
+        >
+          <div className="flex flex-wrap items-center gap-4 sm:gap-8">
+            <span className="flex items-center gap-1.5 text-white/90">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#7C6ECD]" /> SOUND
+            </span>
+            <span className="flex items-center gap-1.5 text-white/90">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#7C6ECD]" /> LIGHTING
+            </span>
+            <span className="flex items-center gap-1.5 text-white/90">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#7C6ECD]" /> STAGE
+            </span>
+            <span className="flex items-center gap-1.5 text-white/90">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#7C6ECD]" /> LED / VISUALS
+            </span>
+            <span className="hidden sm:inline-flex items-center gap-1.5 text-white/90">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#7C6ECD]" /> CAMERA & CREW
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2 text-[#7C6ECD]">
+            <span>●</span>
+            <span className="text-white/80">VARANASI PRODUCTION DESK</span>
           </div>
         </div>
       </div>
-
-      {/* Bottom Metadata & Primary CTAs */}
-      <div
-        ref={ctaRef}
-        className="relative z-10 max-w-7xl mx-auto w-full flex flex-col sm:flex-row sm:items-end justify-between gap-6 pt-6 border-t border-[#F4F2ED]/10"
-      >
-        <div ref={metaRef} className="max-w-md">
-          <p className="font-sans text-xs sm:text-sm text-[#F4F2ED]/70 leading-relaxed">
-            {siteConfig.positioning}
-          </p>
-          <p className="mt-1.5 font-mono text-[10px] sm:text-[11px] text-[#F4F2ED]/40 uppercase tracking-widest">
-            {siteConfig.tagline}
-          </p>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-          <a href="#productions">
-            <MagneticButton
-              variant="primary"
-              className="text-xs px-6 sm:px-7 py-3 sm:py-3.5"
-              cursorLabel="ENTER"
-            >
-              <span>ENTER THE WORK</span>
-              <ArrowDown className="h-3.5 w-3.5 animate-bounce" />
-            </MagneticButton>
-          </a>
-
-          <MagneticButton
-            variant="secondary"
-            onClick={onOpenProjectModal}
-            className="text-xs px-6 sm:px-7 py-3 sm:py-3.5"
-            cursorLabel="TALK"
-          >
-            <span>START A PROJECT</span>
-            <ArrowUpRight className="h-3.5 w-3.5" />
-          </MagneticButton>
-        </div>
-      </div>
     </section>
-  );
+  )
 }

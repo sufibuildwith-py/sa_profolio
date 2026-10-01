@@ -1,139 +1,108 @@
 export interface ServiceItem {
-  id: string;
-  number: string;
-  title: string;
-  tagline: string;
-  description: string;
-  operationalCapabilities: string[];
-  equipmentHighlights: string[];
-  interactionType: "sound" | "lighting" | "stage" | "led" | "camera" | "production";
+  id: string
+  number: string
+  title: string
+  tagline: string
+  description: string
+  capabilities: string[]
+  subsystems: string[]
 }
 
 export const servicesData: ServiceItem[] = [
   {
-    id: "sound",
-    number: "01",
-    title: "PROFESSIONAL SOUND",
-    tagline: "Acoustic control engineered for zero distortion and uniform pressure.",
-    description: "From intimate keynote speech clarity to high-impact festival sound pressure levels. We deploy calibrated line-array architectures, digital mixing consoles, wireless spectrum scanning, and pristine multi-track stage recording.",
-    operationalCapabilities: [
-      "FOH & Monitor Sound Engineering",
-      "Wireless RF Spectrum Coordination",
-      "Acoustic Room Tuning & Smaart Analysis",
-      "Digital Audio Over IP Routing",
-      "Multi-Track Master Recording"
+    id: 'sound',
+    number: '01',
+    title: 'SOUND REINFORCEMENT',
+    tagline: 'Acoustic power and precision coverage',
+    description:
+      'Professional audio systems, line arrays, stage monitoring, and digital mixing engineered specifically for the acoustic geometry of indoor ballrooms, open-air lawns, and stadium grounds.',
+    capabilities: [
+      'Line Array Speaker Systems & Subwoofers',
+      'Digital FOH & Monitor Mixing Consoles',
+      'Wireless Microphone & In-Ear Monitoring Racks',
+      'Multi-Zone Time-Aligned Audio Distribution',
+      'Acoustic Calibration & Real-Time Frequency Analysis',
     ],
-    equipmentHighlights: [
-      "High-Output Modular Line Array Systems",
-      "High-Resolution 96kHz Digital Consoles",
-      "Digital Wireless Microphone Systems",
-      "Multi-Channel In-Ear Stage Monitoring"
-    ],
-    interactionType: "sound"
+    subsystems: ['Line Array', 'FOH Console', 'RF Wireless', 'Stage Monitors', 'Sub-Bass Arrays'],
   },
   {
-    id: "lighting",
-    number: "02",
-    title: "LIGHTING DESIGN",
-    tagline: "Atmospheric stage sculpting, beam choreography, and portrait illumination.",
-    description: "Lighting is architecture in motion. We design and program synchronized moving profiles, sharp beam arrays, warm tungsten washes, and haze textures that frame every key moment with photographic fidelity.",
-    operationalCapabilities: [
-      "Timecoded DMX & Art-Net Programming",
-      "Keylight Balancing for 4K Broadcast",
-      "Architectural Venue & Facade Illumination",
-      "Moving Head Choreography & Pattern Design",
-      "Atmospheric Low-Fog & Tour-Grade Haze"
+    id: 'lighting',
+    number: '02',
+    title: 'INTELLIGENT LIGHTING',
+    tagline: 'Atmospheric design and dynamic show cues',
+    description:
+      'Architectural, stage, and show lighting designed to evoke mood, enhance physical presence, and deliver breathtaking live cue synchronization for ceremonies, keynotes, and live performances.',
+    capabilities: [
+      'Moving Heads (Beam, Spot, Wash, Hybrid)',
+      'Warm White LED Profiles & Stage Key Lights',
+      'Architectural Wash & Uplighting for Heritage & Lawns',
+      'DMX Programming & Grand Console Control',
+      'Haze, Low-Fog & Atmospheric Special Effects',
     ],
-    equipmentHighlights: [
-      "Hybrid Moving Spot & Beam Fixtures",
-      "Digital Lighting Control Surfaces",
-      "Wireless Linear Pixel Tubes",
-      "High-CRI 96+ Warm Profile Fixtures"
-    ],
-    interactionType: "lighting"
+    subsystems: ['Moving Beams', 'Warm Keylight', 'DMX Control', 'Architectural Wash', 'Haze FX'],
   },
   {
-    id: "stage-truss",
-    number: "03",
-    title: "STAGE & TRUSS",
-    tagline: "Certified structural engineering and load-rated ground support.",
-    description: "Every safe spectacle rests on certified rigging. We engineer heavy-duty aluminum box truss roofs, load-bearing ground support towers, modular heavy risers, and secure overhead equipment grids.",
-    operationalCapabilities: [
-      "Structural Load Calculation & Sign-off",
-      "Outdoor Roof Canopies & Weather Rigging",
-      "Ground Support Towers & Ballast Anchoring",
-      "Modular Carpeted & Acrylic Stage Risers",
-      "Motorized Electric Chain Hoist Systems"
+    id: 'stage',
+    number: '03',
+    title: 'STAGE & TRUSS RIGGING',
+    tagline: 'Engineered structural integrity and spatial presence',
+    description:
+      'Heavy-duty aluminium trussing, goalpost structures, ground-support box grids, and modular staging constructed to exacting load ratings and architectural aesthetics.',
+    capabilities: [
+      'Engineered Box Truss & Circular Rigging Grids',
+      'Certified Chain Hoists & Motorized Rigging Points',
+      'Custom Multi-Tier Stage Decks & Ramps',
+      'Structural Load & Wind-Resistance Safety Calculations',
+      'Seamless Stage Skirting & Premium Carpeting',
     ],
-    equipmentHighlights: [
-      "Heavy-Duty Aluminum Box Truss Grids",
-      "Load-Rated Electric Chain Hoist Motors",
-      "Modular Stage Decks & Safety Handrails",
-      "Engineered Outrigger Ground Support"
-    ],
-    interactionType: "stage"
+    subsystems: ['Aluminium Box Truss', 'Chain Hoists', 'Modular Decks', 'Ground Support', 'Rigging Safety'],
   },
   {
-    id: "led-visuals",
-    number: "04",
-    title: "LED & VISUALS",
-    tagline: "High-refresh video surfaces, pixel-mapped backdrops, and media engines.",
-    description: "High-contrast visual experiences that captivate live audiences and camera sensors alike. Ultra-black P2.6 indoor and weather-sealed P3.9 outdoor LED screens with zero flicker at high shutter speeds.",
-    operationalCapabilities: [
-      "Pixel-Accurate Screen Mapping & Calibration",
-      "Real-Time Live IMAG Video Feed Switching",
-      "Media Server Content Playback & Synchronization",
-      "Redundant 4K Fiber Optical Signal Runs",
-      "Curved, Split, & Architectural LED Configs"
+    id: 'led',
+    number: '04',
+    title: 'LED & VISUAL DISPLAY',
+    tagline: 'High-density display systems and stage backdrops',
+    description:
+      'Ultra-crisp modular LED video walls, curved display configurations, and low-latency video switching providing immersive backdrops and high-impact visual canvases.',
+    capabilities: [
+      'High-Refresh-Rate Indoor & Outdoor LED Panels',
+      'Seamless Curved & Multi-Screen Stage Configurations',
+      'Ultra-Low-Latency 4K Video Processors & Scalers',
+      'Live Media Playback & Motion Graphics Server Feeds',
+      'Daylight-Visible High-Nit Outdoor Screens',
     ],
-    equipmentHighlights: [
-      "Ultra-Fine Pitch P2.6mm High-Contrast Tiles",
-      "P3.9mm High-Brightness Outdoor Panels",
-      "Flagship 4K Video Splicers & Processors",
-      "Seamless Multi-Screen Presentation Switchers"
-    ],
-    interactionType: "led"
+    subsystems: ['Modular LED Tiles', '4K Video Processors', 'Curved Display Rigs', 'Media Servers', 'Switchers'],
   },
   {
-    id: "camera-coverage",
-    number: "05",
-    title: "CAMERA & LIVE COVERAGE",
-    tagline: "Cinema-grade optics, broadcast fiber chains, and live vision mixing.",
-    description: "Capturing the emotion and scale with broadcast-level precision. Full cinema camera packages, robotic PTZ systems, wireless zero-delay video links, and dedicated director-switched live production units.",
-    operationalCapabilities: [
-      "Multi-Camera Live Vision Mixing",
-      "Zero-Delay Wireless Camera Transmissions",
-      "Robotic Remote PTZ for Discreet Placement",
-      "Uncompressed 4K 10-Bit Master Recording",
-      "Direct Fiber Live Uplink for Broadcast"
+    id: 'camera',
+    number: '05',
+    title: 'CAMERA & VISUAL PRODUCTION',
+    tagline: 'Live event IMAG and broadcast-grade coverage',
+    description:
+      'Multi-camera setups, jib cranes, and live visual switching to broadcast dynamic stage action onto large-format displays with zero noticeable delay.',
+    capabilities: [
+      'Multi-Camera HD/4K Production Chains',
+      'Motorized Jib Cranes & Gimbal Operators',
+      'Live IMAG (Image Magnification) Switching',
+      'Stage Viewfinders & Teleprompter Systems',
+      'Direct Multi-Track Recording & Feeds',
     ],
-    equipmentHighlights: [
-      "4K Cinema Camera System Packages",
-      "Broadcast Optical Zoom Lens Packages",
-      "Multi-Camera Live Switcher Units",
-      "Zero-Latency Wireless Video Links"
-    ],
-    interactionType: "camera"
+    subsystems: ['Broadcast Cameras', 'Jib Crane', 'Vision Switcher', 'Low Latency IMAG', 'Recording Racks'],
   },
   {
-    id: "complete-production",
-    number: "06",
-    title: "COMPLETE EVENT PRODUCTION",
-    tagline: "People, equipment, power, and timing — moving as one synchronized system.",
-    description: "We don't merely drop off gear. We provide technical directors, show callers, stage managers, master electricians, and synchronized crew deployment from load-in to post-event strike.",
-    operationalCapabilities: [
-      "End-to-End Technical Show Direction",
-      "Run-of-Show Minute-by-Minute Cue Calling",
-      "Venue Power Load Audits & 3-Phase Distro",
-      "Multi-Department Intercom Comms Systems",
-      "Strict Contingency & Redundancy Protocols"
+    id: 'complete',
+    number: '06',
+    title: 'COMPLETE PRODUCTION DIRECTION',
+    tagline: 'Unified technical coordination and live show execution',
+    description:
+      'Turnkey management across sound, light, stage, visual, power distribution, and crew coordination so that every technical element runs in complete harmony.',
+    capabilities: [
+      'Single-Point Technical Director & Show Callers',
+      'Three-Phase Redundant Generator & Power Distribution',
+      'Intercom Comms Racks for Backstage & Crew',
+      'On-Site Sound & Lighting Technicians',
+      'Pre-Event Rehearsal & Timeline Management',
     ],
-    equipmentHighlights: [
-      "3-Phase Power Distribution Panels",
-      "Digital Multi-Channel Intercom Systems",
-      "Online Double-Conversion Power Backup",
-      "Heavy-Duty Cable Protection Ramps"
-    ],
-    interactionType: "production"
-  }
-];
+    subsystems: ['Technical Direction', 'Power Distribution', 'Intercom Comms', 'Safety Ops', 'Live Show Calling'],
+  },
+]

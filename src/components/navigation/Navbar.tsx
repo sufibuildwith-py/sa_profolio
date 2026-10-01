@@ -1,157 +1,152 @@
-import { useState, useEffect } from "react";
-import { ArrowUpRight, Menu, X } from "lucide-react";
-import { siteConfig } from "../../data/siteConfig";
-import { MagneticButton } from "../common/MagneticButton";
+import React, { useState, useEffect } from 'react'
+import { Menu, X, ArrowUpRight } from 'lucide-react'
+import { siteConfig } from '../../data/site'
+import { MagneticButton } from '../ui/MagneticButton'
 
-interface NavbarProps {
-  onOpenProjectModal: () => void;
-}
-
-export function Navbar({ onOpenProjectModal }: NavbarProps) {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+export const Navbar: React.FC = () => {
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 80);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+      setIsScrolled(window.scrollY > 40)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
-  const navLinks = [
-    { label: "WORK", href: "#productions" },
-    { label: "WORLDS", href: "#worlds" },
-    { label: "SERVICES", href: "#services" },
-    { label: "SYSTEM", href: "#system" },
-    { label: "TOOLKIT", href: "#toolkit" },
-    { label: "ABOUT", href: "#about" },
-    { label: "CONTACT", href: "#contact" },
-  ];
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsMobileMenuOpen(false)
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [isMobileMenuOpen])
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 flex justify-center px-4 sm:px-6 md:px-8 ${
-          scrolled ? "pt-4" : "pt-6 md:pt-8"
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-400 ease-out ${
+          isScrolled
+            ? 'glass-nav py-3 shadow-sm'
+            : 'bg-transparent py-5 md:py-7'
         }`}
       >
-        <nav
-          className={`flex items-center justify-between transition-all duration-500 ${
-            scrolled
-              ? "w-full max-w-5xl rounded-full bg-[#0A0A0A]/80 backdrop-blur-md border border-[#F4F2ED]/12 px-6 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.6)]"
-              : "w-full max-w-7xl px-2 py-2 bg-transparent border-transparent"
-          }`}
-        >
-          {/* Brand Logo */}
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-8 md:px-12">
+          {/* Logo Brand Lockup */}
           <a
             href="#"
-            className="flex items-center gap-2.5 text-[#F4F2ED] group select-none"
-            data-cursor="TOP"
+            className="group flex flex-col items-start leading-none transition-opacity hover:opacity-85"
+            aria-label="SA Production Home"
           >
-            <span className="flex h-3 w-3 items-center justify-center">
-              <span className="h-2 w-2 rounded-full bg-[#7C6ECD] group-hover:scale-125 transition-transform" />
-            </span>
-            <span className="font-display font-black tracking-tight text-lg md:text-xl uppercase">
+            <span className="text-base sm:text-lg font-black tracking-[-0.03em] text-[#09090C]">
               SA PRODUCTION
             </span>
-            <span className="hidden lg:inline-block font-mono text-[9px] uppercase tracking-widest text-[#F4F2ED]/40 border-l border-[#F4F2ED]/15 pl-2.5">
-              EST. VARANASI
+            <span className="font-mono text-[9px] tracking-[0.25em] uppercase text-[#09090C]/60 mt-0.5 group-hover:text-[#7C6ECD] transition-colors">
+              VARANASI · INDIA
             </span>
           </a>
 
-          {/* Desktop Nav Links */}
-          <div className="hidden md:flex items-center gap-6 lg:gap-8 font-mono text-xs uppercase tracking-widest">
-            {navLinks.map((link) => (
+          {/* Desktop Navigation Links */}
+          <nav
+            aria-label="Main Navigation"
+            className="hidden md:flex items-center gap-7 lg:gap-9 text-xs font-medium uppercase tracking-wider text-[#09090C]/70"
+          >
+            {siteConfig.navigation.map((item) => (
               <a
-                key={link.label}
-                href={link.href}
-                className="text-[#F4F2ED]/70 hover:text-[#F4F2ED] transition-colors relative py-1 hover:border-b border-[#F4F2ED]/60"
-                data-cursor="VIEW"
+                key={item.label}
+                href={item.href}
+                className="relative py-1 transition-colors hover:text-[#09090C] after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:w-0 after:bg-[#7C6ECD] after:transition-all after:duration-300 hover:after:w-full"
               >
-                {link.label}
+                {item.label}
               </a>
             ))}
-          </div>
+          </nav>
 
-          {/* Action Button & Mobile Hamburger */}
-          <div className="flex items-center gap-3">
+          {/* Desktop Action CTA Button */}
+          <div className="hidden sm:flex items-center gap-3">
             <MagneticButton
-              variant="primary"
-              onClick={onOpenProjectModal}
-              className="hidden sm:inline-flex text-[11px] px-5 py-2.5"
-              cursorLabel="START"
+              href="#contact"
+              className="h-10 rounded-full glass-violet px-5 text-xs font-semibold uppercase tracking-wider text-white shadow-sm hover:scale-102 transition-all"
             >
-              <span>START A PROJECT</span>
-              <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              <span>Start a Project</span>
+              <ArrowUpRight className="ml-1.5 h-3.5 w-3.5" />
             </MagneticButton>
-
-            <button
-              onClick={() => setMobileMenuOpen(true)}
-              className="md:hidden flex h-10 w-10 items-center justify-center rounded-full bg-[#171717] border border-[#F4F2ED]/15 text-[#F4F2ED] hover:bg-[#222]"
-              aria-label="Open Navigation Menu"
-            >
-              <Menu className="h-5 w-5" />
-            </button>
           </div>
-        </nav>
+
+          {/* Mobile Menu Trigger */}
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-expanded={isMobileMenuOpen}
+            aria-label="Toggle navigation menu"
+            aria-controls="mobile-menu"
+            className="flex h-10 w-10 items-center justify-center rounded-full glass-light md:hidden text-[#09090C] hover:bg-black/[0.05] transition-colors"
+          >
+            {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </header>
 
-      {/* Full-Screen Mobile Menu Overlay */}
-      {mobileMenuOpen && (
-        <div className="fixed inset-0 z-[1000] flex flex-col justify-between bg-[#050505] p-8 md:hidden select-none animate-in fade-in duration-300">
-          <div className="flex items-center justify-between border-b border-[#F4F2ED]/10 pb-6">
-            <div className="flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-[#7C6ECD]" />
-              <span className="font-display font-black tracking-tight text-xl text-[#F4F2ED]">
-                SA PRODUCTION
-              </span>
-            </div>
-            <button
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-[#F4F2ED]/20 text-[#F4F2ED] hover:bg-[#171717]"
-              aria-label="Close Navigation Menu"
-            >
-              <X className="h-5 w-5" />
-            </button>
+      {/* Mobile Drawer Menu */}
+      <div
+        id="mobile-menu"
+        aria-hidden={!isMobileMenuOpen}
+        className={`fixed inset-0 z-50 flex flex-col justify-between glass-nav p-6 sm:p-10 transition-all duration-500 ease-cinematic md:hidden ${
+          isMobileMenuOpen ? 'opacity-100 pointer-events-auto translate-y-0' : 'opacity-0 pointer-events-none -translate-y-8'
+        }`}
+      >
+        <div className="flex items-center justify-between border-b border-hairline pb-6">
+          <div className="flex flex-col">
+            <span className="text-lg font-black tracking-tight text-[#09090C]">SA PRODUCTION</span>
+            <span className="font-mono text-[9px] tracking-widest text-[#7C6ECD]">VARANASI, UP</span>
           </div>
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen(false)}
+            aria-label="Close menu"
+            className="flex h-10 w-10 items-center justify-center rounded-full glass-light text-[#09090C]"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
 
-          {/* Large Staggered Links */}
-          <div className="my-auto flex flex-col gap-6 py-8">
-            {navLinks.map((link, idx) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="group flex items-baseline justify-between border-b border-[#F4F2ED]/10 pb-4 text-3xl font-display font-black tracking-tight text-[#F4F2ED]/85 hover:text-white"
-              >
-                <span>{link.label}</span>
-                <span className="font-mono text-xs text-[#F4F2ED]/40">
-                  0{idx + 1}
-                </span>
-              </a>
-            ))}
-          </div>
-
-          <div className="flex flex-col gap-5 pt-6 border-t border-[#F4F2ED]/10">
-            <MagneticButton
-              variant="primary"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenProjectModal();
-              }}
-              className="w-full py-4 text-center justify-center"
+        {/* Links */}
+        <nav className="my-auto flex flex-col gap-4">
+          {siteConfig.navigation.map((item, idx) => (
+            <a
+              key={item.label}
+              href={item.href}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="flex items-center justify-between text-2xl font-bold tracking-tight text-[#09090C] hover:text-[#7C6ECD] transition-colors py-2 border-b border-hairline/50"
             >
-              <span>START A PROJECT</span>
-              <ArrowUpRight className="h-4 w-4" />
-            </MagneticButton>
-            <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-[#F4F2ED]/40">
-              <span>{siteConfig.established}</span>
-              <span>{siteConfig.contact.phone}</span>
-            </div>
+              <span>{item.label}</span>
+              <span className="font-mono text-xs text-[#09090C]/40">0{idx + 1}</span>
+            </a>
+          ))}
+        </nav>
+
+        {/* Drawer Bottom Actions */}
+        <div className="flex flex-col gap-4 border-t border-hairline pt-6">
+          <a
+            href="#contact"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="flex h-12 w-full items-center justify-center rounded-full glass-violet text-sm font-semibold uppercase tracking-wider text-white transition-transform active:scale-98"
+          >
+            <span>Start a Project</span>
+            <ArrowUpRight className="ml-2 h-4 w-4" />
+          </a>
+          <div className="flex justify-between font-mono text-[11px] text-[#09090C]/60">
+            <span>Physical Event Production</span>
+            <span>Varanasi, India</span>
           </div>
         </div>
-      )}
+      </div>
     </>
-  );
+  )
 }

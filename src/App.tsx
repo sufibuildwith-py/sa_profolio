@@ -1,105 +1,78 @@
-import { useState, useEffect } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLenis } from "./hooks/useLenis";
-
-gsap.registerPlugin(ScrollTrigger);
-import { CustomCursor } from "./components/common/CustomCursor";
-import { Preloader } from "./components/common/Preloader";
-import { Navbar } from "./components/navigation/Navbar";
-import { Hero } from "./components/hero/Hero";
-import { IntroStatement } from "./components/intro/IntroStatement";
-import { ProductionWorlds } from "./components/worlds/ProductionWorlds";
-import { ServicesSection } from "./components/services/ServicesSection";
-import { WorkflowTimeline } from "./components/workflow/WorkflowTimeline";
-import { ToolkitArchive } from "./components/archive/ToolkitArchive";
-import { SelectedProductions } from "./components/projects/SelectedProductions";
-import { ProductionMarquee } from "./components/marquee/ProductionMarquee";
-import { OperationalScale } from "./components/scale/OperationalScale";
-import { ContactSection } from "./components/contact/ContactSection";
-import { ProjectInquiryModal } from "./components/contact/ProjectInquiryModal";
-import { Footer } from "./components/footer/Footer";
+import { useState } from 'react'
+import { Navbar } from './components/navigation/Navbar'
+import { Hero } from './components/hero/Hero'
+import { Introduction } from './components/intro/Introduction'
+import { ProductionWorlds } from './components/worlds/ProductionWorlds'
+import { ServicesSection } from './components/services/ServicesSection'
+import { SelectedProductions } from './components/productions/SelectedProductions'
+import { ProductionMarquee } from './components/marquee/ProductionMarquee'
+import { ProcessSection } from './components/process/ProcessSection'
+import { TechnicalCapability } from './components/technical/TechnicalCapability'
+import { ContactSection } from './components/contact/ContactSection'
+import { Footer } from './components/footer/Footer'
+import { CustomCursor } from './components/ui/CustomCursor'
+import { Preloader } from './components/ui/Preloader'
+import { LayoutDebug } from './components/ui/LayoutDebug'
+import { GlobalCameraExperience } from './components/three/GlobalCameraExperience'
+import { useLenis } from './hooks/useLenis'
 
 export function App() {
-  const [isIntroComplete, setIsIntroComplete] = useState(false);
-  const [projectModalOpen, setProjectModalOpen] = useState(false);
+  const [preloaderDone, setPreloaderDone] = useState(false)
 
-  // Initialize smooth scrolling with Lenis + GSAP ScrollTrigger sync
-  useLenis(true);
-
-  // Recalculate ScrollTrigger markers after preloader finishes and DOM settles
-  useEffect(() => {
-    if (isIntroComplete) {
-      const timer = setTimeout(() => {
-        ScrollTrigger.refresh();
-      }, 100);
-      return () => clearTimeout(timer);
-    }
-  }, [isIntroComplete]);
+  // Initialize unified Lenis smooth scrolling synchronized with GSAP
+  useLenis()
 
   return (
-    <div className="relative min-h-screen w-full bg-[#050505] text-[#F4F2ED] antialiased overflow-x-hidden selection:bg-[#7C6ECD] selection:text-[#F4F2ED]">
-      {/* Subtle Cinematic Film Grain Texture */}
-      <div className="grain-overlay" aria-hidden="true" />
+    <div className="relative min-h-screen bg-[#F4F1E8] text-[#09090C] overflow-x-hidden selection:bg-[#7C6ECD] selection:text-white">
+      {/* Real Media Readiness Preloader */}
+      {!preloaderDone && <Preloader onComplete={() => setPreloaderDone(true)} />}
 
-      {/* Desktop Custom Lerping Cursor */}
+      {/* Temporary Layout Forensics Debug Overlay (activated via ?layoutDebug=1) */}
+      <LayoutDebug />
+
+      {/* Global Zero-Gravity 3D Camera Journey (Unified single Three.js Canvas) */}
+      <GlobalCameraExperience />
+
+      {/* Custom Desktop Cursor */}
       <CustomCursor />
 
-      {/* Preloader with clean cinematic entrance */}
-      {!isIntroComplete && (
-        <Preloader onComplete={() => setIsIntroComplete(true)} />
-      )}
+      {/* Fixed Editorial Navigation */}
+      <Navbar />
 
-      {/* Floating Dynamic Navbar */}
-      <Navbar onOpenProjectModal={() => setProjectModalOpen(true)} />
+      {/* Main Continuous Visual Narrative */}
+      <main id="main-content">
+        {/* 01 — Hero Section (100svh inset container) */}
+        <Hero />
 
-      <main className="relative z-10 flex flex-col w-full">
-        {/* Hero Section with Clean Dark Luxury Backdrop & Typography */}
-        <Hero
-          onOpenProjectModal={() => setProjectModalOpen(true)}
-          isReady={isIntroComplete}
-        />
+        {/* 02 — Introduction Section (Asymmetric Philosophy) */}
+        <Introduction />
 
-        {/* Intro Statement: "We don't just show up. We set the whole thing in motion." */}
-        <IntroStatement />
-
-        {/* Production Worlds: 8 Disciplines */}
+        {/* 03 — Production Worlds (Sticky Showcase & Category Rail) */}
         <ProductionWorlds />
 
-        {/* Services Section with Micro-Interactions */}
+        {/* 04 — Services & Capabilities (Numbered Technical List) */}
         <ServicesSection />
 
-        {/* Execution Workflow with Tracing Beam */}
-        <WorkflowTimeline />
+        {/* 05 — Selected Productions (Stacking Editorial Cards & Lightbox) */}
+        <SelectedProductions />
 
-        {/* The Toolkit: Hardware Archive & Inspection Console */}
-        <ToolkitArchive />
-
-        {/* Selected Work: Stacking Case Studies */}
-        <SelectedProductions
-          onOpenProjectModal={() => setProjectModalOpen(true)}
-        />
-
-        {/* Kinetic Production Marquee */}
+        {/* 06 — Production Marquee (Dual Direction Scroll Ribbons) */}
         <ProductionMarquee />
 
-        {/* Operational Scale & Verified Metrics */}
-        <OperationalScale />
+        {/* 07 — Process & Delivery Workflow (7-Stage Physical Pipeline) */}
+        <ProcessSection />
 
-        {/* Contact & Final CTA */}
-        <ContactSection onOpenProjectModal={() => setProjectModalOpen(true)} />
+        {/* 08 — Technical Capability (Engineering Matrix & 3D Hardware) */}
+        <TechnicalCapability />
+
+        {/* 09 — Contact Section (Cinematic Conclusion & Inquiry Form) */}
+        <ContactSection />
       </main>
 
-      {/* Footer */}
+      {/* 10 — Footer */}
       <Footer />
-
-      {/* Project Inquiry Modal */}
-      <ProjectInquiryModal
-        isOpen={projectModalOpen}
-        onClose={() => setProjectModalOpen(false)}
-      />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

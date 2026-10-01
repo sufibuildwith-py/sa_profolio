@@ -1,59 +1,43 @@
-export interface Asset3DRegistryItem {
-  id: string;
-  name: string;
-  category: "LIGHTING" | "AUDIO" | "CAMERA" | "STAGE";
-  file: string;
-  source: string;
-  license: string;
-  attributionRequired: boolean;
-  author: string;
-  usageNotes: string;
-  scale: number;
-  initialRotation: [number, number, number];
-  initialPosition: [number, number, number];
+export interface AssetMetadata {
+  name: string
+  source: string
+  license: string
+  attribution: string
+  localPath: string
+  usage: string
 }
 
-export const asset3DRegistry: Asset3DRegistryItem[] = [
+export const assetsCatalog: AssetMetadata[] = [
   {
-    id: "stage-lighting-fixture",
-    name: "Production Lighting Fixture (PBR Lantern/Spotlight)",
-    category: "LIGHTING",
-    file: "/models/lantern.glb",
-    source: "KhronosGroup glTF-Sample-Assets (Microsoft / glTF 2.0 PBR Sample Collection)",
-    license: "Creative Commons Attribution 4.0 International (CC BY 4.0)",
-    attributionRequired: true,
-    author: "Microsoft / Khronos Group",
-    usageNotes: "Industrial stage lighting lantern fixture with PBR metallic-roughness workflow and glass enclosure. Used in hero cinematic stage lighting environment.",
-    scale: 0.085,
-    initialRotation: [0, -0.4, 0],
-    initialPosition: [1.2, -0.8, 0],
+    name: 'Hero Production Video',
+    source: 'Local SA Production Repository Asset',
+    license: 'Proprietary / SA Production Authorized',
+    attribution: 'SA Production Varanasi',
+    localPath: '/herovid.mp4',
+    usage: 'Cinematic hero background and interactive scrub video',
   },
   {
-    id: "sound-system-boombox",
-    name: "Acoustic Sound & Audio Monitor Unit",
-    category: "AUDIO",
-    file: "/models/boombox.glb",
-    source: "KhronosGroup glTF-Sample-Assets (Microsoft / glTF 2.0 PBR Sample Collection)",
-    license: "Creative Commons Attribution 4.0 International (CC BY 4.0)",
-    attributionRequired: true,
-    author: "Microsoft / Khronos Group",
-    usageNotes: "PBR acoustic speaker enclosure and playback hardware. Utilized in audio capabilities and toolkit inspection.",
-    scale: 120.0,
-    initialRotation: [0.1, -0.6, 0],
-    initialPosition: [0, 0, 0],
+    name: 'Hero Video Poster Still',
+    source: 'Local SA Production Repository Asset',
+    license: 'Proprietary / SA Production Authorized',
+    attribution: 'SA Production Varanasi',
+    localPath: '/herovid-poster.jpg',
+    usage: 'Fast-loading fallback poster for hero video',
   },
   {
-    id: "cinema-camera-package",
-    name: "Optical Camera Hardware Package",
-    category: "CAMERA",
-    file: "/models/camera.glb",
-    source: "KhronosGroup glTF-Sample-Assets (glTF 2.0 Reference Models)",
-    license: "Creative Commons Attribution 4.0 International (CC BY 4.0)",
-    attributionRequired: true,
-    author: "Khronos Group",
-    usageNotes: "Multi-element optical cinema camera body with precision brass and leather housing for live coverage visual.",
-    scale: 0.45,
-    initialRotation: [0.1, 0.5, 0],
-    initialPosition: [0, -0.5, 0],
-  }
-];
+    name: 'Canon AT-1 Retro Camera 3D Model',
+    source: 'Local Repository Asset / Sketchfab (https://sketchfab.com/3d-models/canon-at-1-retro-camera-9de66868d0f240e985da00c9480bfc82)',
+    license: 'Creative Commons Attribution (CC BY 4.0)',
+    attribution: 'Canon AT-1 Retro Camera by AleixoAlonso on Sketchfab',
+    localPath: '/camera/scene.gltf',
+    usage: 'Global zero-gravity floating 3D camera traversing the entire site story via unified Three.js canvas',
+  },
+  {
+    name: 'Editorial Event Photography',
+    source: 'Unsplash Editorial Production Stills',
+    license: 'Unsplash Permissive License (Free for commercial and editorial use)',
+    attribution: 'Respective editorial photographers on Unsplash',
+    localPath: 'Remote CDN (Unsplash optimized with auto=format)',
+    usage: 'Portfolio cards, Production Worlds, Marquee ribbons',
+  },
+]
