@@ -20,6 +20,7 @@ export const Hero: React.FC = () => {
   const eyebrowRef = useRef<HTMLDivElement>(null)
   const ctaRef = useRef<HTMLDivElement>(null)
   const bottomBarRef = useRef<HTMLDivElement>(null)
+  const bgImageRef = useRef<HTMLImageElement>(null)
   const rippleRef = useRef<WebGLRippleTransitionHandle>(null)
   const prefersReducedMotion = useReducedMotion()
 
@@ -117,6 +118,16 @@ export const Hero: React.FC = () => {
           duration: 1,
           ease: 'none',
         })
+
+        // Subtle background zoom & parallax illusion on scroll
+        if (bgImageRef.current) {
+          scrollTl.fromTo(
+            bgImageRef.current,
+            { scale: 1.0, y: 0 },
+            { scale: 1.08, y: -20, ease: 'none', duration: 1 },
+            0
+          )
+        }
       }
     )
 
@@ -130,7 +141,7 @@ export const Hero: React.FC = () => {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative w-full bg-[#F4F1E8] text-[#09090C] overflow-hidden"
+      className="relative w-full bg-[#09090C] text-white overflow-hidden"
       aria-label="Hero Section"
     >
       {/* Pinned Viewport Container with Transparent Glass Styling */}
@@ -138,32 +149,36 @@ export const Hero: React.FC = () => {
         ref={pinFrameRef}
         className="relative flex h-[100svh] w-full flex-col justify-between overflow-hidden glass-gloss"
       >
-        {/* Static Velvet Hero Background Image Layer (Behind glass and content) */}
-        <img
-          src="/hero-velvet-bg.jpg"
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none z-0 select-none"
-          aria-hidden="true"
-          loading="eager"
-          decoding="async"
-        />
+        {/* Velvet Hero Background Image Layer (Unzoomed at start, zooms subtly on scroll) */}
+        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+          <img
+            ref={bgImageRef}
+            src="/hero-velvet-bg.jpg"
+            alt=""
+            className="w-full h-full object-cover object-center pointer-events-none select-none will-change-transform"
+            aria-hidden="true"
+            loading="eager"
+            decoding="async"
+            style={{ transform: 'scale(1)' }}
+          />
+        </div>
 
-        {/* Transparent Off-White Glass Material Layer with Inset Highlights & Subtle Violet Tint */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[rgba(124,110,205,0.065)] via-[rgba(9,9,12,0.025)] to-[rgba(124,110,205,0.04)] backdrop-blur-xl pointer-events-none z-[1]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_75%_50%_at_35%_25%,rgba(124,110,205,0.12),transparent_70%)] pointer-events-none z-[1]" />
-        <div className="grain-overlay pointer-events-none absolute inset-0 opacity-20 mix-blend-multiply z-[2]" />
+        {/* Transparent Glass Screen Layer (Architectural Glass Screen Over Velvet Image) */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/[0.04] via-transparent to-black/[0.25] pointer-events-none z-[1]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_20%,rgba(124,110,205,0.08),transparent_70%)] pointer-events-none z-[1]" />
+        <div className="grain-overlay-dark pointer-events-none absolute inset-0 opacity-15 mix-blend-overlay z-[2]" />
 
         {/* Top Header Location Eyebrow */}
         <div className="relative z-10 pt-16 sm:pt-20 md:pt-22 px-6 sm:px-10 lg:px-16 flex items-center justify-between">
           <div
             ref={eyebrowRef}
-            className="flex items-center gap-2 font-mono text-[10px] sm:text-xs tracking-[0.25em] uppercase text-[#09090C]/65"
+            className="flex items-center gap-2 font-mono text-[10px] sm:text-xs tracking-[0.25em] uppercase text-white"
           >
             <span className="flex h-2 w-2 relative">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7C6ECD] opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#7C6ECD]" />
             </span>
-            <span>EVENT PRODUCTION // VARANASI, INDIA</span>
+            <span className="text-white">EVENT PRODUCTION // VARANASI, INDIA</span>
           </div>
         </div>
 
@@ -182,15 +197,15 @@ export const Hero: React.FC = () => {
             href="#contact"
             className="h-11 sm:h-13 rounded-full glass-violet px-6 sm:px-8 text-xs sm:text-sm font-semibold uppercase tracking-wider text-white hover:scale-102 transition-all shadow-md group"
           >
-            <span>Start a Project</span>
+            <span className="text-white">Start a Project</span>
             <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </MagneticButton>
 
           <MagneticButton
             href="#productions"
-            className="h-11 sm:h-13 rounded-full glass-light-interactive px-5 sm:px-7 text-xs sm:text-sm font-medium uppercase tracking-wider text-[#09090C] hover:border-[#7C6ECD]/40 transition-all"
+            className="h-11 sm:h-13 rounded-full glass-dark-interactive px-5 sm:px-7 text-xs sm:text-sm font-medium uppercase tracking-wider text-white hover:border-white/40 transition-all"
           >
-            <span>View Selected Work</span>
+            <span className="text-white">View Selected Work</span>
             <ArrowDown className="ml-2 h-4 w-4 text-[#7C6ECD]" />
           </MagneticButton>
         </div>
@@ -198,29 +213,29 @@ export const Hero: React.FC = () => {
           {/* Preserved Bottom Hero Ribbon Bar */}
           <div
             ref={bottomBarRef}
-            className="relative z-10 glass-light border-t border-hairline px-6 sm:px-10 lg:px-14 py-3.5 flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono tracking-widest text-[#09090C]/65"
+            className="relative z-10 glass-dark border-t border-white/10 px-6 sm:px-10 lg:px-14 py-3.5 flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono tracking-widest text-white"
           >
-            <div className="flex flex-wrap items-center gap-4 sm:gap-8">
-              <span className="flex items-center gap-1.5 text-[#09090C]/90">
+            <div className="flex flex-wrap items-center gap-4 sm:gap-8 text-white">
+              <span className="flex items-center gap-1.5 text-white">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#7C6ECD]" /> SOUND
               </span>
-              <span className="flex items-center gap-1.5 text-[#09090C]/90">
+              <span className="flex items-center gap-1.5 text-white">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#7C6ECD]" /> LIGHTING
               </span>
-              <span className="flex items-center gap-1.5 text-[#09090C]/90">
+              <span className="flex items-center gap-1.5 text-white">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#7C6ECD]" /> STAGE
               </span>
-              <span className="flex items-center gap-1.5 text-[#09090C]/90">
+              <span className="flex items-center gap-1.5 text-white">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#7C6ECD]" /> LED / VISUALS
               </span>
-              <span className="hidden sm:inline-flex items-center gap-1.5 text-[#09090C]/90">
+              <span className="hidden sm:inline-flex items-center gap-1.5 text-white">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#7C6ECD]" /> CAMERA & CREW
               </span>
             </div>
 
             <div className="flex items-center gap-2 text-[#7C6ECD]">
               <span>●</span>
-              <span className="text-[#09090C]/80">VARANASI PRODUCTION DESK</span>
+              <span className="text-white">VARANASI PRODUCTION DESK</span>
             </div>
           </div>
       </div>
