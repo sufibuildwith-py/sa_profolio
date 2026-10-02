@@ -12,30 +12,30 @@ export const ServicesSection: React.FC = () => {
   return (
     <section
       id="services"
-      className="relative w-full py-10 sm:py-16 lg:py-24 px-5 sm:px-8 md:px-12 lg:px-16 bg-[#F4F1E8]"
+      className="relative w-full py-10 sm:py-16 lg:py-24 px-5 sm:px-8 md:px-12 lg:px-16 bg-[#09090C] text-white"
       aria-label="Technical Capabilities and Services"
     >
       <div className="mx-auto max-w-7xl">
         {/* Section Index Header */}
-        <div className="flex items-center justify-between border-b border-hairline pb-3">
-          <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-[#09090C]/50">
+        <div className="flex items-center justify-between border-b border-hairline-dark pb-3">
+          <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-white/50">
             <span className="text-[#7C6ECD] font-semibold">03</span>
             <span>// CAPABILITIES & DISCIPLINES</span>
           </div>
-          <span className="font-mono text-[11px] text-[#09090C]/40 uppercase tracking-widest hidden sm:inline-block">
+          <span className="font-mono text-[11px] text-[#7C6ECD] uppercase tracking-widest hidden sm:inline-block">
             01 — 06 Core Services
           </span>
         </div>
 
         {/* Section Headline */}
         <div className="mt-6 sm:mt-8 mb-6 sm:mb-12 max-w-3xl">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight text-[#09090C]">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight text-white">
             COMPLETE TECHNICAL <br />
-            <span className="font-serif italic font-normal text-[#514691] lowercase">
+            <span className="font-serif italic font-normal text-[#A49BE0] lowercase">
               event execution
             </span>
           </h2>
-          <p className="mt-3 text-sm sm:text-base text-[#09090C]/70 font-light leading-relaxed">
+          <p className="mt-3 text-sm sm:text-base text-white/70 font-light leading-relaxed">
             From single-system rentals to complete multi-departmental show direction, we provide certified equipment, seasoned technicians, and unwavering reliability.
           </p>
         </div>
@@ -50,8 +50,8 @@ export const ServicesSection: React.FC = () => {
                 key={service.id}
                 className={`group rounded-2xl transition-all duration-300 ${
                   isExpanded
-                    ? 'glass-light-interactive shadow-md'
-                    : 'glass-light hover:border-[#7C6ECD]/30'
+                    ? 'glass-dark-interactive shadow-lg'
+                    : 'glass-dark hover:border-[#7C6ECD]/40'
                 }`}
               >
                 <div
@@ -63,10 +63,10 @@ export const ServicesSection: React.FC = () => {
                       {service.number}
                     </span>
                     <div>
-                      <h3 className="text-lg sm:text-xl md:text-2xl font-bold uppercase tracking-tight text-[#09090C] group-hover:text-[#514691] transition-colors">
+                      <h3 className="text-lg sm:text-xl md:text-2xl font-bold uppercase tracking-tight text-white group-hover:text-[#A49BE0] transition-colors">
                         {service.title}
                       </h3>
-                      <p className="mt-0.5 text-xs sm:text-sm font-mono text-[#09090C]/50">
+                      <p className="mt-0.5 text-xs sm:text-sm font-mono text-white/50">
                         {service.tagline}
                       </p>
                     </div>
@@ -80,7 +80,7 @@ export const ServicesSection: React.FC = () => {
                       className={`flex h-8 w-8 items-center justify-center rounded-full transition-all duration-300 ${
                         isExpanded
                           ? 'glass-violet text-white rotate-180'
-                          : 'glass-light text-[#09090C] group-hover:border-[#7C6ECD]'
+                          : 'glass-dark text-white group-hover:border-[#7C6ECD]'
                       }`}
                     >
                       <ChevronDown className="h-4 w-4" />
@@ -96,17 +96,17 @@ export const ServicesSection: React.FC = () => {
                       : 'grid-rows-[0fr] opacity-0 overflow-hidden px-5 sm:px-6 pb-0'
                   }`}
                 >
-                  <div className="overflow-hidden border-t border-hairline/60 pt-5">
+                  <div className="overflow-hidden border-t border-hairline-dark/60 pt-5">
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-start pl-0 sm:pl-14">
                       <div className="md:col-span-6">
-                        <p className="text-sm sm:text-base leading-relaxed text-[#09090C]/80">
+                        <p className="text-sm sm:text-base leading-relaxed text-white/80">
                           {service.description}
                         </p>
                         <div className="mt-4 flex flex-wrap gap-2">
                           {service.subsystems.map((sub, idx) => (
                             <span
                               key={idx}
-                              className="rounded-lg glass-light px-3 py-1 text-[11px] font-mono uppercase text-[#09090C]/75"
+                              className="rounded-lg glass-dark px-3 py-1 text-[11px] font-mono uppercase text-white/75 border border-white/5"
                             >
                               {sub}
                             </span>
@@ -121,7 +121,7 @@ export const ServicesSection: React.FC = () => {
                         {service.capabilities.map((cap, idx) => (
                           <div
                             key={idx}
-                            className="flex items-start gap-2.5 text-xs sm:text-sm text-[#09090C]/75"
+                            className="flex items-start gap-2.5 text-xs sm:text-sm text-white/80"
                           >
                             <span className="flex h-4 w-4 items-center justify-center rounded-full glass-violet text-[#7C6ECD] text-[10px] shrink-0 mt-0.5">
                               <Check className="h-2.5 w-2.5 text-white" />
