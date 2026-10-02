@@ -25,14 +25,6 @@ export const assetsCatalog: AssetMetadata[] = [
     usage: 'Fast-loading fallback poster for hero video',
   },
   {
-    name: 'Canon AT-1 Retro Camera 3D Model',
-    source: 'Local Repository Asset / Sketchfab (https://sketchfab.com/3d-models/canon-at-1-retro-camera-9de66868d0f240e985da00c9480bfc82)',
-    license: 'Creative Commons Attribution (CC BY 4.0)',
-    attribution: 'Canon AT-1 Retro Camera by AleixoAlonso on Sketchfab',
-    localPath: '/camera/scene.gltf',
-    usage: 'Global zero-gravity floating 3D camera traversing the entire site story via unified Three.js canvas',
-  },
-  {
     name: 'Editorial Event Photography',
     source: 'Unsplash Editorial Production Stills',
     license: 'Unsplash Permissive License (Free for commercial and editorial use)',

@@ -18,7 +18,6 @@ This inventory documents the component patterns cherry-picked from the engineeri
 | Lenis (Darkroom) | Virtual Scroll Engine | Momentum smooth scrolling synchronized with GSAP ticker | Global root document scrolling (`useLenis.ts`) | MIT / Permissive | DIRECT COMPONENT | Single unified smooth scroll instance eliminating scroll contention |
 | Aceternity UI | Animated Tabs (`https://ui.aceternity.com/components/animated-tabs`) | Floating pill segmented control, sliding active state, keyboard accessibility | Section 08: Technical Capability Matrix (`TechnicalCapability.tsx`) | MIT / Permissive | SOURCE ADAPTATION | Architectural CAD layer switcher switching smoothly between the 4 engineering disciplines |
 | Aceternity UI | 3D Card Effect (`https://ui.aceternity.com/components/3d-card-effect`) | Perspective hover tilt, spring-damped pointer interpolation, max ±4° restraint | Section 08: CAD Engineering Viewport (`TechnicalCapability.tsx`) | MIT / Permissive | SOURCE ADAPTATION | Architectural drafting board perspective response to cursor movement without exaggerated gimmicks |
-| Three.js | WebGL Renderer | Single canvas 3D scene rendering | GlobalCameraExperience | MIT / Permissive | DIRECT COMPONENT | Single canvas, single renderer, capped DPR for 60fps performance |
 
 ## Design System & Material Palette
 1. **Strict Three-Colour System**:

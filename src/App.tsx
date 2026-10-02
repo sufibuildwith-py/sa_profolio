@@ -12,7 +12,6 @@ import { Footer } from './components/footer/Footer'
 import { CustomCursor } from './components/ui/CustomCursor'
 import { Preloader } from './components/ui/Preloader'
 import { LayoutDebug } from './components/ui/LayoutDebug'
-import { GlobalCameraExperience } from './components/three/GlobalCameraExperience'
 import { useLenis } from './hooks/useLenis'
 
 export function App() {
@@ -28,9 +27,6 @@ export function App() {
 
       {/* Temporary Layout Forensics Debug Overlay (activated via ?layoutDebug=1) */}
       <LayoutDebug />
-
-      {/* Global Zero-Gravity 3D Camera Journey (Unified single Three.js Canvas) */}
-      <GlobalCameraExperience />
 
       {/* Custom Desktop Cursor */}
       <CustomCursor />
