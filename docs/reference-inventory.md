@@ -16,6 +16,8 @@ This inventory documents the component patterns cherry-picked from the engineeri
 | Componentry | Text Morph | Character blend & typographic continuity | Hero Quote → SA PRODUCTION | MIT / Permissive | SOURCE ADAPTATION | Scroll-driven GSAP Scrub with typographic continuity |
 | GSAP | Animation Engine & Ticker | Frame ticker synchronization, delta timing, velocity damping | Section 03 & Section 05 reel ticker & global animations | Greensock Standard | DIRECT COMPONENT | Unified single ticker engine synchronized with Lenis without additional requestAnimationFrame loops |
 | Lenis (Darkroom) | Virtual Scroll Engine | Momentum smooth scrolling synchronized with GSAP ticker | Global root document scrolling (`useLenis.ts`) | MIT / Permissive | DIRECT COMPONENT | Single unified smooth scroll instance eliminating scroll contention |
+| Aceternity UI | Animated Tabs (`https://ui.aceternity.com/components/animated-tabs`) | Floating pill segmented control, sliding active state, keyboard accessibility | Section 08: Technical Capability Matrix (`TechnicalCapability.tsx`) | MIT / Permissive | SOURCE ADAPTATION | Architectural CAD layer switcher switching smoothly between the 4 engineering disciplines |
+| Aceternity UI | 3D Card Effect (`https://ui.aceternity.com/components/3d-card-effect`) | Perspective hover tilt, spring-damped pointer interpolation, max ±4° restraint | Section 08: CAD Engineering Viewport (`TechnicalCapability.tsx`) | MIT / Permissive | SOURCE ADAPTATION | Architectural drafting board perspective response to cursor movement without exaggerated gimmicks |
 | Three.js | WebGL Renderer | Single canvas 3D scene rendering | GlobalCameraExperience | MIT / Permissive | DIRECT COMPONENT | Single canvas, single renderer, capped DPR for 60fps performance |
 
 ## Design System & Material Palette
@@ -44,5 +46,13 @@ This inventory documents the component patterns cherry-picked from the engineeri
    - **Off-Screen Throttling**: An `IntersectionObserver` automatically suspends the GSAP ticker when the section is out of the viewport.
    - **Preserved Design Integrity**: All glossy glass materials, typography, `CardSpotlight`, tags, and data specifications are retained with 100% fidelity.
    - **Unified Shared Architecture**: All three reels leverage `useDraggableInfiniteReel.ts` for uniform mathematical precision and 60fps/120fps GPU performance.
+4. **Multi-Layer CAD Rigging Inspector (Section 08)**:
+   - **Compact Single-Viewport Architecture**: Replaced multiple explanatory cards and tall vertical blocks with one persistent engineering inspection viewport (~100vh–120vh), dramatically reducing total website scroll length while elevating technical perception.
+   - **Unified Coordinate System**: All four disciplines (`01 RIGGING GRID`, `02 LIGHTING DMX`, `03 AUDIO SPL`, `04 POWER & RF`) inhabit the exact same isometric stage production geometry ($900 \times 580$ SVG canvas). Switching layers morphs the active engineering lens rather than swapping slides.
+   - **Aceternity Animated Tabs Control**: Floating pill segmented control at top center (`glass-dark` with sliding `#7C6ECD` active state and keyboard accessibility).
+   - **Aceternity 3D Card Magnetic Tilt**: Direct GPU CSS transform ref (`perspective(1200px) rotateX(±4°) rotateY(±4°)`) following cursor coordinates with spring relaxation, operating at 60fps/120fps with zero React state updates on mouse move. Tilt is gracefully disabled on touch devices.
+   - **Architectural Inspection Spotlight**: Restrained cursor-following radial torch (`rgba(124, 110, 205, 0.14)`) revealing schematic details under pointer.
+   - **Single-Trigger Construction Animation**: GSAP ScrollTrigger executes a single entry scale/fade animation on first scroll, avoiding continuous redrawing or global RAF loops.
+   - **Section Exit Statement**: Concludes with `ENGINEERED BEFORE IT IS BUILT.` transitioning directly into the Contact section.
 
 
