@@ -1,18 +1,59 @@
 import React, { useEffect, useRef } from 'react'
-import { Volume2, Sparkles, ShieldCheck } from 'lucide-react'
 import { siteConfig } from '../../data/site'
 import { gsap, EASE } from '../../lib/motion'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
+import { CardSpotlight } from '../ui/CardSpotlight'
+import { useDraggableInfiniteReel } from '../../hooks/useDraggableInfiniteReel'
+
+// Exact technical/engineering card copy (zero paraphrasing or shortening)
+const technicalCardsData = [
+  {
+    number: '01',
+    title: 'Acoustic Precision',
+    description:
+      'Clean audio dispersion calculated for human speech intelligibility and concert dynamics without ear-fatiguing distortion or dead zones.',
+  },
+  {
+    number: '02',
+    title: 'Atmospheric Lighting',
+    description:
+      'Architectural, stage, and scenic illumination that flatters faces on camera, defines spatial boundaries, and intensifies live moments.',
+  },
+  {
+    number: '03',
+    title: 'Structural Reliability',
+    description:
+      'Certified trussing, calculated rigging load points, and redundant power infrastructure built with uncompromising on-site safety.',
+  },
+]
+
+// Duplicate sequence internally so 1 set is ~3000px, exceeding any screen width for gapless wrapping
+const reelItems = [...technicalCardsData, ...technicalCardsData]
 
 export const Introduction: React.FC = () => {
-  const sectionRef = useRef<HTMLDivElement>(null)
   const line1Ref = useRef<HTMLDivElement>(null)
   const line2Ref = useRef<HTMLDivElement>(null)
   const line3Ref = useRef<HTMLDivElement>(null)
   const line4Ref = useRef<HTMLDivElement>(null)
   const descRef = useRef<HTMLParagraphElement>(null)
-  const cardsRef = useRef<HTMLDivElement>(null)
   const prefersReducedMotion = useReducedMotion()
+
+  // Continuous autonomous Right-to-Left reel (direction: 'left')
+  const {
+    sectionRef,
+    viewportRef,
+    trackRef,
+    singleSetRef,
+    isDragging,
+    handlePointerDown,
+    handlePointerMove,
+    handlePointerUp,
+  } = useDraggableInfiniteReel({
+    direction: 'left',
+    speedDesktop: 52,
+    speedMobile: 42,
+    gapFallback: 24,
+  })
 
   useEffect(() => {
     if (prefersReducedMotion || !sectionRef.current) return
@@ -56,37 +97,44 @@ export const Introduction: React.FC = () => {
           ease: EASE.cinematic,
         }
       )
-
-      if (cardsRef.current) {
-        gsap.fromTo(
-          cardsRef.current.children,
-          { opacity: 0.2, y: 16 },
-          {
-            scrollTrigger: {
-              trigger: cardsRef.current,
-              start: 'top 95%',
-              toggleActions: 'play none none reverse',
-            },
-            y: 0,
-            opacity: 1,
-            duration: 0.6,
-            stagger: 0.1,
-            ease: EASE.cinematic,
-          }
-        )
-      }
     }, sectionRef)
 
     return () => ctx.revert()
-  }, [prefersReducedMotion])
+  }, [prefersReducedMotion, sectionRef])
+
+  const renderCard = (
+    item: { number: string; title: string; description: string },
+    keyPrefix: string
+  ) => (
+    <div
+      key={`${keyPrefix}-${item.number}`}
+      className="w-[84vw] sm:w-[440px] md:w-[480px] lg:w-[500px] shrink-0"
+    >
+      <CardSpotlight
+        className="group relative w-full h-[155px] sm:h-[160px] lg:h-[168px] rounded-xl sm:rounded-2xl glass-light-interactive p-4 sm:p-5 lg:p-5.5 border border-hairline hover:border-[#7C6ECD]/50 shadow-sm flex flex-col justify-between transition-all duration-300"
+      >
+        <div>
+          <span className="font-mono text-[11px] sm:text-xs font-semibold tracking-widest text-[#7C6ECD]">
+            {item.number}
+          </span>
+          <h3 className="mt-1 sm:mt-1.5 text-sm sm:text-base font-bold uppercase tracking-tight text-[#09090C] group-hover:text-[#514691] transition-colors leading-tight">
+            {item.title}
+          </h3>
+        </div>
+        <p className="text-xs sm:text-[13px] leading-relaxed text-[#09090C]/75 font-light line-clamp-3">
+          {item.description}
+        </p>
+      </CardSpotlight>
+    </div>
+  )
 
   return (
     <section
       ref={sectionRef}
-      className="relative w-full py-10 sm:py-16 lg:py-24 px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 overflow-hidden bg-[#F4F1E8]"
+      className="relative w-full py-10 sm:py-16 lg:py-20 overflow-hidden bg-[#F4F1E8]"
       aria-label="About and Philosophy"
     >
-      <div className="mx-auto w-full max-w-[1720px] 2xl:max-w-[1920px]">
+      <div className="mx-auto w-full max-w-[1720px] 2xl:max-w-[1920px] px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24">
         {/* Section Index Header */}
         <div className="flex items-center justify-between border-b border-hairline pb-3 font-mono text-xs uppercase tracking-[0.2em] text-[#09090C]/50">
           <div className="flex items-center gap-3">
@@ -156,45 +204,45 @@ export const Introduction: React.FC = () => {
           </div>
         </div>
 
-        {/* Three Core Execution Principles */}
+        {/* Subtle Hairline Divider */}
+        <div className="mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-hairline" />
+      </div>
+
+      {/* CONTINUOUS DRAGGABLE TECHNICAL/ENGINEERING REEL (RIGHT → LEFT FLOW) */}
+      <div
+        ref={viewportRef}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+        style={{ touchAction: 'pan-y' }}
+        className={`relative w-full overflow-hidden select-none py-2 ${
+          isDragging ? 'cursor-grabbing' : 'cursor-grab'
+        }`}
+        aria-label="Continuous Technical Specification Reel. Drag left or right to explore."
+      >
+        {/* Subtle Edge Vignette Fade (matching #F4F1E8 canvas) */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-8 sm:w-16 md:w-24 bg-gradient-to-r from-[#F4F1E8] to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-8 sm:w-16 md:w-24 bg-gradient-to-l from-[#F4F1E8] to-transparent z-10" />
+
+        {/* Unified Continuous Track (Tripled sequence for seamless infinite wrap) */}
         <div
-          ref={cardsRef}
-          className="mt-6 sm:mt-10 grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-5 lg:gap-6 pt-6 sm:pt-8 border-t border-hairline"
+          ref={trackRef}
+          className="flex gap-4 sm:gap-6 lg:gap-8 will-change-transform w-max items-center"
         >
-          <div className="flex flex-col gap-2 p-4 sm:p-6 rounded-xl glass-light transition-all duration-300 hover:border-[#7C6ECD]/40">
-            <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-lg glass-violet text-[#7C6ECD]">
-              <Volume2 className="h-4 w-4" />
-            </div>
-            <h3 className="text-xs sm:text-base font-bold uppercase tracking-tight text-[#09090C]">
-              Acoustic Precision
-            </h3>
-            <p className="text-xs sm:text-sm leading-relaxed text-[#09090C]/75 font-light">
-              Clean audio dispersion calculated for human speech intelligibility and concert dynamics without ear-fatiguing distortion or dead zones.
-            </p>
+          {/* Set 0 (Buffer Set on left) */}
+          <div className="flex gap-4 sm:gap-6 lg:gap-8 shrink-0" aria-hidden="true">
+            {reelItems.map((item, idx) => renderCard(item, `set0-${idx}`))}
           </div>
 
-          <div className="flex flex-col gap-2 p-4 sm:p-6 rounded-xl glass-light transition-all duration-300 hover:border-[#7C6ECD]/40">
-            <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-lg glass-violet text-[#7C6ECD]">
-              <Sparkles className="h-4 w-4" />
-            </div>
-            <h3 className="text-xs sm:text-base font-bold uppercase tracking-tight text-[#09090C]">
-              Atmospheric Lighting
-            </h3>
-            <p className="text-xs sm:text-sm leading-relaxed text-[#09090C]/75 font-light">
-              Architectural, stage, and scenic illumination that flatters faces on camera, defines spatial boundaries, and intensifies live moments.
-            </p>
+          {/* Set 1 (Primary Measured Set) */}
+          <div ref={singleSetRef} className="flex gap-4 sm:gap-6 lg:gap-8 shrink-0">
+            {reelItems.map((item, idx) => renderCard(item, `set1-${idx}`))}
           </div>
 
-          <div className="flex flex-col gap-2 p-4 sm:p-6 rounded-xl glass-light transition-all duration-300 hover:border-[#7C6ECD]/40">
-            <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-lg glass-violet text-[#7C6ECD]">
-              <ShieldCheck className="h-4 w-4" />
-            </div>
-            <h3 className="text-xs sm:text-base font-bold uppercase tracking-tight text-[#09090C]">
-              Structural Reliability
-            </h3>
-            <p className="text-xs sm:text-sm leading-relaxed text-[#09090C]/75 font-light">
-              Certified trussing, calculated rigging load points, and redundant power infrastructure built with uncompromising on-site safety.
-            </p>
+          {/* Set 2 (Buffer Set on right) */}
+          <div className="flex gap-4 sm:gap-6 lg:gap-8 shrink-0" aria-hidden="true">
+            {reelItems.map((item, idx) => renderCard(item, `set2-${idx}`))}
           </div>
         </div>
       </div>
