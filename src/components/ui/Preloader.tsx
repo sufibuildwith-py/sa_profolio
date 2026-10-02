@@ -9,6 +9,10 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete }) => {
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
+    if (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('skipPreloader') === '1') {
+      onComplete()
+      return
+    }
     let current = 0
     const interval = setInterval(() => {
       current += Math.random() * 25 + 15
