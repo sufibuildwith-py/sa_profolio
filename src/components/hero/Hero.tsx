@@ -149,11 +149,11 @@ export const Hero: React.FC = () => {
         ref={pinFrameRef}
         className="relative flex h-[100svh] w-full flex-col justify-between overflow-hidden glass-gloss"
       >
-        {/* Velvet Hero Background Image Layer (Unzoomed at start, zooms subtly on scroll) */}
+        {/* Hero Background Image Layer (Unzoomed at start, zooms subtly on scroll) */}
         <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
           <img
             ref={bgImageRef}
-            src="/hero-velvet-bg.jpg"
+            src="/hero-varanasi-bg.jpg"
             alt=""
             className="w-full h-full object-cover object-center pointer-events-none select-none will-change-transform"
             aria-hidden="true"
