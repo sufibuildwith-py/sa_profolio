@@ -101,8 +101,8 @@ export const ServicesSection: React.FC = () => {
       className="relative w-full py-12 sm:py-16 lg:py-24 bg-[#09090C] text-white overflow-hidden"
       aria-label="Technical Capabilities and Services"
     >
-      {/* 1. INTRODUCTORY CONTENT (Exact copy, visual styling & layout preserved) */}
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 md:px-12 lg:px-16 mb-8 sm:mb-12">
+      {/* 1. INTRODUCTORY CONTENT (Expansive Desktop Layout + Preserved Phone Styling) */}
+      <div className="mx-auto w-full max-w-[1720px] 2xl:max-w-[1920px] px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mb-8 sm:mb-12">
         {/* Section Index Header */}
         <div className="flex items-center justify-between border-b border-hairline-dark pb-3">
           <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-white/50">
@@ -114,24 +114,26 @@ export const ServicesSection: React.FC = () => {
           </span>
         </div>
 
-        {/* Section Headline */}
-        <div className="mt-6 sm:mt-8 max-w-3xl flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        {/* Section Headline & Description Row */}
+        <div className="mt-6 sm:mt-8 flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-12 w-full">
           <div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight text-white">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold uppercase tracking-tight text-white leading-[1.05]">
               COMPLETE TECHNICAL <br />
               <span className="font-serif italic font-normal text-[#A49BE0] lowercase">
                 event execution
               </span>
             </h2>
-            <p className="mt-3 text-sm sm:text-base text-white/70 font-light leading-relaxed">
-              From single-system rentals to complete multi-departmental show direction, we provide certified equipment, seasoned technicians, and unwavering reliability.
-            </p>
           </div>
 
-          {/* Interactive Drag Hint Pill */}
-          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-dark text-xs font-mono tracking-wider text-white/60 shrink-0 self-start sm:self-end border border-white/10">
-            <MoveHorizontal className="h-3.5 w-3.5 text-[#7C6ECD] animate-pulse" />
-            <span>DRAG HORIZONTALLY</span>
+          <div className="flex flex-col sm:flex-row lg:flex-col items-start lg:items-end justify-between gap-4 max-w-xl">
+            <p className="text-sm sm:text-base lg:text-lg text-white/70 font-light leading-relaxed lg:text-right">
+              From single-system rentals to complete multi-departmental show direction, we provide certified equipment, seasoned technicians, and unwavering reliability.
+            </p>
+            {/* Interactive Drag Hint Pill */}
+            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-dark text-xs font-mono tracking-wider text-white/60 shrink-0 border border-white/10">
+              <MoveHorizontal className="h-3.5 w-3.5 text-[#7C6ECD] animate-pulse" />
+              <span>DRAG HORIZONTALLY</span>
+            </div>
           </div>
         </div>
       </div>

@@ -83,23 +83,28 @@ export const Introduction: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full py-10 sm:py-16 lg:py-20 px-5 sm:px-8 md:px-12 lg:px-16 overflow-hidden bg-[#F4F1E8]"
+      className="relative w-full py-10 sm:py-16 lg:py-24 px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 overflow-hidden bg-[#F4F1E8]"
       aria-label="About and Philosophy"
     >
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto w-full max-w-[1720px] 2xl:max-w-[1920px]">
         {/* Section Index Header */}
-        <div className="flex items-center gap-3 border-b border-hairline pb-3 font-mono text-xs uppercase tracking-[0.2em] text-[#09090C]/50">
-          <span className="text-[#7C6ECD] font-semibold">02</span>
-          <span>// PHYSICAL PRODUCTION PHILOSOPHY</span>
+        <div className="flex items-center justify-between border-b border-hairline pb-3 font-mono text-xs uppercase tracking-[0.2em] text-[#09090C]/50">
+          <div className="flex items-center gap-3">
+            <span className="text-[#7C6ECD] font-semibold">02</span>
+            <span>// PHYSICAL PRODUCTION PHILOSOPHY</span>
+          </div>
+          <span className="font-mono text-[11px] text-[#7C6ECD] uppercase tracking-widest hidden sm:inline-block">
+            Foundational Ethos
+          </span>
         </div>
 
-        {/* Editorial Layout: Left Quote Hierarchy */}
-        <div className="mt-6 sm:mt-10 max-w-4xl flex flex-col gap-4 sm:gap-5">
-          <div className="flex flex-col gap-1 sm:gap-2">
+        {/* Editorial Layout: Left Quote Hierarchy + Right Context */}
+        <div className="mt-6 sm:mt-10 lg:mt-12 flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-12 w-full">
+          <div className="flex flex-col gap-1 sm:gap-2 max-w-5xl">
             {/* LINE 01: smaller / normal editorial statement */}
             <div
               ref={line1Ref}
-              className="text-base sm:text-xl md:text-2xl font-medium tracking-tight text-[#09090C]/80"
+              className="text-base sm:text-xl md:text-2xl lg:text-3xl font-medium tracking-tight text-[#09090C]/80"
             >
               Events are remembered by how they felt —
             </div>
@@ -107,7 +112,7 @@ export const Introduction: React.FC = () => {
             {/* LINE 02: larger display typography */}
             <div
               ref={line2Ref}
-              className="text-[clamp(1.6rem,3.8vw,3.4rem)] font-bold uppercase leading-[1.05] tracking-[-0.03em] text-[#09090C]"
+              className="text-[clamp(1.6rem,3.8vw,3.4rem)] lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold uppercase leading-[1.05] tracking-[-0.03em] text-[#09090C]"
             >
               the{' '}
               <span className="font-serif italic font-normal text-[#514691] lowercase">
@@ -119,7 +124,7 @@ export const Introduction: React.FC = () => {
             {/* LINE 03: larger display typography */}
             <div
               ref={line3Ref}
-              className="text-[clamp(1.6rem,3.8vw,3.4rem)] font-bold uppercase leading-[1.05] tracking-[-0.03em] text-[#09090C]"
+              className="text-[clamp(1.6rem,3.8vw,3.4rem)] lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold uppercase leading-[1.05] tracking-[-0.03em] text-[#09090C]"
             >
               the{' '}
               <span className="font-serif italic font-normal text-[#514691] lowercase">
@@ -131,7 +136,7 @@ export const Introduction: React.FC = () => {
             {/* LINE 04: larger display typography */}
             <div
               ref={line4Ref}
-              className="text-[clamp(1.6rem,3.8vw,3.4rem)] font-bold uppercase leading-[1.05] tracking-[-0.03em] text-[#09090C]"
+              className="text-[clamp(1.6rem,3.8vw,3.4rem)] lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold uppercase leading-[1.05] tracking-[-0.03em] text-[#09090C]"
             >
               and the physical{' '}
               <span className="font-serif italic font-normal text-[#514691] lowercase">
@@ -141,10 +146,10 @@ export const Introduction: React.FC = () => {
             </div>
           </div>
 
-          <div className="pt-1 sm:pt-2">
+          <div className="max-w-xl pb-1 sm:pb-2">
             <p
               ref={descRef}
-              className="text-xs sm:text-base leading-relaxed text-[#09090C]/75 font-light max-w-2xl"
+              className="text-xs sm:text-base lg:text-lg leading-relaxed text-[#09090C]/75 font-light lg:text-right"
             >
               {siteConfig.aboutSub}
             </p>

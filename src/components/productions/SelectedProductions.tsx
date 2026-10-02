@@ -306,8 +306,8 @@ export const SelectedProductions: React.FC = () => {
       className="relative w-full bg-[#F4F1E8] py-12 sm:py-16 lg:py-20 overflow-hidden"
       aria-label="Selected Production Portfolio"
     >
-      {/* 1. INTRODUCTORY CONTENT (Exact copy & layout preserved) */}
-      <div className="mx-auto max-w-7xl px-5 sm:px-8 md:px-12 lg:px-16 mb-6 sm:mb-8">
+      {/* 1. INTRODUCTORY CONTENT (Expansive Desktop Layout + Preserved Phone Styling) */}
+      <div className="mx-auto w-full max-w-[1720px] 2xl:max-w-[1920px] px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 mb-6 sm:mb-8">
         {/* Section Header */}
         <div className="flex items-center justify-between border-b border-hairline pb-3">
           <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-[#09090C]/50">
@@ -319,24 +319,26 @@ export const SelectedProductions: React.FC = () => {
           </span>
         </div>
 
-        {/* Section Title */}
-        <div className="mt-4 sm:mt-6 max-w-3xl flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        {/* Section Title & Description Row */}
+        <div className="mt-4 sm:mt-6 flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-12 w-full">
           <div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight text-[#09090C]">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold uppercase tracking-tight text-[#09090C] leading-[1.05]">
               SELECTED LIVE <br />
               <span className="font-serif italic font-normal text-[#514691] lowercase">
                 event executions
               </span>
             </h2>
-            <p className="mt-2.5 text-sm sm:text-base text-[#09090C]/70 font-light leading-relaxed">
-              Real physical productions delivered across Varanasi and Uttar Pradesh. Click any frame to inspect full technical sound, lighting, and stage rigging specs.
-            </p>
           </div>
 
-          {/* Interactive Drag Hint Pill */}
-          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-light text-xs font-mono tracking-wider text-[#09090C]/60 shrink-0 self-start sm:self-end">
-            <MoveHorizontal className="h-3.5 w-3.5 text-[#7C6ECD] animate-pulse" />
-            <span>DRAG HORIZONTALLY</span>
+          <div className="flex flex-col sm:flex-row lg:flex-col items-start lg:items-end justify-between gap-4 max-w-xl">
+            <p className="text-sm sm:text-base lg:text-lg text-[#09090C]/70 font-light leading-relaxed lg:text-right">
+              Real physical productions delivered across Varanasi and Uttar Pradesh. Click any frame to inspect full technical sound, lighting, and stage rigging specs.
+            </p>
+            {/* Interactive Drag Hint Pill */}
+            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-light text-xs font-mono tracking-wider text-[#09090C]/60 shrink-0">
+              <MoveHorizontal className="h-3.5 w-3.5 text-[#7C6ECD] animate-pulse" />
+              <span>DRAG HORIZONTALLY</span>
+            </div>
           </div>
         </div>
       </div>

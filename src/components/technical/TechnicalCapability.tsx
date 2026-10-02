@@ -6,10 +6,10 @@ export const TechnicalCapability: React.FC = () => {
   return (
     <section
       id="technical"
-      className="relative w-full py-14 sm:py-20 lg:py-24 px-5 sm:px-8 md:px-12 lg:px-16 bg-[#F4F1E8]"
+      className="relative w-full py-14 sm:py-20 lg:py-24 px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 bg-[#F4F1E8]"
       aria-label="Technical Capability & Engineering Systems"
     >
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto w-full max-w-[1720px] 2xl:max-w-[1920px]">
         {/* Section Header */}
         <div className="flex items-center justify-between border-b border-hairline pb-3">
           <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-[#09090C]/50">
@@ -22,14 +22,16 @@ export const TechnicalCapability: React.FC = () => {
         </div>
 
         {/* Section Headline */}
-        <div className="mt-6 sm:mt-8 mb-8 sm:mb-12 max-w-3xl">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold uppercase tracking-tight text-[#09090C]">
-            ARCHITECTURAL RIGGING & <br />
-            <span className="font-serif italic font-normal text-[#514691] lowercase">
-              production engineering
-            </span>
-          </h2>
-          <p className="mt-3 text-sm sm:text-base text-[#09090C]/70 font-light leading-relaxed">
+        <div className="mt-6 sm:mt-8 mb-8 sm:mb-12 flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-12 w-full">
+          <div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold uppercase tracking-tight text-[#09090C] leading-[1.05]">
+              ARCHITECTURAL RIGGING & <br />
+              <span className="font-serif italic font-normal text-[#514691] lowercase">
+                production engineering
+              </span>
+            </h2>
+          </div>
+          <p className="text-sm sm:text-base lg:text-lg text-[#09090C]/70 font-light leading-relaxed max-w-xl lg:text-right">
             We operate like an engineering firm on site. Certified load calculations, frequency coordination, power phase balancing, and hardware redundancy protocols are built into every production.
           </p>
         </div>

@@ -48,10 +48,10 @@ export const ContactSection: React.FC = () => {
   return (
     <section
       id="contact"
-      className="relative w-full py-14 sm:py-20 lg:py-24 px-5 sm:px-8 md:px-12 lg:px-16 bg-[#09090C] text-white"
+      className="relative w-full py-14 sm:py-20 lg:py-24 px-5 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-24 bg-[#09090C] text-white"
       aria-label="Contact and Production Booking"
     >
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto w-full max-w-[1720px] 2xl:max-w-[1920px]">
         {/* Section Header */}
         <div className="flex items-center justify-between border-b border-hairline-dark pb-3">
           <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-white/50">
@@ -64,15 +64,17 @@ export const ContactSection: React.FC = () => {
         </div>
 
         {/* Cinematic Closing Statement */}
-        <div className="mt-6 sm:mt-8 max-w-4xl">
-          <h2 className="text-[clamp(2.2rem,5vw,4.5rem)] font-extrabold uppercase leading-[0.95] tracking-[-0.04em] text-white">
-            LET&apos;S BUILD <br />
-            <span className="font-serif italic font-normal text-[#A49BE0] lowercase">
-              the next
-            </span>{' '}
-            EXPERIENCE.
-          </h2>
-          <p className="mt-4 text-sm sm:text-base text-white/70 font-light leading-relaxed max-w-2xl">
+        <div className="mt-6 sm:mt-8 mb-8 sm:mb-12 flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-12 w-full">
+          <div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold uppercase leading-[0.95] tracking-[-0.04em] text-white">
+              LET&apos;S BUILD <br />
+              <span className="font-serif italic font-normal text-[#A49BE0] lowercase">
+                the next
+              </span>{' '}
+              EXPERIENCE.
+            </h2>
+          </div>
+          <p className="text-sm sm:text-base lg:text-lg text-white/70 font-light leading-relaxed max-w-xl lg:text-right">
             Whether you are planning a high-profile corporate summit, an open-air live concert, or a luxury wedding celebration in Varanasi, let&apos;s engineer the physical environment together.
           </p>
         </div>
