@@ -100,3 +100,17 @@ export const processWorkflow: ProcessStep[] = [
     deliverable: 'Clean Handover & Complete Post-Event Archival',
   },
 ]
+
+export interface MethodologyPhase {
+  number: string
+  category: string
+  title: string
+  description: string
+}
+
+export const methodologyPhases: MethodologyPhase[] = processWorkflow.map((step) => ({
+  number: step.step,
+  category: step.stageName,
+  title: step.title,
+  description: step.action,
+}))
