@@ -1,9 +1,8 @@
 import React, { useEffect, useRef } from 'react'
-import { Volume2, Sparkles, ShieldCheck, CheckCircle2, MapPin } from 'lucide-react'
+import { Volume2, Sparkles, ShieldCheck } from 'lucide-react'
 import { siteConfig } from '../../data/site'
 import { gsap, EASE } from '../../lib/motion'
 import { useReducedMotion } from '../../hooks/useReducedMotion'
-import { CardSpotlight } from '../ui/CardSpotlight'
 
 export const Introduction: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null)
@@ -12,7 +11,6 @@ export const Introduction: React.FC = () => {
   const line3Ref = useRef<HTMLDivElement>(null)
   const line4Ref = useRef<HTMLDivElement>(null)
   const descRef = useRef<HTMLParagraphElement>(null)
-  const asideRef = useRef<HTMLDivElement>(null)
   const cardsRef = useRef<HTMLDivElement>(null)
   const prefersReducedMotion = useReducedMotion()
 
@@ -59,24 +57,6 @@ export const Introduction: React.FC = () => {
         }
       )
 
-      if (asideRef.current) {
-        gsap.fromTo(
-          asideRef.current,
-          { opacity: 0.2, y: 16 },
-          {
-            scrollTrigger: {
-              trigger: asideRef.current,
-              start: 'top 90%',
-              toggleActions: 'play none none reverse',
-            },
-            y: 0,
-            opacity: 1,
-            duration: 0.7,
-            ease: EASE.cinematic,
-          }
-        )
-      }
-
       if (cardsRef.current) {
         gsap.fromTo(
           cardsRef.current.children,
@@ -113,101 +93,61 @@ export const Introduction: React.FC = () => {
           <span>// PHYSICAL PRODUCTION PHILOSOPHY</span>
         </div>
 
-        {/* Editorial Layout: Left Quote Hierarchy + Right Studio Execution Manifest */}
-        <div className="mt-6 sm:mt-10 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-14 items-start">
-          {/* Left Column: 4-Line Structured Headline + Sub-copy */}
-          <div className="lg:col-span-7 flex flex-col gap-4 sm:gap-5">
-            <div className="flex flex-col gap-1 sm:gap-2">
-              {/* LINE 01: smaller / normal editorial statement */}
-              <div
-                ref={line1Ref}
-                className="text-base sm:text-xl md:text-2xl font-medium tracking-tight text-[#09090C]/80"
-              >
-                Events are remembered by how they felt —
-              </div>
-
-              {/* LINE 02: larger display typography */}
-              <div
-                ref={line2Ref}
-                className="text-[clamp(1.6rem,3.8vw,3.4rem)] font-bold uppercase leading-[1.05] tracking-[-0.03em] text-[#09090C]"
-              >
-                the{' '}
-                <span className="font-serif italic font-normal text-[#514691] lowercase">
-                  clarity
-                </span>{' '}
-                of the sound,
-              </div>
-
-              {/* LINE 03: larger display typography */}
-              <div
-                ref={line3Ref}
-                className="text-[clamp(1.6rem,3.8vw,3.4rem)] font-bold uppercase leading-[1.05] tracking-[-0.03em] text-[#09090C]"
-              >
-                the{' '}
-                <span className="font-serif italic font-normal text-[#514691] lowercase">
-                  atmosphere
-                </span>{' '}
-                of the light,
-              </div>
-
-              {/* LINE 04: larger display typography */}
-              <div
-                ref={line4Ref}
-                className="text-[clamp(1.6rem,3.8vw,3.4rem)] font-bold uppercase leading-[1.05] tracking-[-0.03em] text-[#09090C]"
-              >
-                and the physical{' '}
-                <span className="font-serif italic font-normal text-[#514691] lowercase">
-                  presence
-                </span>{' '}
-                of the stage.
-              </div>
+        {/* Editorial Layout: Left Quote Hierarchy */}
+        <div className="mt-6 sm:mt-10 max-w-4xl flex flex-col gap-4 sm:gap-5">
+          <div className="flex flex-col gap-1 sm:gap-2">
+            {/* LINE 01: smaller / normal editorial statement */}
+            <div
+              ref={line1Ref}
+              className="text-base sm:text-xl md:text-2xl font-medium tracking-tight text-[#09090C]/80"
+            >
+              Events are remembered by how they felt —
             </div>
 
-            <div className="pt-1 sm:pt-2">
-              <p
-                ref={descRef}
-                className="text-xs sm:text-base leading-relaxed text-[#09090C]/75 font-light max-w-xl"
-              >
-                {siteConfig.aboutSub}
-              </p>
+            {/* LINE 02: larger display typography */}
+            <div
+              ref={line2Ref}
+              className="text-[clamp(1.6rem,3.8vw,3.4rem)] font-bold uppercase leading-[1.05] tracking-[-0.03em] text-[#09090C]"
+            >
+              the{' '}
+              <span className="font-serif italic font-normal text-[#514691] lowercase">
+                clarity
+              </span>{' '}
+              of the sound,
+            </div>
+
+            {/* LINE 03: larger display typography */}
+            <div
+              ref={line3Ref}
+              className="text-[clamp(1.6rem,3.8vw,3.4rem)] font-bold uppercase leading-[1.05] tracking-[-0.03em] text-[#09090C]"
+            >
+              the{' '}
+              <span className="font-serif italic font-normal text-[#514691] lowercase">
+                atmosphere
+              </span>{' '}
+              of the light,
+            </div>
+
+            {/* LINE 04: larger display typography */}
+            <div
+              ref={line4Ref}
+              className="text-[clamp(1.6rem,3.8vw,3.4rem)] font-bold uppercase leading-[1.05] tracking-[-0.03em] text-[#09090C]"
+            >
+              and the physical{' '}
+              <span className="font-serif italic font-normal text-[#514691] lowercase">
+                presence
+              </span>{' '}
+              of the stage.
             </div>
           </div>
 
-          {/* Right Column: Editorial Production Manifest Glass Card with Aceternity Spotlight */}
-          <div ref={asideRef} className="lg:col-span-5 flex flex-col gap-4">
-            <CardSpotlight className="p-5 sm:p-7 rounded-2xl glass-light-interactive">
-              <div className="flex items-center justify-between border-b border-hairline pb-3.5 mb-3.5">
-                <div className="font-mono text-[11px] uppercase tracking-wider text-[#09090C]/50">
-                  Technical Standard
-                </div>
-                <div className="flex items-center gap-1.5 font-mono text-xs text-[#7C6ECD] font-medium">
-                  <MapPin className="h-3 w-3" />
-                  <span>Varanasi, UP</span>
-                </div>
-              </div>
-
-              <h4 className="text-sm sm:text-lg font-bold tracking-tight text-[#09090C] uppercase mb-1.5 sm:mb-2">
-                Turnkey Physical Execution
-              </h4>
-              <p className="text-xs sm:text-sm leading-relaxed text-[#09090C]/70 mb-4 sm:mb-5 font-light">
-                From initial venue acoustic mapping to live multi-camera broadcast switching, our crew owns every single physical cable, truss pin, and luminaire fixture on your production floor.
-              </p>
-
-              <div className="space-y-2 pt-2 border-t border-hairline/60 font-mono text-xs text-[#09090C]/80">
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-[#7C6ECD]" />
-                  <span>On-site calibrated line-array dispersion</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-[#7C6ECD]" />
-                  <span>Synchronized DMX architectural & stage lighting</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-[#7C6ECD]" />
-                  <span>Dual-redundant power & live signal routing</span>
-                </div>
-              </div>
-            </CardSpotlight>
+          <div className="pt-1 sm:pt-2">
+            <p
+              ref={descRef}
+              className="text-xs sm:text-base leading-relaxed text-[#09090C]/75 font-light max-w-2xl"
+            >
+              {siteConfig.aboutSub}
+            </p>
           </div>
         </div>
 

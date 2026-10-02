@@ -149,4 +149,21 @@ export const selectedProductionsData: SelectedProduction[] = [
       visuals: 'Vertical totem LED displays introducing designer segments',
     },
   },
+  {
+    id: 'cultural-heritage-theatre',
+    number: '05',
+    category: 'HERITAGE CELEBRATIONS & THEATRE',
+    location: 'VARANASI RIVERFRONT GHATS',
+    headline: 'Ghatside Architectural Uplighting & Classical Soundscape',
+    description: 'Celebrating the cultural tapestry of Varanasi with sympathetic architectural illumination of sacred facades, pristine microphoning for classical instruments, and multi-zone atmospheric reinforcement.',
+    tags: ['HERITAGE UPLIGHTING', 'CLASSICAL SOUND', 'RIVERFRONT RIG', 'WEATHERPROOF AV'],
+    image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1200&q=80',
+    specs: {
+      audio: 'Ultra-low-noise acoustic microphone arrays & distributed column fills',
+      lighting: 'DMX-controlled architectural floodlights + riverfront amber washes',
+      staging: 'Weatherproof high-tensile modular platform on heritage stone ghats',
+      visuals: 'Ultra-bright high-nit outdoor LED screen visible against water reflection',
+    },
+  },
 ]
+
