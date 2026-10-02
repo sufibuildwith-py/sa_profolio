@@ -234,7 +234,7 @@ export const WebGLRippleTransition = forwardRef<
       const isTablet = width >= 768 && width < 1200
 
       const brandFontSize = isMobile
-        ? Math.round(48 * dpr)
+        ? Math.round(32 * dpr)
         : isTablet
         ? Math.round(78 * dpr)
         : Math.round(108 * dpr)
@@ -248,7 +248,7 @@ export const WebGLRippleTransition = forwardRef<
 
       ctx2.fillText('SA PRODUCTION', startX, startY)
 
-      const subFontSize = isMobile ? Math.round(16 * dpr) : Math.round(24 * dpr)
+      const subFontSize = isMobile ? Math.round(14 * dpr) : Math.round(24 * dpr)
       ctx2.font = `italic 400 ${subFontSize}px Instrument Serif, Georgia, Times, serif`
       ctx2.fillStyle = '#7C6ECD'
       ctx2.fillText('Bring Life to Your Event', startX, startY + brandFontSize * 1.15)
