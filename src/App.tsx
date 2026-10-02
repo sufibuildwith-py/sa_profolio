@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Navbar } from './components/navigation/Navbar'
 import { Hero } from './components/hero/Hero'
 import { Introduction } from './components/intro/Introduction'
-import { ProductionWorlds } from './components/worlds/ProductionWorlds'
 import { ServicesSection } from './components/services/ServicesSection'
 import { SelectedProductions } from './components/productions/SelectedProductions'
 import { ProductionMarquee } from './components/marquee/ProductionMarquee'
@@ -47,10 +46,7 @@ export function App() {
         {/* 02 — Introduction Section (Asymmetric Philosophy) */}
         <Introduction />
 
-        {/* 03 — Production Worlds (Sticky Showcase & Category Rail) */}
-        <ProductionWorlds />
-
-        {/* 04 — Services & Capabilities (Numbered Technical List) */}
+        {/* 03 — Services & Capabilities (Numbered Technical List) */}
         <ServicesSection />
 
         {/* 05 — Selected Productions (Stacking Editorial Cards & Lightbox) */}

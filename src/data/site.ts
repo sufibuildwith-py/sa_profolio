@@ -49,7 +49,6 @@ export const siteConfig: SiteConfig = {
   navigation: [
     { label: 'Work', href: '#productions' },
     { label: 'Capabilities', href: '#services' },
-    { label: 'Worlds', href: '#worlds' },
     { label: 'Engineering', href: '#technical' },
     { label: 'Process', href: '#process' },
     { label: 'Contact', href: '#contact' },

@@ -19,7 +19,7 @@ export const ServicesSection: React.FC = () => {
         {/* Section Index Header */}
         <div className="flex items-center justify-between border-b border-hairline pb-3">
           <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-[#09090C]/50">
-            <span className="text-[#7C6ECD] font-semibold">04</span>
+            <span className="text-[#7C6ECD] font-semibold">03</span>
             <span>// CAPABILITIES & DISCIPLINES</span>
           </div>
           <span className="font-mono text-[11px] text-[#09090C]/40 uppercase tracking-widest hidden sm:inline-block">

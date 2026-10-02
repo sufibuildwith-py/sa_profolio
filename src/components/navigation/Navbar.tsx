@@ -19,7 +19,7 @@ export const Navbar: React.FC = () => {
 
   // 1. Scroll listener for compaction and active section spy
   useEffect(() => {
-    const sectionIds = ['productions', 'services', 'worlds', 'technical', 'process', 'contact']
+    const sectionIds = ['productions', 'services', 'technical', 'process', 'contact']
 
     const handleScroll = () => {
       const scrollY = window.scrollY
