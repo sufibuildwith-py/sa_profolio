@@ -4,7 +4,7 @@ import { siteConfig } from '../../data/site'
 import { MagneticButton } from '../ui/MagneticButton'
 
 export const Navbar: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(() => (typeof window !== 'undefined' ? window.scrollY > 40 : false))
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState<string>('')
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
@@ -17,32 +17,55 @@ export const Navbar: React.FC = () => {
   const linkRefs = useRef<(HTMLAnchorElement | null)[]>([])
   const islandRef = useRef<HTMLDivElement>(null)
 
-  // 1. Scroll listener for compaction and active section spy
+  const isScrolledRef = useRef(typeof window !== 'undefined' ? window.scrollY > 40 : false)
+  const activeSectionRef = useRef('')
+
+  // 1. Scroll listener for compaction (RAF throttled, deduped) and IntersectionObserver for active section spy
   useEffect(() => {
     const sectionIds = ['productions', 'services', 'technical', 'process', 'contact']
 
+    let ticking = false
     const handleScroll = () => {
-      const scrollY = window.scrollY
-      setIsScrolled(scrollY > 40)
-
-      // Active Section Spy
-      let current = ''
-      for (const id of sectionIds) {
-        const el = document.getElementById(id)
-        if (el) {
-          const rect = el.getBoundingClientRect()
-          if (rect.top <= 240 && rect.bottom >= 180) {
-            current = `#${id}`
-            break
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrolled = window.scrollY > 40
+          if (scrolled !== isScrolledRef.current) {
+            isScrolledRef.current = scrolled
+            setIsScrolled(scrolled)
           }
-        }
+          ticking = false
+        })
+        ticking = true
       }
-      setActiveSection(current)
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll()
-    return () => window.removeEventListener('scroll', handleScroll)
+
+    // Zero-reflow Active Section Spy via IntersectionObserver
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const id = entry.target.id
+            if (activeSectionRef.current !== `#${id}`) {
+              activeSectionRef.current = `#${id}`
+              setActiveSection(`#${id}`)
+            }
+          }
+        }
+      },
+      { rootMargin: '-15% 0px -70% 0px' }
+    )
+
+    for (const id of sectionIds) {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    }
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      observer.disconnect()
+    }
   }, [])
 
   // 2. Sliding Pill Highlight Interpolation (Aceternity Navbar Pill pattern)

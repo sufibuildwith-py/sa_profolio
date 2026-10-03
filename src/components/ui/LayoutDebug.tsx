@@ -9,16 +9,15 @@ interface SectionMetric {
 }
 
 export const LayoutDebug: React.FC = () => {
-  const [isDebug, setIsDebug] = useState(false)
+  const [isDebug] = useState(
+    () => typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('layoutDebug') === '1'
+  )
   const [metrics, setMetrics] = useState<SectionMetric[]>([])
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
-    const params = new URLSearchParams(window.location.search)
-    if (params.get('layoutDebug') === '1') {
-      setIsDebug(true)
+    if (typeof window === 'undefined' || !isDebug) return
 
-      const measure = () => {
+    const measure = () => {
         const sections = Array.from(document.querySelectorAll('main > section, header, footer'))
         const list: SectionMetric[] = sections.map((sec, idx) => {
           const rect = sec.getBoundingClientRect()
@@ -43,8 +42,7 @@ export const LayoutDebug: React.FC = () => {
         window.removeEventListener('resize', measure)
         window.removeEventListener('scroll', measure)
       }
-    }
-  }, [])
+  }, [isDebug])
 
   if (!isDebug) return null
 

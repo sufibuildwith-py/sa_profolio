@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from 'react'
+import React, { useRef, useCallback } from 'react'
 
 interface CardSpotlightProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
@@ -15,21 +15,26 @@ export const CardSpotlight: React.FC<CardSpotlightProps> = ({
   ...props
 }) => {
   const divRef = useRef<HTMLDivElement>(null)
-  const [position, setPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 })
-  const [opacity, setOpacity] = useState(0)
+  const rectRef = useRef<DOMRect | null>(null)
+
+  const handleMouseEnter = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (window.matchMedia('(hover: none) or (pointer: coarse)').matches) return
+    rectRef.current = e.currentTarget.getBoundingClientRect()
+    e.currentTarget.style.setProperty('--spot-opacity', '1')
+  }, [])
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    if (!divRef.current) return
-    const rect = divRef.current.getBoundingClientRect()
-    setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top })
+    if (window.matchMedia('(hover: none) or (pointer: coarse)').matches) return
+    const rect = rectRef.current || e.currentTarget.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+    e.currentTarget.style.setProperty('--spot-x', `${x}px`)
+    e.currentTarget.style.setProperty('--spot-y', `${y}px`)
   }, [])
 
-  const handleMouseEnter = useCallback(() => {
-    setOpacity(1)
-  }, [])
-
-  const handleMouseLeave = useCallback(() => {
-    setOpacity(0)
+  const handleMouseLeave = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    rectRef.current = null
+    e.currentTarget.style.setProperty('--spot-opacity', '0')
   }, [])
 
   return (
@@ -45,11 +50,12 @@ export const CardSpotlight: React.FC<CardSpotlightProps> = ({
       <div
         className="pointer-events-none absolute -inset-px transition-opacity duration-300 z-10"
         style={{
-          opacity,
-          background: `radial-gradient(${radius}px circle at ${position.x}px ${position.y}px, ${spotlightColor}, transparent 80%)`,
+          opacity: 'var(--spot-opacity, 0)',
+          background: `radial-gradient(${radius}px circle at var(--spot-x, -999px) var(--spot-y, -999px), ${spotlightColor}, transparent 80%)`,
         }}
       />
       {children}
     </div>
   )
 }
+

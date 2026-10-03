@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from 'react'
+import React, { useRef, useCallback } from 'react'
 
 interface GlareCardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
@@ -11,23 +11,34 @@ export const GlareCard: React.FC<GlareCardProps> = ({
   ...props
 }) => {
   const cardRef = useRef<HTMLDivElement>(null)
-  const [glarePosition, setGlarePosition] = useState({ x: 50, y: 50 })
-  const [isHovered, setIsHovered] = useState(false)
+  const rectRef = useRef<DOMRect | null>(null)
+
+  const handleMouseEnter = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (window.matchMedia('(hover: none) or (pointer: coarse)').matches) return
+    rectRef.current = e.currentTarget.getBoundingClientRect()
+    e.currentTarget.style.setProperty('--glare-opacity', '0.75')
+  }, [])
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return
-    const rect = cardRef.current.getBoundingClientRect()
+    if (window.matchMedia('(hover: none) or (pointer: coarse)').matches) return
+    const rect = rectRef.current || e.currentTarget.getBoundingClientRect()
     const x = ((e.clientX - rect.left) / rect.width) * 100
     const y = ((e.clientY - rect.top) / rect.height) * 100
-    setGlarePosition({ x, y })
+    e.currentTarget.style.setProperty('--glare-x', `${x}%`)
+    e.currentTarget.style.setProperty('--glare-y', `${y}%`)
+  }, [])
+
+  const handleMouseLeave = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    rectRef.current = null
+    e.currentTarget.style.setProperty('--glare-opacity', '0')
   }, [])
 
   return (
     <div
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       className={`relative overflow-hidden ${className}`}
       {...props}
     >
@@ -35,11 +46,13 @@ export const GlareCard: React.FC<GlareCardProps> = ({
       <div
         className="pointer-events-none absolute inset-0 z-20 transition-opacity duration-300"
         style={{
-          opacity: isHovered ? 0.75 : 0,
-          background: `radial-gradient(450px circle at ${glarePosition.x}% ${glarePosition.y}%, rgba(244, 241, 232, 0.14), rgba(124, 110, 205, 0.05) 45%, transparent 75%)`,
+          opacity: 'var(--glare-opacity, 0)',
+          background:
+            'radial-gradient(450px circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(244, 241, 232, 0.14), rgba(124, 110, 205, 0.05) 45%, transparent 75%)',
         }}
       />
       {children}
     </div>
   )
 }
+

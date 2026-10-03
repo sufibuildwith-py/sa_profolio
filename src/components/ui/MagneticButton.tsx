@@ -21,6 +21,20 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
   ...props
 }) => {
   const btnRef = useRef<HTMLButtonElement | HTMLAnchorElement | null>(null)
+  const rectRef = useRef<DOMRect | null>(null)
+  const xToRef = useRef<gsap.QuickToFunc | null>(null)
+  const yToRef = useRef<gsap.QuickToFunc | null>(null)
+
+  const handleMouseEnter = () => {
+    if (window.matchMedia('(hover: none) or (pointer: coarse)').matches) return
+    const el = btnRef.current
+    if (!el) return
+    rectRef.current = el.getBoundingClientRect()
+    if (!xToRef.current || !yToRef.current) {
+      xToRef.current = gsap.quickTo(el, 'x', { duration: 0.35, ease: EASE.smooth })
+      yToRef.current = gsap.quickTo(el, 'y', { duration: 0.35, ease: EASE.smooth })
+    }
+  }
 
   const handleMouseMove = (e: React.MouseEvent) => {
     // Only apply magnetic effect on fine desktop pointers
@@ -28,20 +42,26 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
     const el = btnRef.current
     if (!el) return
 
-    const rect = el.getBoundingClientRect()
+    const rect = rectRef.current || el.getBoundingClientRect()
     const x = (e.clientX - (rect.left + rect.width / 2)) * strength
     const y = (e.clientY - (rect.top + rect.height / 2)) * strength
 
-    gsap.to(el, {
-      x,
-      y,
-      duration: 0.35,
-      ease: EASE.smooth,
-      overwrite: 'auto',
-    })
+    if (xToRef.current && yToRef.current) {
+      xToRef.current(x)
+      yToRef.current(y)
+    } else {
+      gsap.to(el, {
+        x,
+        y,
+        duration: 0.35,
+        ease: EASE.smooth,
+        overwrite: 'auto',
+      })
+    }
   }
 
   const handleMouseLeave = () => {
+    rectRef.current = null
     const el = btnRef.current
     if (!el) return
 
@@ -61,6 +81,7 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
         href={href}
         target={target}
         rel={rel}
+        onMouseEnter={handleMouseEnter}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         className={`inline-flex items-center justify-center transition-colors ${className}`}
@@ -74,6 +95,7 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
   return (
     <button
       ref={btnRef as React.RefObject<HTMLButtonElement>}
+      onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}

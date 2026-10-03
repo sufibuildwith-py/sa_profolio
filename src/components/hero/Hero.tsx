@@ -443,15 +443,19 @@ export const Hero: React.FC = () => {
             Varanasi live production photography (unblurred, unzoomed, full bleed)
             ===================================================================== */}
         <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
-          <img
-            ref={bgImageRef}
-            src="/hero-varanasi-bg.jpg"
-            alt="SA Production live event collage"
-            className="w-full h-full object-cover object-center pointer-events-none select-none will-change-transform"
-            aria-hidden="true"
-            loading="eager"
-            decoding="async"
-          />
+          <picture className="w-full h-full">
+            <source media="(max-width: 768px)" srcSet="/hero-varanasi-bg-mobile.jpg" />
+            <img
+              ref={bgImageRef}
+              src="/hero-varanasi-bg-desktop.jpg"
+              alt="SA Production live event collage"
+              className="w-full h-full object-cover object-center pointer-events-none select-none will-change-transform"
+              aria-hidden="true"
+              loading="eager"
+              decoding="sync"
+              fetchPriority="high"
+            />
+          </picture>
         </div>
 
         {/* Restrained Localized Contrast Support Behind Typography */}

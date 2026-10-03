@@ -1,6 +1,8 @@
 import React from 'react'
 import { ArrowUp } from 'lucide-react'
 
+const CURRENT_YEAR = new Date().getFullYear()
+
 export const Footer: React.FC = () => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -53,7 +55,7 @@ export const Footer: React.FC = () => {
       </div>
 
       <div className="mx-auto max-w-7xl mt-8 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-white/40">
-        <span>&copy; {new Date().getFullYear()} SA PRODUCTION. All rights reserved.</span>
+        <span>&copy; {CURRENT_YEAR} SA PRODUCTION. All rights reserved.</span>
         <span>Engineered with Precision in Varanasi, India</span>
       </div>
     </footer>

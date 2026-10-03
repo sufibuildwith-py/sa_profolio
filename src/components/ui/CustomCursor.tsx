@@ -10,6 +10,8 @@ export const CustomCursor: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false)
   const prefersReducedMotion = useReducedMotion()
 
+  const visibleRef = useRef(false)
+
   useEffect(() => {
     // Disable on coarse pointers (touchscreens) and reduced motion preference
     if (
@@ -23,27 +25,21 @@ export const CustomCursor: React.FC = () => {
     const cursor = cursorRef.current
     if (!cursor) return
 
-    const pos = { x: window.innerWidth / 2, y: window.innerHeight / 2 }
-    const mouse = { x: pos.x, y: pos.y }
+    const xTo = gsap.quickTo(cursor, 'x', { duration: 0.18, ease: 'power3.out' })
+    const yTo = gsap.quickTo(cursor, 'y', { duration: 0.18, ease: 'power3.out' })
 
     const setPos = (e: MouseEvent) => {
-      mouse.x = e.clientX
-      mouse.y = e.clientY
-      if (!isVisible) setIsVisible(true)
-    }
-
-    window.addEventListener('mousemove', setPos, { passive: true })
-
-    const updatePosition = () => {
-      pos.x += (mouse.x - pos.x) * 0.2
-      pos.y += (mouse.y - pos.y) * 0.2
-
-      if (cursor) {
-        cursor.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`
+      if (!visibleRef.current) {
+        visibleRef.current = true
+        gsap.set(cursor, { x: e.clientX, y: e.clientY })
+        setIsVisible(true)
+      } else {
+        xTo(e.clientX)
+        yTo(e.clientY)
       }
     }
 
-    gsap.ticker.add(updatePosition)
+    window.addEventListener('mousemove', setPos, { passive: true })
 
     // Handle interactive hover targets
     const handleMouseOver = (e: MouseEvent) => {
@@ -65,6 +61,7 @@ export const CustomCursor: React.FC = () => {
     }
 
     const handleMouseLeave = () => {
+      visibleRef.current = false
       setIsVisible(false)
     }
 
@@ -75,9 +72,8 @@ export const CustomCursor: React.FC = () => {
       window.removeEventListener('mousemove', setPos)
       document.removeEventListener('mouseover', handleMouseOver)
       document.removeEventListener('mouseleave', handleMouseLeave)
-      gsap.ticker.remove(updatePosition)
     }
-  }, [prefersReducedMotion, isVisible])
+  }, [prefersReducedMotion])
 
   if (prefersReducedMotion) return null
 

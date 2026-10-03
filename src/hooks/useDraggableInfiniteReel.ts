@@ -33,9 +33,10 @@ export function useDraggableInfiniteReel({
   const prefersReducedMotion = useReducedMotion()
 
   // High performance animation loop refs (zero React re-renders during 60/120fps glide)
+  const initialBaseSpeed = direction === 'right' ? speedDesktop : -speedDesktop
   const xRef = useRef<number>(0)
-  const baseSpeedRef = useRef<number>(direction === 'right' ? speedDesktop : -speedDesktop)
-  const velocityRef = useRef<number>(baseSpeedRef.current)
+  const baseSpeedRef = useRef<number>(initialBaseSpeed)
+  const velocityRef = useRef<number>(initialBaseSpeed)
   const isDraggingRef = useRef<boolean>(false)
   const isIntersectingRef = useRef<boolean>(true)
   const singleSetWidthRef = useRef<number>(0)
@@ -63,7 +64,7 @@ export function useDraggableInfiniteReel({
     }
   }, [gapFallback])
 
-  // 2. RESIZE & INTERSECTION OBSERVERS
+  // 2. RESIZE OBSERVER & SPEED CALIBRATION
   useEffect(() => {
     if (typeof window === 'undefined') return
 
@@ -82,29 +83,18 @@ export function useDraggableInfiniteReel({
       resizeObserver.observe(singleSetRef.current)
     }
 
-    // Suspend ticker when section is off-screen to preserve GPU & battery
-    const intersectionObserver = new IntersectionObserver(
-      ([entry]) => {
-        isIntersectingRef.current = entry.isIntersecting
-      },
-      { rootMargin: '250px 0px' }
-    )
-    if (sectionRef.current) {
-      intersectionObserver.observe(sectionRef.current)
-    }
-
     return () => {
       resizeObserver.disconnect()
-      intersectionObserver.disconnect()
     }
   }, [direction, gapFallback, measureStride, prefersReducedMotion, speedDesktop, speedMobile])
 
-  // 3. CONTINUOUS AUTOPLAY & MOMENTUM PHYSICS (Unified GSAP Ticker)
+  // 3. CONTINUOUS AUTOPLAY & MOMENTUM PHYSICS (Unified GSAP Ticker with true offscreen detachment)
   useEffect(() => {
     if (typeof window === 'undefined') return
 
+    let isTickerActive = false
+
     const updateTicker = (_time: number, deltaTime: number) => {
-      if (!isIntersectingRef.current) return
       const stride = singleSetWidthRef.current
       if (stride <= 0) return
 
@@ -131,10 +121,43 @@ export function useDraggableInfiniteReel({
       }
     }
 
-    gsap.ticker.add(updateTicker)
+    const startTicker = () => {
+      if (!isTickerActive) {
+        isTickerActive = true
+        gsap.ticker.add(updateTicker)
+      }
+    }
+
+    const stopTicker = () => {
+      if (isTickerActive) {
+        isTickerActive = false
+        gsap.ticker.remove(updateTicker)
+      }
+    }
+
+    // Suspend ticker when section is off-screen to preserve GPU & battery
+    const intersectionObserver = new IntersectionObserver(
+      ([entry]) => {
+        isIntersectingRef.current = entry.isIntersecting
+        if (entry.isIntersecting) {
+          startTicker()
+        } else {
+          stopTicker()
+        }
+      },
+      { rootMargin: '250px 0px' }
+    )
+
+    if (sectionRef.current) {
+      intersectionObserver.observe(sectionRef.current)
+    } else {
+      // Fallback if sectionRef not attached
+      startTicker()
+    }
 
     return () => {
-      gsap.ticker.remove(updateTicker)
+      stopTicker()
+      intersectionObserver.disconnect()
     }
   }, [prefersReducedMotion])
 

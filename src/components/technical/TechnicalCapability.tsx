@@ -124,11 +124,24 @@ export const TechnicalCapability: React.FC = () => {
     return () => ctx.revert()
   }, [prefersReducedMotion])
 
+  const rectRef = useRef<DOMRect | null>(null)
+
+  const handleMouseEnter = useCallback(() => {
+    if (window.matchMedia('(hover: none) or (pointer: coarse)').matches) return
+    if (viewportRef.current) {
+      rectRef.current = viewportRef.current.getBoundingClientRect()
+    }
+    if (spotlightRef.current) {
+      spotlightRef.current.style.opacity = '1'
+    }
+  }, [])
+
   // 2. Magnetic 3D Perspective Tilt (Direct GPU transform refs for 60fps/120fps performance)
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (window.matchMedia('(hover: none) or (pointer: coarse)').matches) return
     if (!viewportRef.current || !schematicRef.current) return
 
-    const rect = viewportRef.current.getBoundingClientRect()
+    const rect = rectRef.current || viewportRef.current.getBoundingClientRect()
     const x = e.clientX - rect.left
     const y = e.clientY - rect.top
 
@@ -144,12 +157,13 @@ export const TechnicalCapability: React.FC = () => {
 
     // Subtle technical inspection light spotlight
     if (spotlightRef.current) {
-      spotlightRef.current.style.background = `radial-gradient(420px circle at ${x}px ${y}px, rgba(124, 110, 205, 0.14), transparent 75%)`
-      spotlightRef.current.style.opacity = '1'
+      spotlightRef.current.style.setProperty('--spot-x', `${x}px`)
+      spotlightRef.current.style.setProperty('--spot-y', `${y}px`)
     }
   }, [])
 
   const handleMouseLeave = useCallback(() => {
+    rectRef.current = null
     if (!schematicRef.current) return
     schematicRef.current.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg)'
     if (spotlightRef.current) {
@@ -246,6 +260,7 @@ export const TechnicalCapability: React.FC = () => {
             {/* Viewport Frame with 3D Perspective Container */}
             <div
               ref={viewportRef}
+              onMouseEnter={handleMouseEnter}
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
               className="relative w-full h-[480px] sm:h-[540px] md:h-[580px] lg:h-[620px] rounded-3xl overflow-hidden bg-[#09090C] border border-[#7C6ECD]/20 shadow-2xl flex flex-col"
@@ -255,6 +270,10 @@ export const TechnicalCapability: React.FC = () => {
               <div
                 ref={spotlightRef}
                 className="pointer-events-none absolute inset-0 z-20 opacity-0 transition-opacity duration-300"
+                style={{
+                  background:
+                    'radial-gradient(420px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(124, 110, 205, 0.14), transparent 75%)',
+                }}
               />
 
               {/* Floating Glass Layer Control (Aceternity Animated Tabs Pattern) */}

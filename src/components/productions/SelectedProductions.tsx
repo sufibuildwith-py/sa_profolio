@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react'
+import React, { useState } from 'react'
 import { ArrowUpRight, Eye, MoveHorizontal } from 'lucide-react'
 import { selectedProductionsData } from '../../data/productions'
 import type { SelectedProduction } from '../../data/productions'
@@ -6,217 +6,28 @@ import { OptimizedImage } from '../media/OptimizedImage'
 import { LightboxModal } from '../ui/LightboxModal'
 import { CardSpotlight } from '../ui/CardSpotlight'
 import { GlareCard } from '../ui/GlareCard'
-import { gsap } from '../../lib/motion'
-import { useReducedMotion } from '../../hooks/useReducedMotion'
+import { useDraggableInfiniteReel } from '../../hooks/useDraggableInfiniteReel'
 
 export const SelectedProductions: React.FC = () => {
   const [selectedProduction, setSelectedProduction] = useState<SelectedProduction | null>(null)
-  const [isDragging, setIsDragging] = useState<boolean>(false)
 
-  const sectionRef = useRef<HTMLElement>(null)
-  const viewportRef = useRef<HTMLDivElement>(null)
-  const trackRef = useRef<HTMLDivElement>(null)
-  const singleSetRef = useRef<HTMLDivElement>(null)
-
-  const prefersReducedMotion = useReducedMotion()
-
-  // State refs for 60fps/120fps animation loop (zero React state triggers during continuous scroll)
-  const xRef = useRef<number>(0)
-  const baseSpeedRef = useRef<number>(-58) // ~48-52s per complete cycle
-  const velocityRef = useRef<number>(-58)
-  const isDraggingRef = useRef<boolean>(false)
-  const isIntersectingRef = useRef<boolean>(true)
-  const singleSetWidthRef = useRef<number>(0)
-  const lastPointerXRef = useRef<number>(0)
-  const lastPointerTimeRef = useRef<number>(0)
-  const pointerDeltaHistoryRef = useRef<{ dx: number; dt: number }[]>([])
-  const hasDraggedRef = useRef<boolean>(false)
-  const justDraggedRef = useRef<boolean>(false)
-
-  // 1. MEASURE SINGLE SET STRIDE (Width of 5 cards + gap)
-  const measureStride = useCallback(() => {
-    if (!singleSetRef.current || !trackRef.current) return
-    const computedStyle = window.getComputedStyle(trackRef.current)
-    const gap = parseFloat(computedStyle.columnGap || computedStyle.gap) || 24
-    const setWidth = singleSetRef.current.offsetWidth
-    const stride = setWidth + gap
-    singleSetWidthRef.current = stride
-
-    // Initialize position so that Set 1 is visible in viewport with Set 0 buffer on left
-    if (xRef.current === 0 && stride > 0) {
-      xRef.current = -stride
-      if (trackRef.current) {
-        trackRef.current.style.transform = `translate3d(${xRef.current}px, 0, 0)`
-      }
-    }
-  }, [])
-
-  // 2. RESIZE & INTERSECTION OBSERVERS
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-
-    // Base speed calibration: ~58px/s on desktop, ~46px/s on mobile
-    const isMobile = window.innerWidth < 768
-    baseSpeedRef.current = prefersReducedMotion ? 0 : isMobile ? -46 : -58
-    velocityRef.current = baseSpeedRef.current
-
-    measureStride()
-
-    const resizeObserver = new ResizeObserver(() => {
-      measureStride()
-    })
-    if (singleSetRef.current) {
-      resizeObserver.observe(singleSetRef.current)
-    }
-
-    // Suspend ticker when section is outside viewport to conserve GPU & battery
-    const intersectionObserver = new IntersectionObserver(
-      ([entry]) => {
-        isIntersectingRef.current = entry.isIntersecting
-      },
-      { rootMargin: '250px 0px' }
-    )
-    if (sectionRef.current) {
-      intersectionObserver.observe(sectionRef.current)
-    }
-
-    return () => {
-      resizeObserver.disconnect()
-      intersectionObserver.disconnect()
-    }
-  }, [measureStride, prefersReducedMotion])
-
-  // 3. CONTINUOUS AUTOPLAY & MOMENTUM PHYSICS (Unified GSAP Ticker)
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-
-    const updateTicker = (_time: number, deltaTime: number) => {
-      if (!isIntersectingRef.current) return
-      const stride = singleSetWidthRef.current
-      if (stride <= 0) return
-
-      const dt = Math.min(deltaTime / 1000, 0.1) // clamp delta time for stability
-
-      if (!isDraggingRef.current) {
-        const baseSpeed = prefersReducedMotion ? 0 : baseSpeedRef.current
-
-        // Smooth exponential relaxation of release momentum back to base continuous velocity
-        velocityRef.current += (baseSpeed - velocityRef.current) * (1 - Math.exp(-3.5 * dt))
-        xRef.current += velocityRef.current * dt
-      }
-
-      // Mathematical Modulo Infinite Wrapping: zero teleport, zero gaps, perfectly seamless
-      while (xRef.current <= -2 * stride) {
-        xRef.current += stride
-      }
-      while (xRef.current >= 0) {
-        xRef.current -= stride
-      }
-
-      if (trackRef.current) {
-        trackRef.current.style.transform = `translate3d(${xRef.current}px, 0, 0)`
-      }
-    }
-
-    gsap.ticker.add(updateTicker)
-
-    return () => {
-      gsap.ticker.remove(updateTicker)
-    }
-  }, [prefersReducedMotion])
-
-  // 4. DIRECT MANIPULATION POINTER & TOUCH DRAG SYSTEM
-  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    // Only primary click or touch initiates drag
-    if (e.button !== 0 && e.pointerType === 'mouse') return
-
-    isDraggingRef.current = true
-    setIsDragging(true)
-    hasDraggedRef.current = false
-    lastPointerXRef.current = e.clientX
-    lastPointerTimeRef.current = performance.now()
-    pointerDeltaHistoryRef.current = []
-
-    try {
-      e.currentTarget.setPointerCapture(e.pointerId)
-    } catch {
-      // Browser fallback
-    }
-  }
-
-  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!isDraggingRef.current) return
-
-    const now = performance.now()
-    const dx = e.clientX - lastPointerXRef.current
-    const dt = (now - lastPointerTimeRef.current) / 1000
-
-    if (Math.abs(dx) > 0) {
-      xRef.current += dx
-
-      if (Math.abs(dx) > 4 || Math.abs(e.movementX) > 4) {
-        hasDraggedRef.current = true
-      }
-
-      if (dt > 0.001) {
-        const instantaneousVelocity = dx / dt
-        pointerDeltaHistoryRef.current.push({ dx, dt })
-        if (pointerDeltaHistoryRef.current.length > 5) {
-          pointerDeltaHistoryRef.current.shift()
-        }
-        velocityRef.current = instantaneousVelocity
-      }
-
-      lastPointerXRef.current = e.clientX
-      lastPointerTimeRef.current = now
-
-      // Wrap during drag as well
-      const stride = singleSetWidthRef.current
-      if (stride > 0) {
-        while (xRef.current <= -2 * stride) {
-          xRef.current += stride
-        }
-        while (xRef.current >= 0) {
-          xRef.current -= stride
-        }
-      }
-
-      if (trackRef.current) {
-        trackRef.current.style.transform = `translate3d(${xRef.current}px, 0, 0)`
-      }
-    }
-  }
-
-  const handlePointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!isDraggingRef.current) return
-    isDraggingRef.current = false
-    setIsDragging(false)
-
-    try {
-      e.currentTarget.releasePointerCapture(e.pointerId)
-    } catch {
-      // Browser fallback
-    }
-
-    // Calculate weighted release velocity from recent history for natural inertia
-    if (pointerDeltaHistoryRef.current.length > 0) {
-      const totalDx = pointerDeltaHistoryRef.current.reduce((sum, item) => sum + item.dx, 0)
-      const totalDt = pointerDeltaHistoryRef.current.reduce((sum, item) => sum + item.dt, 0)
-      if (totalDt > 0.005) {
-        const avgVelocity = totalDx / totalDt
-        // Clamp maximum release inertia to prevent chaotic over-speed
-        velocityRef.current = Math.max(-1200, Math.min(1200, avgVelocity))
-      }
-    }
-
-    // Suppress card click modal if pointer moved beyond drag threshold
-    if (hasDraggedRef.current) {
-      justDraggedRef.current = true
-      setTimeout(() => {
-        justDraggedRef.current = false
-      }, 70)
-    }
-  }
+  // Continuous autonomous Right-to-Left reel (direction: 'left')
+  const {
+    sectionRef,
+    viewportRef,
+    trackRef,
+    singleSetRef,
+    isDragging,
+    handlePointerDown,
+    handlePointerMove,
+    handlePointerUp,
+    justDraggedRef,
+  } = useDraggableInfiniteReel({
+    direction: 'left',
+    speedDesktop: 58,
+    speedMobile: 46,
+    gapFallback: 24,
+  })
 
   // 3 Identical Sets of the 5 production cards for infinite seamless wrapping
   const renderCard = (project: SelectedProduction, keyPrefix: string) => (

@@ -9,6 +9,13 @@ interface OptimizedImageProps extends React.ImgHTMLAttributes<HTMLImageElement> 
   priority?: boolean
 }
 
+function getUnsplashSrcSet(src: string): string | undefined {
+  if (!src.includes('images.unsplash.com')) return undefined
+  const baseUrl = src.replace(/[?&]w=\d+/, '').replace(/[?&]q=\d+/, '')
+  const sep = baseUrl.includes('?') ? '&' : '?'
+  return `${baseUrl}${sep}w=480&q=75&auto=format&fit=crop 480w, ${baseUrl}${sep}w=800&q=75&auto=format&fit=crop 800w, ${baseUrl}${sep}w=1200&q=80&auto=format&fit=crop 1200w`
+}
+
 export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   src,
   alt,
@@ -16,10 +23,15 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   className = '',
   containerClassName = '',
   priority = false,
+  srcSet,
+  sizes,
   ...props
 }) => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [hasError, setHasError] = useState(false)
+
+  const computedSrcSet = srcSet || getUnsplashSrcSet(src)
+  const computedSizes = sizes || (computedSrcSet ? '(max-width: 640px) 85vw, (max-width: 1024px) 50vw, 600px' : undefined)
 
   return (
     <div
@@ -37,6 +49,8 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
       ) : (
         <img
           src={src}
+          srcSet={computedSrcSet}
+          sizes={computedSizes}
           alt={alt}
           loading={priority ? 'eager' : 'lazy'}
           decoding={priority ? 'sync' : 'async'}
@@ -51,3 +65,4 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
     </div>
   )
 }
+
