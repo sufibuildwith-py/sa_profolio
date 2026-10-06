@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ArrowUpRight, MessageSquare, Mail, MapPin, Check } from 'lucide-react'
+import { ArrowUpRight, MessageSquare, MapPin, Check } from 'lucide-react'
 import { siteConfig } from '../../data/site'
 import { MagneticButton } from '../ui/MagneticButton'
 import { CardSpotlight } from '../ui/CardSpotlight'
@@ -27,21 +27,43 @@ export const ContactSection: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Prepare formatted WhatsApp message
-    const message = `*New Event Production Inquiry (SA Production)*%0A%0A*Name:* ${encodeURIComponent(
-      formData.name
-    )}%0A*Contact:* ${encodeURIComponent(formData.contact)}%0A*Event Type:* ${encodeURIComponent(
-      formData.eventType
-    )}%0A*Date / Timeline:* ${encodeURIComponent(formData.date || 'TBD')}%0A*Venue / Location:* ${encodeURIComponent(
-      formData.venue || 'Varanasi'
-    )}%0A*Requirements:* ${encodeURIComponent(
-      formData.requirements.join(', ') || 'Complete Technical Production'
-    )}%0A*Notes:* ${encodeURIComponent(formData.notes || 'None')}`
 
-    if (siteConfig.contact.whatsappUrl) {
-      const whatsappUrl = `${siteConfig.contact.whatsappUrl}?text=${message}`
-      window.open(whatsappUrl, '_blank')
-    }
+    const servicesText =
+      formData.requirements.length > 0
+        ? formData.requirements.join(', ')
+        : 'Not specified'
+
+    const dateVenueText = formData.date.trim() || 'Not specified'
+    const notesText = formData.notes.trim() || 'None'
+
+    const messageLines = [
+      'Hello SA Productions,',
+      '',
+      "I'd like to discuss a project.",
+      '',
+      'Name / Organization:',
+      formData.name.trim(),
+      '',
+      'Phone / WhatsApp:',
+      formData.contact.trim(),
+      '',
+      'Event Category:',
+      formData.eventType,
+      '',
+      'Target Date & Venue:',
+      dateVenueText,
+      '',
+      'Required Technical Services:',
+      servicesText,
+      '',
+      'Additional Notes / Spatial Details:',
+      notesText,
+      '',
+      'Thank you.',
+    ]
+
+    const whatsappUrl = `https://wa.me/919506070108?text=${encodeURIComponent(messageLines.join('\n'))}`
+    window.open(whatsappUrl, '_blank')
     setSubmitted(true)
   }
 
@@ -83,71 +105,60 @@ export const ContactSection: React.FC = () => {
         <div className="mt-10 sm:mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Left Column: Direct Verified Contact Details */}
           <div className="lg:col-span-5 flex flex-col gap-6">
-            <CardSpotlight className="rounded-2xl sm:rounded-3xl glass-dark-interactive p-5 sm:p-7 flex flex-col gap-5">
-              <h3 className="font-mono text-xs font-bold uppercase tracking-widest text-[#7C6ECD]">
-                Direct Contacts // Varanasi Desk
-              </h3>
+            <CardSpotlight className="rounded-2xl sm:rounded-3xl glass-dark-interactive p-6 sm:p-8 flex flex-col gap-6">
+              <div className="flex items-center justify-between border-b border-hairline-dark pb-3">
+                <h3 className="font-mono text-xs font-bold uppercase tracking-widest text-[#7C6ECD]">
+                  Direct Contacts // Varanasi Desk
+                </h3>
+                <span className="flex items-center gap-1.5 font-mono text-[10px] text-white/50 tracking-wider">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#7C6ECD] animate-pulse" />
+                  LIVE DESK
+                </span>
+              </div>
 
-              <div className="flex flex-col gap-3.5">
+              <div className="flex flex-col gap-4">
+                {/* 1. WhatsApp Production Desk */}
                 <a
-                  href={siteConfig.contact.whatsappUrl || '#'}
-                  target={siteConfig.contact.whatsappUrl ? '_blank' : undefined}
-                  rel={siteConfig.contact.whatsappUrl ? 'noopener noreferrer' : undefined}
-                  onClick={(e) => {
-                    if (!siteConfig.contact.whatsappUrl) {
-                      e.preventDefault()
-                    }
-                  }}
-                  className="flex items-center justify-between group p-3.5 rounded-xl glass-dark hover:border-[#7C6ECD]/60 transition-all"
+                  href={siteConfig.contact.whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between group p-4 sm:p-5 rounded-2xl glass-dark hover:border-[#7C6ECD]/60 transition-all shadow-md"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-lg glass-violet text-[#7C6ECD]">
-                      <MessageSquare className="h-4 w-4" />
+                  <div className="flex items-start sm:items-center gap-3.5">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-xl glass-violet text-[#7C6ECD] shrink-0 group-hover:scale-105 transition-transform">
+                      <MessageSquare className="h-5 w-5" />
                     </div>
                     <div>
-                      <span className="block text-[11px] font-mono text-white/50">
+                      <span className="block text-[11px] font-mono text-white/50 uppercase tracking-wider">
                         WhatsApp Production Desk
                       </span>
-                      <span className="text-sm font-semibold text-white">
+                      <span className="text-sm sm:text-base font-semibold text-white tracking-wide block mt-0.5">
+                        {siteConfig.contact.phone}
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 text-xs text-[#A49BE0] font-medium mt-1">
                         Chat on WhatsApp
+                        <ArrowUpRight className="h-3 w-3 text-[#A49BE0] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                       </span>
                     </div>
                   </div>
-                  <ArrowUpRight className="h-4 w-4 text-white/40 group-hover:text-white transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </a>
-
-                <a
-                  href={`mailto:${siteConfig.contact.email}`}
-                  className="flex items-center justify-between group p-3.5 rounded-xl glass-dark hover:border-[#7C6ECD]/60 transition-all"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-lg glass-violet text-[#7C6ECD]">
-                      <Mail className="h-4 w-4" />
-                    </div>
-                    <div>
-                      <span className="block text-[11px] font-mono text-white/50">
-                        Official Inquiry Email
-                      </span>
-                      <span className="text-sm font-semibold text-white">
-                        {siteConfig.contact.email}
-                      </span>
-                    </div>
+                  <div className="hidden sm:flex h-8 w-8 items-center justify-center rounded-full glass-dark text-white/40 group-hover:text-white transition-colors shrink-0">
+                    <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </div>
-                  <ArrowUpRight className="h-4 w-4 text-white/40 group-hover:text-white transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </a>
 
-                <div className="flex items-start gap-3 p-3.5 rounded-xl glass-dark">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg glass-violet text-[#7C6ECD] shrink-0">
-                    <MapPin className="h-4 w-4" />
+                {/* 2. Operations Base & Warehouse */}
+                <div className="flex items-start gap-3.5 p-4 sm:p-5 rounded-2xl glass-dark">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl glass-violet text-[#7C6ECD] shrink-0">
+                    <MapPin className="h-5 w-5" />
                   </div>
                   <div>
-                    <span className="block text-[11px] font-mono text-white/50">
+                    <span className="block text-[11px] font-mono text-white/50 uppercase tracking-wider">
                       Operations Base & Warehouse
                     </span>
-                    <span className="text-sm font-semibold text-white">
+                    <span className="text-sm sm:text-base font-semibold text-white tracking-wide block mt-0.5">
                       {siteConfig.contact.locationLabel}
                     </span>
-                    <p className="mt-1 text-xs text-white/60 font-light">
+                    <p className="mt-1.5 text-xs text-white/60 font-light leading-relaxed">
                       Serving Varanasi, Prayagraj, Lucknow, and throughout Uttar Pradesh.
                     </p>
                   </div>
@@ -163,16 +174,23 @@ export const ContactSection: React.FC = () => {
                 Submit a Project Brief
               </h3>
               <p className="mt-0.5 text-xs text-white/60 font-mono">
-                Direct dispatch to our Varanasi technical director.
+                Direct dispatch to our Varanasi technical director via WhatsApp.
               </p>
 
               {submitted ? (
-                <div className="mt-6 rounded-2xl glass-violet p-6 text-center">
-                  <Check className="mx-auto h-7 w-7 text-white" />
-                  <h4 className="mt-2 text-base font-bold text-white">Brief Dispatched</h4>
-                  <p className="mt-1 text-xs text-white/80">
-                    Your inquiry has been formatted and forwarded to our production desk.
+                <div className="mt-6 rounded-2xl glass-violet p-6 sm:p-8 text-center">
+                  <Check className="mx-auto h-8 w-8 text-white" />
+                  <h4 className="mt-3 text-base sm:text-lg font-bold text-white">Brief Dispatched to WhatsApp</h4>
+                  <p className="mt-1.5 text-xs sm:text-sm text-white/80 max-w-md mx-auto leading-relaxed">
+                    Your inquiry has been formatted and opened in WhatsApp (+91 95060 70108). Our production desk will connect with you directly.
                   </p>
+                  <button
+                    type="button"
+                    onClick={() => setSubmitted(false)}
+                    className="mt-5 inline-flex items-center text-xs font-mono text-white/70 hover:text-white underline underline-offset-4 cursor-pointer"
+                  >
+                    Edit / Send another brief
+                  </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
@@ -200,7 +218,7 @@ export const ContactSection: React.FC = () => {
                         required
                         value={formData.contact}
                         onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
-                        placeholder="+91 98765 43210"
+                        placeholder="+91 95060 70108"
                         className="w-full rounded-xl glass-dark px-3.5 py-2.5 text-sm text-white placeholder-white/30 focus:border-[#7C6ECD] focus:outline-none transition-colors"
                       />
                     </div>

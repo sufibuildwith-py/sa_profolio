@@ -18,7 +18,6 @@ export interface SiteConfig {
   contact: {
     locationLabel: string
     addressLine: string
-    email: string
     phone: string
     phoneDisplay: string
     whatsappUrl: string
@@ -41,10 +40,9 @@ export const siteConfig: SiteConfig = {
   contact: {
     locationLabel: 'Varanasi, Uttar Pradesh, India',
     addressLine: 'Varanasi, UP, India',
-    email: 'contact@saproduction.in',
-    phone: '',
-    phoneDisplay: 'Varanasi Production Desk',
-    whatsappUrl: '',
+    phone: '+91 95060 70108',
+    phoneDisplay: '+91 95060 70108',
+    whatsappUrl: 'https://wa.me/919506070108',
   },
   navigation: [
     { label: 'Work', href: '#productions' },
